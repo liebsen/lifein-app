@@ -1,0 +1,139 @@
+{% extends "layouts/default.html" %}
+
+{% block head %}
+  <title>{{app_title}} Consultas</title>
+{% endblock %}
+
+{% block body %}
+
+    <div id="detail"></div>
+    <div class="lista conteiner-audios w-hidden">
+      <h3>Responde las consultas</h3>
+      <div class="w-tabs" data-duration-in="300" data-duration-out="100">
+        <div class="w-tab-menu">
+          <a class="tab-link w-inline-block w-tab-link" data-w-tab="Tab 1">
+            <div>No respondidos</div>
+          </a>
+          <a class="tab-link w--current w-inline-block w-tab-link" data-w-tab="Tab 2">
+            <div>Todos</div>
+          </a>
+        </div>
+        <div class="tabs-content w-tab-content">
+          <div class="w-tab-pane" data-w-tab="Tab 1">
+            <div class="row title">
+              <div class="item-audio w-hidden-small w-hidden-tiny">
+                <div>Quien consulta</div>
+              </div>
+              <div class="item-audio w-hidden-small w-hidden-tiny">
+                <div>Empresa</div>
+              </div>
+              <div class="item-audio">
+                <div>Responder</div>
+              </div>
+            </div>
+            <div id="list1"></div>
+          </div>
+          <div class="w--tab-active w-tab-pane" data-w-tab="Tab 2">
+            <div class="row title">
+              <div class="item-audio w-hidden-small w-hidden-tiny">
+                <div>Quien consulta</div>
+              </div>
+              <div class="item-audio w-hidden-small w-hidden-tiny">
+                <div>Empresa</div>
+              </div>
+              <div class="item-audio w-hidden-small">
+                <div>Origen</div>
+              </div>
+              <div class="item-audio">
+                <div>Acción</div>
+              </div>
+            </div>
+            <div id="list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script id="item" type="text/x-jsrender">
+      <div class="row" id="[[:key]]">
+        <div class="item-audio w-hidden-small w-hidden-tiny">
+          <div>[[:data.email]]</div>
+        </div>
+        <div class="item-audio w-hidden-small w-hidden-tiny">
+          <div>[[:data.nombre]]</div>
+        </div>
+        <div class="item-audio w-hidden-small">
+          <div>[[:data.origen]]</div>
+        </div>
+        <div class="item-audio w-clearfix">
+        [[if data && data.respuesta]]
+          <a class="responder" data-key="[[:key]]" data-sent="[[:data.fecha]]" href="#">Ver respuesta</a>
+        [[else]]
+          <a class="buttons w-button responder" data-key="[[:key]]" data-sent="[[:data.fecha]]" href="#">Responder</a>  
+        [[/if]]
+          <a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
+        </div>
+      </div>
+    </script>
+
+    <script id="form" type="text/x-jsrender">
+      <div class="form-wrapper margin-top w-form2">
+        <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]">
+          <h3>Responde las consultas</h3>
+          <div class="consulta">
+            <h4>[[:data.nombre]]</h4>
+            <p>[[:data.consulta]]</p>
+          </div>
+          <div class="datos">
+            <h4></h4>
+            [[if data.origen]]
+            <p> Origen: <strong>[[:data.origen]]</strong></p>
+            [[/if]]          
+          </div>       
+          <hr>   
+          <form class="w-clearfix" data-name="comentario" id="wf-form-comentario" name="wf-form-comentario">
+            <label for="Email">A quién (Email):</label>
+            <input class="input w-input" data-name="Email" id="Email" maxlength="256" name="Email" placeholder="agustin@musicjuggle.com" type="email" value="[[:data.email]]" required>
+            <label for="email">Escribe el mensaje</label>
+            <textarea class="input w-input enableifdisabled" id="respuesta" maxlength="5000" name="respuesta" placeholder="Responde el mensaje" [[if data && data.respuesta]] disabled[[/if]]>[[:data.respuesta]]</textarea>
+
+            <div class="comentarios">
+            [[if data && data.comentarios]]
+              <label for="email">Comentarios</label>
+              <div class="datos">
+              [[for data.comentarios]]
+                <div class="comentario">
+                  <strong>[[:autor]]</strong>
+                  <small>[[:~humanTime(fecha)]]</small>
+                  <p>[[:comentario]]</p>
+                </div>
+              [[/for]]
+              </div>
+            [[/if]]
+              <label for="email">Comentario interno</label>
+              <textarea class="input w-input" id="comentario" maxlength="5000" name="comentario" placeholder="Agrega un comentario"></textarea>
+              <input class="buttons w-button" type="submit" value="Comentario interno">
+            </div>
+            <hr>
+            <div class="subnav">
+              <input class="w-button cerrar" type="button" value="Cancelar">
+              <input class="buttons w-button[[if data && data.respuesta]] buttongreen unlock-response[[/if]]" type="[[if data && data.respuesta]]button[[else]]submit[[/if]]" value="[[if data && data.respuesta]] Editar respuesta [[else]] Responder [[/if]]">
+            </div>
+          </form>
+          <div class="succes w-form-done">
+            <div>Tu respuesta se envió con éxito!</div>
+          </div>
+          <div class="w-form-fail">
+            <div>Hubo un error por favor vuelve a intentarlo</div>
+          </div>
+        </form>
+      </div>
+    </script>
+
+{% endblock %}
+
+{% block assets %}
+
+    <script src="/js/consultas.js" type="text/javascript"></script>    
+
+{% endblock %}

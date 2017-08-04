@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html data-wf-page="591101f01bf1744abf8f7290" data-wf-site="5910d2793f352f349a83ef86">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <script>
+        /*    
+        @licstart  The following is the entire license notice for the 
+        JavaScript code in this page.
+
+        Copyright (C) 2017  Martin A. Frith
+
+        The JavaScript code in this page is free software: you can
+        redistribute it and/or modify it under the terms of the GNU
+        General Public License (GNU GPL) as published by the Free Software
+        Foundation, either version 3 of the License, or (at your option)
+        any later version.  The code is distributed WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS
+        FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+        As additional permission under GNU GPL version 3 section 7, you
+        may distribute non-source (e.g., minimized or compacted) forms of
+        that code without the copy of the GNU GPL normally required by
+        section 4, provided you include this license notice and a URL
+        through which recipients can access the Corresponding Source.   
+
+
+        @licend  The above is the entire license notice
+        for the JavaScript code in this page.
+        */
+        </script>
+
+        {% block head %}{% endblock %}
+        
+        <link href="/css/normalize.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
+        <link href="/css/webflow.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
+        <link href="/css/music-juggle.webflow.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
+        <link href="/css/sweetalert.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">  
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js?_={{ rev_parse }}"></script>
+        <script type="text/javascript">
+          WebFont.load({
+            google: {
+              families: ["Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic"]
+            }
+          });
+        </script>
+        <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+        <!--script src="/js/modernizr.js?_={{ rev_parse }}" type="text/javascript"></script-->
+        <script src="/js/modernizr-latest.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <link href="images/Groupmin.png?_={{ rev_parse }}" rel="shortcut icon" type="image/x-icon">
+        <link href="images/Group.png?_={{ rev_parse }}" rel="apple-touch-icon">
+    </head>
+    <body class="layout-default">
+
+        <div class="mj-spinner" data-layer="4"><div class="mj-spinner-container"><div class="mj-spinner-rotator"><div class="mj-spinner-left"><div class="mj-spinner-circle"></div></div><div class="mj-spinner-right"><div class="mj-spinner-circle"></div></div></div></div><div class="mj-spinner-message">Si la reproducción no empieza en breve, prueba a reiniciar el dispositivo.</div></div>
+
+        {% include 'partials/header.html' %}
+
+        {% block body %}{% endblock %}
+
+        {% include 'partials/footer.html' %}
+
+        <script src="/js/jquery.min.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/webflow.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/moment-with-locales.min.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/jsrender.min.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/sweetalert.min.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/helper.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/firebase.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/main.js?_={{ rev_parse }}" type="text/javascript"></script>
+
+        {% block assets %}{% endblock %}
+  
+    </body>
+</html>    
+

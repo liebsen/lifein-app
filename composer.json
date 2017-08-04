@@ -1,0 +1,27 @@
+{
+    "name": "flydevs/musicjuggle",
+    "description": "Music Juggle",
+    "type": "web administrator",
+    "keywords": [
+        "music",
+        "administrator"
+    ],
+    "homepage": "https://musicjuggle.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Martin Free",
+            "email": "martin@devmeta.net",
+            "homepage": "https://www.devmeta.net/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "slim/slim": "^3.0",
+        "slim/twig-view": "^2.1",
+        "monolog/monolog": "^1.17",
+        "vlucas/phpdotenv": "^2.0",
+        "ktamas77/firebase-php" : "dev-master",
+        "phpmailer/phpmailer": "~5.2"
+    }
+}

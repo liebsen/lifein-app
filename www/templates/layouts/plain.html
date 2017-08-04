@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--  This site was created in Webflow. http://www.webflow.com -->
+<!--  Last Published: Tue May 09 2017 17:07:14 GMT+0000 (UTC)  -->
+<html data-wf-page="591101f01bf1744abf8f7290" data-wf-site="5910d2793f352f349a83ef86">
+    <head>
+        <meta charset="utf-8">
+        <meta content="audios" property="og:title">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <meta content="Webflow" name="generator">
+
+        {% block head %}{% endblock %}
+
+        <link href="/css/normalize.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
+        <link href="/css/webflow.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
+        <link href="/css/music-juggle.webflow.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js?_={{ rev_parse }}"></script>
+        <script type="text/javascript">
+          WebFont.load({
+            google: {
+              families: ["Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic"]
+            }
+          });
+        </script>
+        <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js?_={{ rev_parse }}"></script>
+        <script src="/js/modernizr.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <link href="images/Groupmin.png" rel="shortcut icon" type="image/x-icon">
+        <link href="images/Group.png" rel="apple-touch-icon">
+    </head>
+    <body class="homepage-bg layout-plain">
+
+        <div class="mj-spinner" data-layer="4"><div class="mj-spinner-container"><div class="mj-spinner-rotator"><div class="mj-spinner-left"><div class="mj-spinner-circle"></div></div><div class="mj-spinner-right"><div class="mj-spinner-circle"></div></div></div></div><div class="mj-spinner-message">Si la reproducción no empieza en breve, prueba a reiniciar el dispositivo.</div></div>
+
+
+        {% block body %}{% endblock %}
+
+        {% include 'partials/footer.html' %}
+
+        <script src="/js/jquery.min.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/webflow.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/moment-with-locales.min.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/jsrender.min.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/firebase.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/main.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/helper.js?_={{ rev_parse }}" type="text/javascript"></script>
+
+        {% block assets %}{% endblock %}
+  
+    </body>
+</html>    
+

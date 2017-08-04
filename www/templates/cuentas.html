@@ -1,0 +1,135 @@
+{% extends "layouts/default.html" %}
+
+{% block head %}
+  <title>{{app_title}} Cuentas</title>
+{% endblock %}
+
+{% block body %}
+
+    <div id="detail"></div>
+    <div class="lista">
+      <h3>Cuentas</h3>
+      <div class="subnav">
+        <input class="w-button add-cuenta" type="button" value="Agregar Cuenta">
+      </div>    
+      <div class="row title">
+        <div class="list-item">
+          <div>Email</div>
+        </div>
+        <div class="list-item w-hidden-small w-hidden-tiny">
+          <div>Empresa</div>
+        </div>
+        <div class="list-item w-hidden-small w-hidden-tiny">
+          <div>Nombre</div>
+        </div>
+        <div class="list-item w-hidden-small w-hidden-tiny">
+          <div>Plan</div>
+        </div>
+        <div class="list-item">
+          <div>Acción</div>
+        </div>
+      </div>
+      <div id="list"></div>
+    </div>
+
+    <script id="item" type="text/x-jsrender">
+      <div class="row" id="[[:key]]">
+        <div class="list-item">
+          <div>[[:data.email]]</div>
+        </div>
+        <div class="list-item w-hidden-small w-hidden-tiny">
+          <div>[[:data.empresa]]</div>
+        </div>
+        <div class="list-item w-hidden-small w-hidden-tiny">
+          <div>[[:data.nombre]] [[:data.apellido]]</div>
+        </div>
+        <div class="list-item w-hidden-small w-hidden-tiny">
+          <div class="alert-text">[[:data.plan]]</div>
+          [[if data.plan_solicitado && data.plan_solicitado != "" && !~sameString(data.plan,data.plan_solicitado)]]
+            <div class="warning-text">[[:data.plan_solicitado]]</div>
+          [[/if]]
+        </div>
+        <div class="list-item"><a class="action ver text-link" data-key="[[:key]]" href="#">Ver / Editar</a><a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
+        </div>
+      </div>
+    </script>
+
+    <script id="form" type="text/x-jsrender">
+      <div class="form-wrapper w-form2">
+        <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]">
+          <h3>Perfil del usuario</h3>
+          <label for="nombre">Nombre</label>
+          <input class="input w-input" maxlength="256" name="nombre" placeholder="Alejandro" type="text" value="[[if data && data.nombre]][[:data.nombre]][[/if]]" required>
+          <label for="Apellido">Apellido</label>
+          <input class="input w-input" maxlength="256" name="apellido" placeholder="Ramirez" type="text" value="[[if data && data.apellido]][[:data.apellido]][[/if]]" required>
+          <label for="Email-7">email</label>
+          <input class="input w-input" maxlength="256" name="email" placeholder="ale@gmail.com" type="email" value="[[if data && data.email]][[:data.email]][[/if]]" required>
+          <hr>
+          <label for="Plan">Plan</label>
+          [[if data.plan_solicitado && data.plan != data.plan_solicitado]]
+            <div class="alert-text">Hay una solicitud para cambiar a plan [[:data.plan_solicitado]]</div>
+          [[/if]]
+          <select class="w-select" name="plan">
+            <option value="">Seleccioná ...</option>
+          [[for datosdeapoyo.planes]]
+            <option value="[[>#data.key]]"[[if ~root.data && ~root.data.plan && ~sameString(~root.data.plan,#data.key)]] selected[[/if]]>[[>#data.title]]</option>
+          [[/for]]
+          </select>
+          <label for="contacto_email">Email de contacto</label>
+          <input class="input w-input" maxlength="256" id="contacto_email" name="contacto_email" placeholder="-" type="text" value="[[if data && data.plan_selected_detalle && data.plan_selected_detalle.contacto_email]][[:data.plan_selected_detalle.contacto_email]][[/if]]">
+          <label for="contacto_telefono">Teléfono de contacto</label>
+          <input class="input w-input" maxlength="256" id="contacto_telefono" name="contacto_telefono" placeholder="-" type="text" value="[[if data && data.plan_selected_detalle && data.plan_selected_detalle.contacto_telefono]][[:data.plan_selected_detalle.contacto_telefono]][[/if]]">
+          <label for="contacto_empresa">Empresa</label>
+          <input class="input w-input" maxlength="256" id="contacto_empresa" name="contacto_empresa" placeholder="-" type="text" value="[[if data && data.plan_selected_detalle && data.plan_selected_detalle.empresa]][[:data.plan_selected_detalle.empresa]][[/if]]">
+          <label for="contacto_cuentas">Cant. cuentas</label>
+          <input class="input w-input" maxlength="256" id="contacto_cuentas" name="contacto_cuentas" placeholder="-" type="text" value="[[if data && data.plan_selected_detalle && data.plan_selected_detalle.q_cuentas]][[:data.plan_selected_detalle.q_cuentas]][[/if]]">
+          <label for="contacto_empleados">Cant. empleados</label>
+          <input class="input w-input" maxlength="256" id="contacto_empleados" name="contacto_empleados" placeholder="-" type="text" value="[[if data && data.plan_selected_detalle && data.plan_selected_detalle.q_empleados]][[:data.plan_selected_detalle.q_empleados]][[/if]]">
+          <hr>
+          <label for="telefono">Teléfono</label>
+          <input class="input w-input" maxlength="256" name="telefono" placeholder="-" type="text" value="[[if data && data.telefono]][[:data.telefono]][[/if]]">
+          <label for="Plan-2">país</label>
+          <select class="w-select" name="pais">
+            <option value="">Seleccioná ...</option>
+          [[for datosdeapoyo.paises]]
+            <option value="[[>#data]]"[[if ~root.data && ~root.data.pais == #data]] selected[[/if]]>[[>#data]]</option>
+          [[/for]]
+          </select>
+          <label for="empresa">Empresa</label>
+          <input class="input w-input" maxlength="256" name="empresa" placeholder="Startup Supplier" type="text" value="[[if data && data.empresa]][[:data.empresa]][[/if]]">
+          <label for="puesto">puesto de trabajo</label>
+          <input class="input w-input" data-name="puesto" id="puesto" maxlength="256" name="puesto" placeholder="-" type="text" value="[[if data && data.puesto]][[:data.puesto]][[/if]]">
+          <label for="Plan-3">Como supe de Musicjuggle...</label>
+          <select class="w-select" name="comollego">
+            <option value="">Seleccioná ...</option>
+          [[for datosdeapoyo.comollego]]
+            <option value="[[>#data]]"[[if ~root.data && ~root.data.comollego == #data]] selected[[/if]]>[[>#data]]</option>
+          [[/for]]
+          </select>
+          <label for="reproducciones">Cantidad de producciones por año</label>
+          <input class="input w-input" maxlength="256" name="reproducciones" placeholder="10" type="text" value="[[if data && data.reproducciones]][[:data.reproducciones]][[/if]]">
+          <label for="email-6">Producciones para</label>
+        [[for datosdeapoyo.producciones]]
+          <div class="w-checkbox">
+            <input class="w-checkbox-input" id="producciones-[[>#index]]" name="producciones" type="checkbox" value="[[>#data]]" [[if ~root.data && ~inArray(#data,~root.data.producciones)]] checked[[/if]]>
+            <label class="w-form-label" for="producciones-[[>#index]]">[[>#data]]</label>
+          </div>
+        [[/for]]
+          <input class="input w-input" maxlength="256" name="otros" placeholder="Otro..." type="text" value="[[if data && data.otros]][[:data.otros]][[/if]]">
+          <input class="w-button cerrar" type="button" value="Cerrar">
+          <input class="buttons w-button" data-wait="Guardando..." type="submit" value="Guardar cambios">
+        </form>
+        <div class="w-form-done">
+          <div>Thank you! Your submission has been received!</div>
+        </div>
+        <div class="w-form-fail">
+          <div>Oops! Something went wrong while submitting the form</div>
+        </div>
+      </div>  
+    </script>
+
+{% endblock %}
+
+{% block assets %}
+    <script src="/js/cuentas.js" type="text/javascript"></script>    
+{% endblock %}

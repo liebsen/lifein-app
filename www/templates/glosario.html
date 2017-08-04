@@ -1,0 +1,80 @@
+{% extends "layouts/default.html" %}
+
+{% block head %}
+  <title>{{app_title}} Glosario</title>
+{% endblock %}
+
+{% block body %}
+
+    <div id="detail"></div>
+    <div class="lista">
+      <h3>Glosario</h3>
+      <div class="subnav">
+        <input class="w-button add-glosario" type="button" value="Agregar">
+      </div>  
+      <div class="row title">
+        <div class="list-item">
+          <div>Idioma</div>
+        </div>
+        <div class="list-item">
+          <div>Etiqueta</div>
+        </div>
+        <div class="list-item w-hidden-small w-hidden-tiny">
+          <div>Título</div>
+        </div>
+        <div class="list-item">
+          <div>Acción</div>
+        </div>
+      </div>
+      <div id="list"></div>
+    </div>
+
+    <script id="item" type="text/x-jsrender">
+      <div class="row" id="[[:key]]_[[:tag]]">
+        <div class="list-item">
+          <div>[[:key]]</div>
+        </div>
+        <div class="list-item">
+          <div>[[:tag]]</div>
+        </div>
+        <div class="list-item w-hidden-small w-hidden-tiny">
+          <div>[[:data.titulo]]</div>
+        </div>
+        <div class="list-item"><a class="action ver text-link" data-key="[[:key]]" data-tag="[[:tag]]" href="#">Ver / Editar</a><a class="action eliminar text-link" data-key="[[:key]]" data-tag="[[:tag]]" href="#">Eliminar</a>
+        </div>
+      </div>
+    </script>
+
+    <script id="form" type="text/x-jsrender">
+      <div class="form-wrapper w-form2">
+        <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]">
+          <h3>Editar glosario</h3>
+          <select class="w-select" name="lang">
+            <option value="en"[[if key == 'en']] selected[[/if]]>English</option>
+            <option value="es"[[if key == 'es']] selected[[/if]]>Español</option>
+          </select>
+
+          <label for="tag">Etiqueta</label>
+          <input class="input w-input" maxlength="256" name="tag" placeholder="terminos_es" type="text" value="[[if tag]][[:tag]][[/if]]" required>
+          <label for="titulo">Título</label>
+          <input class="input w-input" maxlength="256" name="titulo" placeholder="Términos y Condiciones" type="text" value="[[if data && data.titulo]][[:data.titulo]][[/if]]" required>
+          <label for="content">Contenido</label>
+          <textarea class="input w-input" name="contenido" placeholder="Contenido de la página" required>[[if data && data.contenido]][[:data.contenido]][[/if]]</textarea>
+
+          <input class="w-button cerrar" type="button" value="Cerrar">
+          <input class="buttons w-button" data-wait="Guardando..." type="submit" value="Guardar cambios">
+        </form>
+        <div class="w-form-done">
+          <div>Thank you! Your submission has been received!</div>
+        </div>
+        <div class="w-form-fail">
+          <div>Oops! Something went wrong while submitting the form</div>
+        </div>
+      </div>  
+    </script>
+
+{% endblock %}
+
+{% block assets %}
+    <script src="/js/glosario.js" type="text/javascript"></script>    
+{% endblock %}

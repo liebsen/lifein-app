@@ -1,0 +1,45 @@
+{% extends "layouts/email.html" %}
+
+{% block body %}
+            <!-- START CENTERED WHITE CONTAINER -->
+            <span class="preheader">{{title}}</span>
+            <table class="main">
+
+              <!-- START MAIN CONTENT AREA -->
+              <tr>
+                <td class="wrapper">
+                  <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td>
+                        <h2>{{title}}</h2>
+                      {% if subtitle is not null and subtitle is not empty %}
+                        <h5>{{subtitle}}</h5>
+                      {% endif %}
+                        <p>{{content}}</p>
+                      {% if action_url is not null and action_url is not empty %}
+                        <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
+                          <tbody>
+                            <tr>
+                              <td align="left">
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                  <tbody>
+                                    <tr>
+                                      <td> <a href="{{action_url}}" target="_blank">{{action_text}}</a> </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      {% endif %}
+                        <em>Cordialmente, el equipo Musicjuggle.com</em>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- END MAIN CONTENT AREA -->
+              </table>
+{% endblock %}              

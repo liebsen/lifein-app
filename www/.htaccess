@@ -1,0 +1,13 @@
+AddType audio/mpeg mp3
+AddType audio/mp4 m4a
+AddType audio/ogg ogg oga
+
+<IfModule mod_rewrite.c>
+    Options -MultiViews
+
+    RewriteEngine On
+    #RewriteBase /path/to/app
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
