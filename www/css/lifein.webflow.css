@@ -7,7 +7,7 @@ body {
 }
 
 a {
-  color:#f24052;
+  color:#223c61;
 }
 
 hr {
@@ -124,7 +124,7 @@ label {
   width:200%;
   height:100%;
   border-style:solid;
-  /*border-color:#f24052 #f24052 transparent;*/
+  /*border-color:#223c61 #223c61 transparent;*/
   border-color:#b92433 #b92433 transparent;
   border-radius:50%;
   border-width:6px
@@ -302,7 +302,7 @@ label {
 }
 
 .homepage-bg {
-  background-color: #f24052;
+  background-color: #223c61;
 }
 
 .login-form {
@@ -322,13 +322,13 @@ label {
 
 .buttons {
   border-radius: 6px;
-  background-color: #f24052;
+  background-color: #223c61;
   font-weight: 500;
 }
 
 .buttongreen {
   background-color: #f1f1f1;
-  color: #f24052;
+  color: #223c61;
 }
 
 .right {
@@ -336,7 +336,7 @@ label {
 }
 
 .text-link {
-  color: #f24052;
+  color: #223c61;
 }
 
 .text-muted {
@@ -428,12 +428,12 @@ label {
 }
 
 .item-home:hover {
-  background-color: #f24052;
+  background-color: #223c61;
   color: #fff;
 }
 
 .item-spotify {
-  background-color: #f24052;
+  background-color: #223c61;
   color: #fff;
 }
 
@@ -499,7 +499,7 @@ label {
   display: inline-block;
   padding-right: 10px;
   padding-left: 10px;
-  background-color: #f24052;
+  background-color: #223c61;
   color: #fff;
   text-align: center;
   text-transform: uppercase;

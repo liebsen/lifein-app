@@ -1,11 +1,11 @@
 var config = {
-  apiKey: "AIzaSyBzuLO7pTPLvrQ3_gMTTqrfyaMnOMZ_sjw",
-  authDomain: "angulafire.firebaseapp.com",
-  databaseURL: "https://angulafire.firebaseio.com",
-  projectId: "angulafire",
-  storageBucket: "angulafire.appspot.com",
-  messagingSenderId: "700740323265"
-}
+  apiKey: "AIzaSyDoB2DWScwE3614oe70uV_tj5vuwa7tB1g",
+  authDomain: "lifeindev-808c2.firebaseapp.com",
+  databaseURL: "https://lifeindev-808c2.firebaseio.com",
+  projectId: "lifeindev-808c2",
+  storageBucket: "lifeindev-808c2.appspot.com",
+  messagingSenderId: "502763098312"
+};
 
 firebase.initializeApp(config)
 firebase.auth().onAuthStateChanged(function(user) {

@@ -9,9 +9,9 @@
         $url = 'https://accounts.spotify.com/api/token';
         
         if($_SERVER['REMOTE_ADDR']=='127.0.0.1'){
-            $spot_api_redirect = 'http://musicjuggle.local/callback';
+            $spot_api_redirect = 'http://LifeIn.local/callback';
         } else {
-            $spot_api_redirect = 'https://musicjuggle.herokuapp.com/callback';
+            $spot_api_redirect = 'https://LifeIn.herokuapp.com/callback';
         }
 
         $credentials = "a8f4147504384786a9807f6556cfa6aa:b49df9f43d6c4bfba329df4cfa3aa6d6";
