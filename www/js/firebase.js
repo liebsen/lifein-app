@@ -8,6 +8,31 @@ var config = {
 };
 
 firebase.initializeApp(config)
+/*
+  createUserWithEmailAndPassword = function(a){
+    firebase.auth().createUserWithEmailAndPassword(a.email,a.password).then(function(user) {
+        user.updateProfile({
+            displayName: a.displayName,
+            photoURL: a.photoURL
+        }).then(function() {
+            // Update successful.
+        }, function(error) {
+            // An error happened.
+        });        
+    }, function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+        if (errorCode == 'auth/weak-password') {
+            alert('The password is too weak.');
+        } else {
+            console.error(error);
+        }
+    })
+  }
+createUserWithEmailAndPassword({email:"admin@lifeinapp.com",password:"",displayName:"Administrador LifeIn"})
+*/
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
 

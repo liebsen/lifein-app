@@ -17,7 +17,7 @@
           <div>Email</div>
         </div>
         <div class="list-item w-hidden-small w-hidden-tiny">
-          <div>Empresa</div>
+          <div>Grupo</div>
         </div>
         <div class="list-item w-hidden-small w-hidden-tiny">
           <div>Nombre</div>
@@ -38,7 +38,7 @@
           <div>[[:data.email]]</div>
         </div>
         <div class="list-item w-hidden-small w-hidden-tiny">
-          <div>[[:data.empresa]]</div>
+          <div>[[:data.grupos]]</div>
         </div>
         <div class="list-item w-hidden-small w-hidden-tiny">
           <div>[[:data.nombre]] [[:data.apellido]]</div>
@@ -75,16 +75,7 @@
             <option value="[[>#data.key]]"[[if ~root.data && ~root.data.plan && ~sameString(~root.data.plan,#data.key)]] selected[[/if]]>[[>#data.title]]</option>
           [[/for]]
           </select>
-          <label for="contacto_email">Email de contacto</label>
-          <input class="input w-input" maxlength="256" id="contacto_email" name="contacto_email" placeholder="-" type="text" value="[[if data && data.plan_selected_detalle && data.plan_selected_detalle.contacto_email]][[:data.plan_selected_detalle.contacto_email]][[/if]]">
-          <label for="contacto_telefono">Teléfono de contacto</label>
-          <input class="input w-input" maxlength="256" id="contacto_telefono" name="contacto_telefono" placeholder="-" type="text" value="[[if data && data.plan_selected_detalle && data.plan_selected_detalle.contacto_telefono]][[:data.plan_selected_detalle.contacto_telefono]][[/if]]">
-          <label for="contacto_empresa">Empresa</label>
-          <input class="input w-input" maxlength="256" id="contacto_empresa" name="contacto_empresa" placeholder="-" type="text" value="[[if data && data.plan_selected_detalle && data.plan_selected_detalle.empresa]][[:data.plan_selected_detalle.empresa]][[/if]]">
-          <label for="contacto_cuentas">Cant. cuentas</label>
-          <input class="input w-input" maxlength="256" id="contacto_cuentas" name="contacto_cuentas" placeholder="-" type="text" value="[[if data && data.plan_selected_detalle && data.plan_selected_detalle.q_cuentas]][[:data.plan_selected_detalle.q_cuentas]][[/if]]">
-          <label for="contacto_empleados">Cant. empleados</label>
-          <input class="input w-input" maxlength="256" id="contacto_empleados" name="contacto_empleados" placeholder="-" type="text" value="[[if data && data.plan_selected_detalle && data.plan_selected_detalle.q_empleados]][[:data.plan_selected_detalle.q_empleados]][[/if]]">
+
           <hr>
           <label for="telefono">Teléfono</label>
           <input class="input w-input" maxlength="256" name="telefono" placeholder="-" type="text" value="[[if data && data.telefono]][[:data.telefono]][[/if]]">
@@ -95,10 +86,6 @@
             <option value="[[>#data]]"[[if ~root.data && ~root.data.pais == #data]] selected[[/if]]>[[>#data]]</option>
           [[/for]]
           </select>
-          <label for="empresa">Empresa</label>
-          <input class="input w-input" maxlength="256" name="empresa" placeholder="Startup Supplier" type="text" value="[[if data && data.empresa]][[:data.empresa]][[/if]]">
-          <label for="puesto">puesto de trabajo</label>
-          <input class="input w-input" data-name="puesto" id="puesto" maxlength="256" name="puesto" placeholder="-" type="text" value="[[if data && data.puesto]][[:data.puesto]][[/if]]">
           <label for="Plan-3">Como supe de LifeIn...</label>
           <select class="w-select" name="comollego">
             <option value="">Seleccioná ...</option>
@@ -106,16 +93,6 @@
             <option value="[[>#data]]"[[if ~root.data && ~root.data.comollego == #data]] selected[[/if]]>[[>#data]]</option>
           [[/for]]
           </select>
-          <label for="reproducciones">Cantidad de producciones por año</label>
-          <input class="input w-input" maxlength="256" name="reproducciones" placeholder="10" type="text" value="[[if data && data.reproducciones]][[:data.reproducciones]][[/if]]">
-          <label for="email-6">Producciones para</label>
-        [[for datosdeapoyo.producciones]]
-          <div class="w-checkbox">
-            <input class="w-checkbox-input" id="producciones-[[>#index]]" name="producciones" type="checkbox" value="[[>#data]]" [[if ~root.data && ~inArray(#data,~root.data.producciones)]] checked[[/if]]>
-            <label class="w-form-label" for="producciones-[[>#index]]">[[>#data]]</label>
-          </div>
-        [[/for]]
-          <input class="input w-input" maxlength="256" name="otros" placeholder="Otro..." type="text" value="[[if data && data.otros]][[:data.otros]][[/if]]">
           <input class="w-button cerrar" type="button" value="Cerrar">
           <input class="buttons w-button" data-wait="Guardando..." type="submit" value="Guardar cambios">
         </form>
