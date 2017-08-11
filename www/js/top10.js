@@ -22,9 +22,9 @@ $(document).on('submit','#form',function(e){
     }
   })
 
-  $('.mj-spinner').fadeIn(anim.transition.fadeIn, function(){
+  $('.spinner').fadeIn(anim.transition.fadeIn, function(){
     firebase.database().ref().update(updates)
-    $('.mj-spinner').delay(anim.transition.delay).fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
+    $('.spinner').delay(anim.transition.delay).fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
       $('.unsaved').removeClass("unsaved")
       sortableEnable(sortabledata)
     })
@@ -58,7 +58,7 @@ top10.on('child_added', (data) => {
   $('#list').append($.templates('#item').render({key:data.key,data:data.val(),i:helper.child_added_index+1}, helper)).promise().done(function(){
     if(!helper.child_added_index){
       setTimeout(function(){
-        $('.mj-spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor, function(){
+        $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor, function(){
           $('.song').hide()
           $('.lista').show()
           anim.delayed(".song")

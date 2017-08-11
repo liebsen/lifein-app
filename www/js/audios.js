@@ -42,7 +42,7 @@ $(document).on('submit','#firebase-form',function(e){
     audios.child(key + '/comentarios').set(comentarios)
   }
 
-  $('.mj-spinner').fadeIn(anim.transition.fadeIn, function(){
+  $('.spinner').fadeIn(anim.transition.fadeIn, function(){
     firebase.database().ref().update(updates, function(error){
       if(error){
         console.log(error)
@@ -51,7 +51,7 @@ $(document).on('submit','#firebase-form',function(e){
           $(this).html("") // reset audio
           $('.lista').delay(200).fadeIn(anim.transition.fadeIn,function(){
             helper.resetScroll()
-            $('.mj-spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor)
+            $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor)
           })
         }) 
       }
@@ -64,11 +64,11 @@ $(document).on('click','.responder',function(){
   var key = $(this).data('key')
   $('body').attr('key',key)
   helper.setScroll()
-  $('.mj-spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){  
+  $('.spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){  
     firebase.database().ref('audios/'+key).once('value').then(function(item) {
       $('#detail').html($.templates('#form').render({key:item.key,data:item.val()},helper.aux.audios)).promise().done(function(){
         $('.lista').fadeOut(anim.transition.fadeOut,function(){
-          $('.mj-spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){                    
+          $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){                    
             $('#detail').delay(200).fadeIn(anim.transition.fadeIn,function(){
               $('body,html').scrollTop(0)
             })
@@ -103,7 +103,7 @@ audios.on('child_added', (data) => {
     })
   }
   
-  $('.mj-spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor, function(){
+  $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor, function(){
     $('.lista').delay(anim.transition.delay).fadeIn(anim.transition.fadeIn)
   })
 })

@@ -1,5 +1,5 @@
   $(function(){
-    $('.mj-spinner').fadeOut(helper.animation.transition.fadeOut, function(){
+    $('.spinner').fadeOut(helper.animation.transition.fadeOut, function(){
       $('.sections-conteiner').fadeIn()
     })
     $('.item-home').click(function(e){

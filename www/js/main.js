@@ -75,15 +75,15 @@ $(function(){
     var user = localStorage.getItem("firebaseuser")
     , user = $.parseJSON(user)
 
-    $('.mj-spinner').fadeIn(helper.animation.transition.fadeIn*helper.animation.transition.factor,function(){
+    $('.spinner').fadeIn(helper.animation.transition.fadeIn*helper.animation.transition.factor,function(){
         if(user){
             $('.session-status').html(user.email)
             if($('body').hasClass('layout-plain')) {
-                $('.mj-spinner').fadeOut(helper.animation.transition.fadeOut*helper.animation.transition.factor)
+                $('.spinner').fadeOut(helper.animation.transition.fadeOut*helper.animation.transition.factor)
             }
         }else{
             $('.session-status').html("Sin inicio de sesión")
-            $('.mj-spinner').fadeOut(helper.animation.transition.fadeOut*helper.animation.transition.factor,function(){
+            $('.spinner').fadeOut(helper.animation.transition.fadeOut*helper.animation.transition.factor,function(){
                 $('.contenedor-login').fadeIn(helper.animation.transition.fadeIn)
             })
         }
@@ -100,7 +100,7 @@ $(function(){
 })
 
 $(document).on('click','.salir',function(){
-    $('.mj-spinner').fadeIn(helper.animation.transition.fadeIn*helper.animation.transition.factor,function(){
+    $('.spinner').fadeIn(helper.animation.transition.fadeIn*helper.animation.transition.factor,function(){
         firebase.auth().signOut().then(function() {
             localStorage.clear()
             location.href = '/'

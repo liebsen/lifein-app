@@ -16,7 +16,7 @@ $(document).on('submit','#firebase-form',function(e){
     
   updates['/paginas/' + key] = data
 
-  $('.mj-spinner').fadeIn(anim.transition.fadeIn, function(){
+  $('.spinner').fadeIn(anim.transition.fadeIn, function(){
     firebase.database().ref().update(updates, function(error){
       if(error){
         console.log(error)
@@ -24,7 +24,7 @@ $(document).on('submit','#firebase-form',function(e){
         $('#detail').fadeOut(anim.transition.fadeOut,function(){
           $('.lista').fadeIn(anim.transition.fadeIn,function(){
             //helper.resetScroll()
-            $('.mj-spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor)
+            $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor)
           })
         }) 
       }
@@ -48,11 +48,11 @@ $(document).on('click','.action.ver',function(){
   var key = $(this).data('key')
   $('body').attr('key',key)
   helper.setScroll()
-  $('.mj-spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){  
+  $('.spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){  
     firebase.database().ref('paginas/'+key).once('value').then(function(pagina) {
       $('#detail').html($.templates('#form').render({key:pagina.key,data:pagina.val(),aux:helper.aux.paginas},helper)).promise().done(function(){
         $('.lista').fadeOut(anim.transition.fadeOut,function(){
-          $('.mj-spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){                    
+          $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){                    
             $('#detail').delay(200).fadeIn(anim.transition.fadeOut*anim.transition.factor,function(){
               $('body,html').scrollTop(0)
             })
@@ -92,7 +92,7 @@ paginas.on('child_added', (data) => {
   $('#list').prepend($.templates('#item').render({key:data.key,data:data.val()}, helper.aux.paginas)).promise().done(function(){
     $('#list').find('#'+data.key).animateAdded()
   })  
-  $('.mj-spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor, function(){
+  $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor, function(){
     $('.lista').delay(anim.transition.delay).fadeIn()
   })
 })

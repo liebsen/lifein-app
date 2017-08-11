@@ -54,7 +54,7 @@ var position = 0
         }
       }
     }).then(function(){
-      $('.mj-spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor)
+      $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor)
     })
   })
 }
@@ -78,9 +78,9 @@ var position = 0
         updates[[rules.node,$(this).attr('id'),rules.index].join('/')] = parseInt($(this).index()+1)
       })
 
-      $('.mj-spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){
+      $('.spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){
         firebase.database().ref().update(updates).then(function(){
-          $('.mj-spinner').delay(anim.transition.delay).fadeOut(anim.transition.fadeOut*anim.transition.factor)  
+          $('.spinner').delay(anim.transition.delay).fadeOut(anim.transition.fadeOut*anim.transition.factor)  
         })
       })
     }

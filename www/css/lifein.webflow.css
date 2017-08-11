@@ -53,12 +53,12 @@ label {
   text-transform: uppercase;
 }
 
-.mj-spinner{
+.spinner{
   width:128px;
   margin-left:-64px;
 }
 
-.mj-spinner-message{
+.spinner-message{
   position:absolute;
   left:50%;
   margin-top:50%;
@@ -72,7 +72,7 @@ label {
   opacity:.5
 }
 
-.mj-spinner-container{
+.spinner-container{
   pointer-events:none;
   position:fixed;
   width:100%;
@@ -82,19 +82,19 @@ label {
   left:50%;
   margin-top:-50%;
   margin-left:-50%;
-  animation:mj-spinner-linspin 1568.23529647ms linear infinite;
-  -webkit-animation:mj-spinner-linspin 1568.23529647ms linear infinite
+  animation:spinner-linspin 1568.23529647ms linear infinite;
+  -webkit-animation:spinner-linspin 1568.23529647ms linear infinite
 }
 
-.mj-spinner-rotator{
+.spinner-rotator{
   position:absolute;
   width:100%;
   height:100%;
-  -webkit-animation:mj-spinner-easespin 5332ms cubic-bezier(0.4,0.0,0.2,1) infinite both;
-  animation:mj-spinner-easespin 5332ms cubic-bezier(0.4,0.0,0.2,1) infinite both
+  -webkit-animation:spinner-easespin 5332ms cubic-bezier(0.4,0.0,0.2,1) infinite both;
+  animation:spinner-easespin 5332ms cubic-bezier(0.4,0.0,0.2,1) infinite both
 }
 
-.mj-spinner-left{
+.spinner-left{
   position:absolute;
   top:0;
   left:0;
@@ -102,7 +102,7 @@ label {
   overflow:hidden
 }
 
-.mj-spinner-right{
+.spinner-right{
   position:absolute;
   top:0;
   right:0;
@@ -110,56 +110,56 @@ label {
   overflow:hidden
 }
 
-.mj-spinner-left{
+.spinner-left{
   right:49%
 }
 
-.mj-spinner-right{
+.spinner-right{
   left:49%
 }
 
-.mj-spinner-circle{
+.spinner-circle{
   box-sizing:border-box;
   position:absolute;
   width:200%;
   height:100%;
   border-style:solid;
   /*border-color:#223c61 #223c61 transparent;*/
-  border-color:#b92433 #b92433 transparent;
+  border-color:#223c61 #223c61 transparent;
   border-radius:50%;
   border-width:6px
 }
 
-.mj-big-mode .mj-spinner-circle{
+.mj-big-mode .spinner-circle{
   border-width:12px
 }
 
-.mj-spinner-left .mj-spinner-circle{
+.spinner-left .spinner-circle{
   border-right-color:transparent;
-  -webkit-animation:mj-spinner-left-spin 1333ms cubic-bezier(0.4,0.0,0.2,1) infinite both;
-  animation:mj-spinner-left-spin 1333ms cubic-bezier(0.4,0.0,0.2,1) infinite both
+  -webkit-animation:spinner-left-spin 1333ms cubic-bezier(0.4,0.0,0.2,1) infinite both;
+  animation:spinner-left-spin 1333ms cubic-bezier(0.4,0.0,0.2,1) infinite both
 }
 
-.mj-spinner-right .mj-spinner-circle{
+.spinner-right .spinner-circle{
   left:-100%;
   border-left-color:transparent;
   -webkit-animation:mj-right-spin 1333ms cubic-bezier(0.4,0.0,0.2,1) infinite both;
   animation:mj-right-spin 1333ms cubic-bezier(0.4,0.0,0.2,1) infinite both
 }
 
-@-webkit-keyframes mj-spinner-linspin{
+@-webkit-keyframes spinner-linspin{
   to{
     -webkit-transform:rotate(360deg)
   }
 }
 
-@keyframes mj-spinner-linspin{
+@keyframes spinner-linspin{
   to{
     transform:rotate(360deg)
   }
 }
 
-@-webkit-keyframes mj-spinner-easespin{
+@-webkit-keyframes spinner-easespin{
   12.5%{
     -webkit-transform:rotate(135deg)
   }
@@ -186,7 +186,7 @@ label {
   }
 }
 
-@keyframes mj-spinner-easespin{
+@keyframes spinner-easespin{
   12.5%{
     transform:rotate(135deg)
   }
@@ -213,7 +213,7 @@ label {
   }
 }
 
-@-webkit-keyframes mj-spinner-left-spin{
+@-webkit-keyframes spinner-left-spin{
   0%{
     -webkit-transform:rotate(130deg)
   }
@@ -225,7 +225,7 @@ label {
   }
 }
 
-@keyframes mj-spinner-left-spin{
+@keyframes spinner-left-spin{
   0%{
     transform:rotate(130deg)
   }
@@ -265,25 +265,25 @@ label {
   display:none
 }
 
-.mj-spinner-container{
+.spinner-container{
   width:50px;
   padding-bottom:50px;
   margin-top:-25px;
   margin-left:-25px
 }
 
-.mj-big-mode .mj-watch-later-icon .mj-spinner-container{
+.mj-big-mode .mj-watch-later-icon .spinner-container{
   width:35px;
   padding-bottom:35px;
   margin-top:-17.5px;
   margin-left:-17.5px
 }
 
-.mj-watch-later-icon .mj-spinner-circle{
+.mj-watch-later-icon .spinner-circle{
   border-width:3px
 }
 
-.mj-big-mode .mj-watch-later-icon .mj-spinner-circle{
+.mj-big-mode .mj-watch-later-icon .spinner-circle{
   border-width:5px
 }
 

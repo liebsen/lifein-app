@@ -50,7 +50,7 @@ $(document).on('submit','#firebase-form',function(e){
     updates['fecha'] = moment().toISOString()
   }
 
-  $('.mj-spinner').fadeIn(anim.transition.fadeIn, function(){
+  $('.spinner').fadeIn(anim.transition.fadeIn, function(){
     cotizaciones.child(key).update(updates, function(error){
       if(error){
         console.log(error)
@@ -58,7 +58,7 @@ $(document).on('submit','#firebase-form',function(e){
         $('#detail').fadeOut(anim.transition.fadeOut,function(){
           $('.lista').delay(200).fadeIn(anim.transition.fadeIn,function(){
             helper.resetScroll()
-            $('.mj-spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor)
+            $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor)
           })          
         }) 
       }
@@ -88,11 +88,11 @@ $(document).on('click','.responder',function(){
   var key = $(this).data('key')
   $('body').attr('key',key)
   helper.setScroll()
-  $('.mj-spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){
+  $('.spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){
     firebase.database().ref('cotizaciones/'+key).once('value').then(function(item) {
       $('#detail').html($.templates('#form').render({key:item.key,data:item.val()},helper.aux.cotizaciones)).promise().done(function(){
         $('.lista').fadeOut(anim.transition.fadeOut,function(){
-          $('.mj-spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){          
+          $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){          
             $('#detail').fadeIn(anim.transition.fadeIn,function(){
               $('body,html').scrollTop(0)
             })
@@ -143,7 +143,7 @@ cotizaciones.on('child_added', (data) => {
       $('#list').find('#'+data.key).animateAdded()
     })
   }
-  $('.mj-spinner').fadeOut(anim.transition.fadeOut, function(){
+  $('.spinner').fadeOut(anim.transition.fadeOut, function(){
     $('.lista').delay(anim.transition.delay).fadeIn()
   })
 })

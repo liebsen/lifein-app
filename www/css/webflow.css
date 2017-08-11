@@ -1499,14 +1499,14 @@ textarea.w-select {
   display: inline-block;
   vertical-align: top;
   text-decoration: none;
-  color: #f24052;
+  color: #223c61;
   padding: 20px;
   text-align: left;
   margin-left: auto;
   margin-right: auto;
 }
 .w-nav-link.w--current {
-  color: #f24052;
+  color: #223c61;
 }
 .w-nav-menu {
   position: relative;
@@ -1518,7 +1518,7 @@ textarea.w-select {
   top: 100%;
   left: 0;
   right: 0;
-  background: #f24052;
+  background: #223c61;
   text-align: center;
   overflow: visible;
   min-width: 200px;
@@ -1573,7 +1573,7 @@ textarea.w-select {
   user-select: none;
 }
 .w-nav-button.w--open {
-  background-color: #f24052;
+  background-color: #223c61;
   color: white;
 }
 .w-nav[data-collapse="all"] .w-nav-menu {
@@ -1635,7 +1635,7 @@ textarea.w-select {
   background-color: #dddddd;
 }
 .w-tab-link.w--current {
-  background-color: #f24052;
+  background-color: #223c61;
 }
 .w-tab-content {
   position: relative;
