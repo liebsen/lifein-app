@@ -14,16 +14,13 @@
       </div>    
       <div class="row title">
         <div class="list-item">
+          <div>ID</div>
+        </div>
+        <div class="list-item w-hidden-small w-hidden-tiny">
           <div>Email</div>
         </div>
         <div class="list-item w-hidden-small w-hidden-tiny">
-          <div>Grupo</div>
-        </div>
-        <div class="list-item w-hidden-small w-hidden-tiny">
           <div>Nombre</div>
-        </div>
-        <div class="list-item w-hidden-small w-hidden-tiny">
-          <div>Plan</div>
         </div>
         <div class="list-item">
           <div>Acción</div>
@@ -35,19 +32,13 @@
     <script id="item" type="text/x-jsrender">
       <div class="row" id="[[:key]]">
         <div class="list-item">
+          <div>[[:key]]</div>
+        </div>
+        <div class="list-item w-hidden-small w-hidden-tiny">
           <div>[[:data.email]]</div>
         </div>
         <div class="list-item w-hidden-small w-hidden-tiny">
-          <div>[[:data.grupos]]</div>
-        </div>
-        <div class="list-item w-hidden-small w-hidden-tiny">
           <div>[[:data.nombre]] [[:data.apellido]]</div>
-        </div>
-        <div class="list-item w-hidden-small w-hidden-tiny">
-          <div class="alert-text">[[:data.plan]]</div>
-          [[if data.plan_solicitado && data.plan_solicitado != "" && !~sameString(data.plan,data.plan_solicitado)]]
-            <div class="warning-text">[[:data.plan_solicitado]]</div>
-          [[/if]]
         </div>
         <div class="list-item"><a class="action ver text-link" data-key="[[:key]]" href="#">Ver / Editar</a><a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
         </div>
@@ -65,18 +56,6 @@
           <label for="Email-7">email</label>
           <input class="input w-input" maxlength="256" name="email" placeholder="ale@gmail.com" type="email" value="[[if data && data.email]][[:data.email]][[/if]]" required>
           <hr>
-          <label for="Plan">Plan</label>
-          [[if data.plan_solicitado && data.plan != data.plan_solicitado]]
-            <div class="alert-text">Hay una solicitud para cambiar a plan [[:data.plan_solicitado]]</div>
-          [[/if]]
-          <select class="w-select" name="plan">
-            <option value="">Seleccioná ...</option>
-          [[for datosdeapoyo.planes]]
-            <option value="[[>#data.key]]"[[if ~root.data && ~root.data.plan && ~sameString(~root.data.plan,#data.key)]] selected[[/if]]>[[>#data.title]]</option>
-          [[/for]]
-          </select>
-
-          <hr>
           <label for="telefono">Teléfono</label>
           <input class="input w-input" maxlength="256" name="telefono" placeholder="-" type="text" value="[[if data && data.telefono]][[:data.telefono]][[/if]]">
           <label for="Plan-2">país</label>
@@ -84,13 +63,6 @@
             <option value="">Seleccioná ...</option>
           [[for datosdeapoyo.paises]]
             <option value="[[>#data]]"[[if ~root.data && ~root.data.pais == #data]] selected[[/if]]>[[>#data]]</option>
-          [[/for]]
-          </select>
-          <label for="Plan-3">Como supe de LifeIn...</label>
-          <select class="w-select" name="comollego">
-            <option value="">Seleccioná ...</option>
-          [[for datosdeapoyo.comollego]]
-            <option value="[[>#data]]"[[if ~root.data && ~root.data.comollego == #data]] selected[[/if]]>[[>#data]]</option>
           [[/for]]
           </select>
           <input class="w-button cerrar" type="button" value="Cerrar">

@@ -155,7 +155,7 @@
             ->write(json_encode($data));
     });
 
-    // implementación por defecto oculta
+    // secciones offline
     $app->get('/{slug}', function ($request, $response, $args) {
 
         $tpl = str_replace('.','/',$args['slug']);
@@ -169,7 +169,7 @@
         return $this->view->render($response, '404.html');
     });
 
-    // switch a implementaciones para super admin
+    // secciones online
     $app->get('/{id}/{slug}', function ($request, $response, $args) {
 
         $tpl = str_replace('.','/',$args['slug']);

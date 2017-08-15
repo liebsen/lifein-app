@@ -61,7 +61,7 @@ firebase.auth().onAuthStateChanged(function(user) {
         
         setTimeout(function(){
           if(location.pathname == '/'){
-            return location.href = user.scope=="super"?'/super/supermenu':'/'+user.scope+'/menu'
+            return location.href = '/' + user.scope + '/menu'
           }
         },300)
       })
