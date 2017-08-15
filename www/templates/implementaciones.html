@@ -1,14 +1,14 @@
 {% extends "layouts/default.html" %}
 
 {% block head %}
-  <title>{{app_title}} Grupos</title>
+  <title>{{app_title}} Implementaciones</title>
 {% endblock %}
 
 {% block body %}
 
     <div id="detail"></div>
     <div class="lista">
-      <h3>Grupos</h3>
+      <h3>Implementaciones</h3>
       <div class="subnav">
         <input class="w-button add-grupo" type="button" value="Agregar Grupo">
       </div>    
@@ -50,9 +50,9 @@
         <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]">
           <h3>Datos del grupo</h3>
           <label for="nombre">ID</label>
-          <input class="input w-input" maxlength="256" name="name" placeholder="Alejandro" type="text" value="[[if data && data.name]][[:data.name]][[/if]]" required>
-          <label for="Apellido">Nombre</label>
-          <input class="input w-input" maxlength="256" name="title" placeholder="Lote 10" type="text" value="[[if data && data.title]][[:data.title]][[/if]]" required>
+          <input class="input w-input" maxlength="256" name="nombre" placeholder="Alejandro" type="text" value="[[if data && data.nombre]][[:data.nombre]][[/if]]" required>
+          <label for="Apellido">Implementacion</label>
+          <input class="input w-input" maxlength="256" name="titulo" placeholder="Lote 10" type="text" value="[[if data && data.titulo]][[:data.titulo]][[/if]]" required>
           <label for="Email-7">email</label>
           <input class="input w-input" maxlength="256" name="email" placeholder="ale@gmail.com" type="email" value="[[if data && data.email]][[:data.email]][[/if]]" required>
           <hr>
@@ -80,5 +80,5 @@
 {% endblock %}
 
 {% block assets %}
-    <script src="/js/grupos.js" type="text/javascript"></script>    
+    <script src="/js/implementaciones.js" type="text/javascript"></script>    
 {% endblock %}

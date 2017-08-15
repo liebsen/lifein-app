@@ -20,13 +20,13 @@ firebase.auth().onAuthStateChanged(function(user) {
           ctr++
           var row = administrador.val()
           if(row.email == user.email) {
+            user.scope = row.scope
             resolve(user)
           }
           if(ctr === administradores.length){
             resolve(false)
           }
         })
-        resolve(false)
       })
     }
   }).then(function(user){ // descuentos
@@ -47,7 +47,7 @@ firebase.auth().onAuthStateChanged(function(user) {
       
       setTimeout(function(){
         if(location.pathname == '/'){
-          return location.href = '/menu'
+          return location.href = user.scope=="superadmin"?'/super':'/menu'
         }
       },300)
     } else {
@@ -67,7 +67,7 @@ firebase.auth().onAuthStateChanged(function(user) {
           $('.spinner').fadeOut(helper.animation.transition.fadeOut*helper.animation.transition.factor,function(){
               $('.contenedor-login').fadeIn(helper.animation.transition.fadeIn)
           })
-        })        
+        })
       }
 
       if($.inArray(location.pathname,['/','/recuperar-contrasena']) == -1){
