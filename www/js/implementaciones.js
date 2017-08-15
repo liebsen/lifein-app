@@ -91,6 +91,12 @@
           }
         })
       }).then(function(updates){
+        var fbuser = localStorage.getItem("firebaseuser")
+        , fbuser = $.parseJSON(fbuser)
+
+        fbuser.layouts[key] = data.layout
+        localStorage.setItem("firebaseuser",JSON.stringify(fbuser))
+
         return firebase.database().ref().update(updates, function(error){
           if(error){
             console.log(error)
