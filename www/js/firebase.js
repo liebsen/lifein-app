@@ -8,55 +8,77 @@ var config = {
 };
 
 firebase.initializeApp(config)
-/*
-  createUserWithEmailAndPassword = function(a){
-    firebase.auth().createUserWithEmailAndPassword(a.email,a.password).then(function(user) {
-        user.updateProfile({
-            displayName: a.displayName,
-            photoURL: a.photoURL
-        }).then(function() {
-            // Update successful.
-        }, function(error) {
-            // An error happened.
-        });        
-    }, function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // [START_EXCLUDE]
-        if (errorCode == 'auth/weak-password') {
-            alert('The password is too weak.');
-        } else {
-            console.error(error);
-        }
-    })
-  }
-createUserWithEmailAndPassword({email:"admin@lifeinapp.com",password:"",displayName:"Administrador LifeIn"})
-*/
 firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
 
-    var firebaseuser = {
-      displayName : user.displayName,
-      email : user.email,
-      emailVerified : user.emailVerified,
-      photoURL : user.photoURL,
-      isAnonymous : user.isAnonymous,
-      uid : user.uid,
-      providerData : user.providerData
+  return new Promise(function(resolve, reject) { // local and cliente
+    if(user == null) {
+      resolve(null)
+    } else {
+      firebase.database().ref('/administradores').once('value').then(function(administradores) {
+        var ctr = 0
+        administradores.forEach(function(administrador){
+          ctr++
+          var row = administrador.val()
+          if(row.email == user.email) {
+            resolve(user)
+          }
+          if(ctr === administradores.length){
+            resolve(false)
+          }
+        })
+        resolve(false)
+      })
     }
+  }).then(function(user){ // descuentos
+    if (user) {
 
-    localStorage.setItem("firebaseuser",JSON.stringify(firebaseuser))
-    
-    setTimeout(function(){
-      if(location.pathname == '/'){
-        location.href = '/menu'
+      var firebaseuser = {
+        displayName : user.displayName,
+        email : user.email,
+        scope : user.scope,
+        emailVerified : user.emailVerified,
+        photoURL : user.photoURL,
+        isAnonymous : user.isAnonymous,
+        uid : user.uid,
+        providerData : user.providerData
       }
-    },300)
-  } else {
-    if(location.pathname != '/' && location.pathname != '/recuperar-contrasena'){
-    //if($('body').hasClass('layout-plain')) {
-      location.href = '/'
+
+      localStorage.setItem("firebaseuser",JSON.stringify(firebaseuser))
+      
+      setTimeout(function(){
+        if(location.pathname == '/'){
+          return location.href = '/menu'
+        }
+      },300)
+    } else {
+
+      if(user === false){
+        return swal({   
+          title: "No se pudo iniciar sesión",   
+          text: "Esta cuenta no está habilitada para administrar.",
+          type: "error",
+          showCancelButton: false,   
+          closeOnConfirm: false,   
+          showLoaderOnConfirm: true,
+        }, function(){
+          swal.close()
+          $('.login').prop('disabled',false).animate({opacity:1}).text("Continuar")
+          $('.session-status').html("Sin inicio de sesión")
+          $('.spinner').fadeOut(helper.animation.transition.fadeOut*helper.animation.transition.factor,function(){
+              $('.contenedor-login').fadeIn(helper.animation.transition.fadeIn)
+          })
+        })        
+      }
+
+      if($.inArray(location.pathname,['/','/recuperar-contrasena']) == -1){
+        return location.href = '/'
+      }
+
+      $('.login').prop('disabled',false).animate({opacity:1}).text("Continuar")
+      $('.session-status').html("Sin inicio de sesión")
+      $('.spinner').fadeOut(300,function(){
+          $('.contenedor-login').fadeIn(300)
+      })      
     }
-  } 
+  })
 })

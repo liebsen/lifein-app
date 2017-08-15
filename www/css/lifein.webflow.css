@@ -1,7 +1,7 @@
 body {
-  font-family: Montserrat, sans-serif;
-  color: #333;
-  font-size: 14px;
+  font-family: "Gibson", Montserrat, sans-serif;
+  color: #222;
+  font-size: 15px;
   line-height: 20px;
   padding-bottom: 30px;
 }
@@ -51,6 +51,16 @@ label {
   line-height: 16px;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+textarea {
+    height:80px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s; /* Safari */
+}
+
+textarea:focus {
+    height:300px;
 }
 
 .spinner{

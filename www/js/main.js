@@ -1,3 +1,6 @@
+var ismobile=navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i)
+, authmessages={"auth/user-not-found":"Usuario no válido","auth/wrong-password":"La contrseña es inválida. Tal vez mayúsculas?"}
+
 jQuery.fn.insertAt = function(index, element) {
   var lastIndex = this.children().size()
   if (index < 0) {
@@ -72,22 +75,13 @@ jQuery.fn.serializeObject = function() {
 }
 
 $(function(){
+
     var user = localStorage.getItem("firebaseuser")
     , user = $.parseJSON(user)
 
-    $('.spinner').fadeIn(helper.animation.transition.fadeIn*helper.animation.transition.factor,function(){
-        if(user){
-            $('.session-status').html(user.email)
-            if($('body').hasClass('layout-plain')) {
-                $('.spinner').fadeOut(helper.animation.transition.fadeOut*helper.animation.transition.factor)
-            }
-        }else{
-            $('.session-status').html("Sin inicio de sesión")
-            $('.spinner').fadeOut(helper.animation.transition.fadeOut*helper.animation.transition.factor,function(){
-                $('.contenedor-login').fadeIn(helper.animation.transition.fadeIn)
-            })
-        }
-    })
+    if(user){
+        $('.session-status').html(user.email)
+    }
 
     $('.w-nav-link').not('.salir').click(function(e){
       e.preventDefault()
@@ -119,7 +113,7 @@ $(document).on('click','.login',function(){
     firebase.auth().signInWithEmailAndPassword(email, pass).catch(function(err) {
         if(err){
             $(that).prop('disabled',false).animate({opacity:1}).text("Continuar")
-            swal("Advertencia", err.message,"warning")
+            swal("No se pudo iniciar sesión", authmessages[err.code], "error")
         }
     })      
 })
