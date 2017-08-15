@@ -21,7 +21,23 @@
     var data = $(this).serializeObject()
     , updates = {}
     , key = $(this).attr('key')
+    , layout = {
+      foto : data.foto
+      , fondo : data.fondo
+      , colorfondo : data.colorfondo
+      , colortexto : data.colortexto
+      , colorboton : data.colorboton
+      , colortextoboton : data.colortextoboton
+    }
 
+    delete data.foto
+    delete data.fondo
+    delete data.colorfondo
+    delete data.colortexto
+    delete data.colorboton
+    delete data.colortextoboton
+
+    data.layout = layout
 
     // text
     if(key){
@@ -65,7 +81,7 @@
               var prop = snapshot.metadata.customMetadata.name.replace('_',' ')
               , value = snapshot.downloadURL
 
-              data[prop] = value
+              data.layout[prop] = value
               updates['/implementaciones/' + key] = data
 
               if(reach === until){

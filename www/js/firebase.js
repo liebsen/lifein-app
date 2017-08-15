@@ -29,27 +29,32 @@ firebase.auth().onAuthStateChanged(function(user) {
         })
       })
     }
-  }).then(function(user){ // descuentos
+  }).then(function(user){
     if (user) {
 
-      var firebaseuser = {
-        displayName : user.displayName,
-        email : user.email,
-        scope : user.scope,
-        emailVerified : user.emailVerified,
-        photoURL : user.photoURL,
-        isAnonymous : user.isAnonymous,
-        uid : user.uid,
-        providerData : user.providerData
-      }
-
-      localStorage.setItem("firebaseuser",JSON.stringify(firebaseuser))
-      
-      setTimeout(function(){
-        if(location.pathname == '/'){
-          return location.href = user.scope=="superadmin"?'/super':'/menu'
+      firebase.database().ref('/implementaciones/' + user.scope).once('value').then(function(implementacion) {
+        var row = implementacion.val()
+        , layout = row && row.layout ? row.layout : {}
+        , firebaseuser = {
+          displayName : user.displayName,
+          email : user.email,
+          scope : user.scope,
+          layout : layout,
+          emailVerified : user.emailVerified,
+          photoURL : user.photoURL,
+          isAnonymous : user.isAnonymous,
+          uid : user.uid,
+          providerData : user.providerData
         }
-      },300)
+
+        localStorage.setItem("firebaseuser",JSON.stringify(firebaseuser))
+        
+        setTimeout(function(){
+          if(location.pathname == '/'){
+            return location.href = user.scope=="superadmin"?'/super':'/'+user.scope+'/menu'
+          }
+        },300)
+      })
     } else {
 
       if(user === false){

@@ -1,4 +1,4 @@
-var cuentas = firebase.database().ref('/cuentas')
+var cuentas = firebase.database().ref('/cuentas/' + id)
 , datosdeapoyo = {}
 , anim = helper.animation
 

@@ -384,6 +384,9 @@ textarea:focus {
 
 .navbar {
   background-color: #fff;
+  background-position: 0 0;
+  background-size: cover;
+  background-repeat: no-repeat;  
 }
 
 .header-brand {

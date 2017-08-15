@@ -54,7 +54,7 @@
 
         <div class="publish__uploadimages--info"></div>
 
-        <div class="publish__uploadimages--preview section-photos" style="background-color: #[[if data && data.colordefondo]][[:data.colordefondo]][[else]]fff[[/if]]">
+        <div class="publish__uploadimages--preview section-photos" style="background-color: #[[if data && data.colorfondo]][[:data.colorfondo]][[else]]fff[[/if]]">
           <div class="fondo link-fondo" style="background-image:url([[if data && data.fondo]][[:data.fondo]][[else]]/images/fondo-medidas.png[[/if]]);background-position: 0 0;background-size: cover;">
             <!--div class="button-container"><a class="picture-button w-button" data-name="imagen_logo" href="#">Subi una foto de perfil</a>
               <p class="picture-span">Subí una imagen en jpg o png de 900px x 200px aprox.</p>
@@ -66,8 +66,8 @@
             </div-->
           </div>
           <div class="texto">
-            <h3 style="color: #[[if data && data.colordetexto]][[:data.colordetexto]][[else]]000[[/if]]">[[if data && data.titulo]][[:data.titulo]][[else]]Implementación[[/if]]</h3>
-            <p style="color: #[[if data && data.colordetexto]][[:data.colordetexto]][[else]]000[[/if]]">[[if data && data.descripcion]][[:data.descripcion]][[else]]Descripción de la implementación[[/if]]</p>
+            <h3 style="color: #[[if data && data.colortexto]][[:data.colortexto]][[else]]000[[/if]]">[[if data && data.titulo]][[:data.titulo]][[else]]Implementación[[/if]]</h3>
+            <p style="color: #[[if data && data.colortexto]][[:data.colortexto]][[else]]000[[/if]]">[[if data && data.descripcion]][[:data.descripcion]][[else]]Descripción de la implementación[[/if]]</p>
           </div>
         </div>
 
@@ -84,9 +84,13 @@
           <input class="input w-input" maxlength="256" name="email" placeholder="ale@gmail.com" type="email" value="[[if data && data.email]][[:data.email]][[/if]]" required>
           <hr>
           <label for="telefono">Color de fondo</label>
-          <input class="input w-input" maxlength="6" name="colordefondo" placeholder="ff0000" type="text" value="[[if data && data.colordefondo]][[:data.colordefondo]][[/if]]">
+          <input class="input w-input" maxlength="6" name="colorfondo" placeholder="ff0000" type="text" value="[[if data && data.colorfondo]][[:data.colorfondo]][[/if]]">
           <label for="telefono">Color de texto</label>
-          <input class="input w-input" maxlength="6" name="colordetexto" placeholder="fff" type="text" value="[[if data && data.colordetexto]][[:data.colordetexto]][[/if]]">          
+          <input class="input w-input" maxlength="6" name="colortexto" placeholder="fff" type="text" value="[[if data && data.colortexto]][[:data.colortexto]][[/if]]">          
+          <label for="telefono">Color de botón</label>
+          <input class="input w-input" maxlength="6" name="colorboton" placeholder="223c61" type="text" value="[[if data && data.colorboton]][[:data.colorboton]][[/if]]">          
+          <label for="telefono">Color de texto del botón</label>
+          <input class="input w-input" maxlength="6" name="colortextoboton" placeholder="fff" type="text" value="[[if data && data.colortextoboton]][[:data.colortextoboton]][[/if]]">          
           <label for="telefono">Fuente</label>
           <select class="w-select" name="pais">
             <option value="">Gibson</option>

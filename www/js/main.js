@@ -80,7 +80,29 @@ $(function(){
     , user = $.parseJSON(user)
 
     if(user){
+
         $('.session-status').html(user.email)
+
+        if(user.layout){
+            if(user.layout.foto){
+                $('.header-brand').attr('src',user.layout.foto)
+            }
+            if(user.layout.fondo){
+                $('.navbar').css({"background-image":"url("+user.layout.fondo+")"})
+            }
+            if(user.layout.colorfondo){
+                $('body').css({"background-color":"#"+user.layout.colorfondo})
+            }
+            if(user.layout.colortexto){
+                $('body').css({"color":"#"+user.layout.colortexto})
+            }
+            if(user.layout.colorboton){
+                $('.buttons, .item-home').css({"background":"#"+user.layout.colorboton})
+            }
+            if(user.layout.colorbotontexto){
+                $('.buttons, .item-home').css({"color":"#"+user.layout.colorbotontexto})
+            }
+        }
     }
 
     $('.w-nav-link').not('.salir').click(function(e){
