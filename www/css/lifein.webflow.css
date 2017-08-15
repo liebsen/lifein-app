@@ -485,6 +485,38 @@ textarea:focus {
   text-transform: uppercase;
 }
 
+.publish__uploadimages--preview{
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  height: 260px;
+  margin-bottom: 10px;
+}
+
+.fondo {
+  position: absolute;
+  width: 100%;
+  height: 200px;
+  cursor: pointer;
+}
+
+.foto {
+  position: absolute;
+  bottom: -15px;
+  left:20px;
+  border: 2px solid #fff;
+  width:120px;
+  height:120px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.texto {
+  position: absolute;
+  bottom: 10px;
+  left: 180px;  
+}
+
 @keyframes flash {
   0% { background:#fff; }
   50% { background:#feffd4; }
@@ -761,7 +793,7 @@ textarea:focus {
 
 .footer p {
   float: left;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 24px;
   margin-right:10px;
 }

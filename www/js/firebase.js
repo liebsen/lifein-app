@@ -10,7 +10,7 @@ var config = {
 firebase.initializeApp(config)
 firebase.auth().onAuthStateChanged(function(user) {
 
-  return new Promise(function(resolve, reject) { // local and cliente
+  return new Promise(function(resolve, reject) {
     if(user == null) {
       resolve(null)
     } else {
