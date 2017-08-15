@@ -10,7 +10,7 @@
     <div class="lista">
       <h3>Implementaciones</h3>
       <div class="subnav">
-        <input class="w-button add-grupo" type="button" value="Agregar Grupo">
+        <input class="w-button add-grupo" type="button" value="Agregar Implementación">
       </div>    
       <div class="row title">
         <div class="list-item">
@@ -40,7 +40,10 @@
         <div class="list-item w-hidden-small w-hidden-tiny">
           <div>[[:data.email]]</div>
         </div>
-        <div class="list-item"><a class="action ver text-link" data-key="[[:key]]" href="#">Ver / Editar</a><a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
+        <div class="list-item">
+          <a class="action ver text-link" href="/[[:key]]/menu">Administrar</a>
+          <a class="action ver text-link" data-key="[[:key]]" href="#">Ver / Editar</a>
+          <a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
         </div>
       </div>
     </script>

@@ -32,14 +32,24 @@ firebase.auth().onAuthStateChanged(function(user) {
   }).then(function(user){
     if (user) {
 
-      firebase.database().ref('/implementaciones/' + user.scope).once('value').then(function(implementacion) {
-        var row = implementacion.val()
-        , layout = row && row.layout ? row.layout : {}
-        , firebaseuser = {
+      firebase.database().ref('/implementaciones').once('value').then(function(implementaciones) {
+
+        var layouts = {}
+        implementaciones.forEach(function(implementacion){
+
+          var row = implementacion.val()
+          , key = implementacion.key
+
+          if(user.scope == "superadmin" || user.scope == key){
+            layouts[key] = row.layout
+          }
+        })
+        
+        var firebaseuser = {
           displayName : user.displayName,
           email : user.email,
           scope : user.scope,
-          layout : layout,
+          layouts : layouts,
           emailVerified : user.emailVerified,
           photoURL : user.photoURL,
           isAnonymous : user.isAnonymous,

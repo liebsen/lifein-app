@@ -141,8 +141,8 @@
   $(document).on('click','.action.eliminar',function(){
     var key = $(this).data('key')
     swal({   
-      title: "Borrar grupo",   
-      text: "Seguro que querés eliminar esta grupo?",   
+      title: "Borrar Implementación",   
+      text: "Seguro que querés eliminar esta implementación?",
       type: "warning",
       showCancelButton: true,   
       closeOnConfirm: false,   

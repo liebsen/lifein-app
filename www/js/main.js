@@ -83,24 +83,26 @@ $(function(){
 
         $('.session-status').html(user.email)
 
-        if(user.layout){
-            if(user.layout.foto){
-                $('.header-brand').attr('src',user.layout.foto)
+        if(id && user.layouts && user.layouts[id]){
+
+            var layout = user.layouts[id]
+            if(layout.foto){
+                $('.header-brand').attr('src',layout.foto)
             }
-            if(user.layout.fondo){
-                $('.navbar').css({"background-image":"url("+user.layout.fondo+")"})
+            if(layout.fondo){
+                $('.navbar').css({"background-image":"url("+layout.fondo+")"})
             }
-            if(user.layout.colorfondo){
-                $('body').css({"background-color":"#"+user.layout.colorfondo})
+            if(layout.colorfondo){
+                $('body').css({"background-color":"#"+layout.colorfondo})
             }
-            if(user.layout.colortexto){
-                $('body').css({"color":"#"+user.layout.colortexto})
+            if(layout.colortexto){
+                $('body').css({"color":"#"+layout.colortexto})
             }
-            if(user.layout.colorboton){
-                $('.buttons, .item-home').css({"background":"#"+user.layout.colorboton})
+            if(layout.colorboton){
+                $('.buttons, .item-home').css({"background":"#"+layout.colorboton})
             }
-            if(user.layout.colorbotontexto){
-                $('.buttons, .item-home').css({"color":"#"+user.layout.colorbotontexto})
+            if(layout.colorbotontexto){
+                $('.buttons, .item-home').css({"color":"#"+layout.colorbotontexto})
             }
         }
     }
