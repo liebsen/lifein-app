@@ -36,6 +36,19 @@
       return new Promise(function(resolve, reject) {
 
         // files
+        var until = 0
+        , reach = 0
+
+        $('.photo').each(function(){
+          if($(this).get(0).files.length) {
+            until++
+          }
+        })
+
+        if(until === 0){
+          resolve(updates)
+        }
+
         $('.photo').each(function(){
           if($(this).get(0).files.length) {
 
@@ -48,15 +61,17 @@
             }
 
             firebase.storage().ref().child('images/' + file.name).put(file,metadata).then(function(snapshot){
+              reach++
               var prop = snapshot.metadata.customMetadata.name.replace('_',' ')
               , value = snapshot.downloadURL
 
-              firebase.database().ref('/implementaciones/' + key + '/' + prop).set(value)
-              resolve(updates)
-            })
+              data[prop] = value
+              updates['/implementaciones/' + key] = data
 
-          } else {
-            resolve(updates)
+              if(reach === until){
+                resolve(updates)    
+              }
+            })
           }
         })
       }).then(function(updates){
@@ -132,25 +147,23 @@
   })  
 
   $(document).on('click','.link-fondo',function(e) {
-    var position =  $(this).parent().index()
+    var position =  $(this).index()
     $('.photo:eq(' + position + ')').click()
     e.preventDefault()
   })
 
   $(document).on('click','.link-foto',function(e) {
-    var position =  $(this).parent().parent().index()
+    var position =  $(this).index()
     $('.photo:eq(' + position + ')').click()
     e.preventDefault()
   })
 
   $(document).on('change','.photo',function (e) {
-    console.log(this)
-    console.log($(this).attr('name'))
     var that = this 
     if (this.files && this.files[0]) {
         var reader = new FileReader()
         reader.onload = function (e) {
-          $('.publish__uploadimages--preview > div:eq(' + $(that).index() + ')').css({'background-image':e.target.result})
+          $('.publish__uploadimages--preview > div:eq(' + $(that).index() + ')').css({'background-image':'url('+e.target.result+')'})
         }
         reader.readAsDataURL(this.files[0])
     }     
