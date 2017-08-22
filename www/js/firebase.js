@@ -35,13 +35,17 @@ firebase.auth().onAuthStateChanged(function(user) {
       firebase.database().ref('/implementaciones').once('value').then(function(implementaciones) {
 
         var layouts = {}
+        , titulo = ""
         implementaciones.forEach(function(implementacion){
 
           var row = implementacion.val()
           , key = implementacion.key
 
-          if(user.scope == "superadmin" || user.scope == key){
+          if(user.scope == "super" || user.scope == key){
             layouts[key] = row.layout
+          }
+          if(user.scope == key){
+            titulo = row.titulo
           }
         })
         
@@ -50,6 +54,7 @@ firebase.auth().onAuthStateChanged(function(user) {
           email : user.email,
           scope : user.scope,
           layouts : layouts,
+          area : user.scope == "super" ? "LifeIn" : titulo,
           emailVerified : user.emailVerified,
           photoURL : user.photoURL,
           isAnonymous : user.isAnonymous,
@@ -91,7 +96,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 
       $('.login').prop('disabled',false).animate({opacity:1}).text("Continuar")
       $('.session-status').html("Sin inicio de sesión")
-      $('.spinner').fadeOut(300,function(){
+      $('.spinner').delay(500).fadeOut(300,function(){
           $('.contenedor-login').fadeIn(300)
       })      
     }

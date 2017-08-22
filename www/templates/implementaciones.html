@@ -11,6 +11,8 @@
       <h3>Implementaciones</h3>
       <div class="subnav">
         <input class="w-button add-grupo" type="button" value="Agregar Implementación">
+        <input class="w-button export" name="implementaciones" type="button" value="Exportar CSV">
+        <input type="text" class="input w-input filtro" maxlength="256" name="search" placeholder="Buscar..." autocomplete="off" />
       </div>    
       <div class="row title">
         <div class="list-item">
@@ -22,7 +24,7 @@
         <div class="list-item w-hidden-small w-hidden-tiny">
           <div>Email</div>
         </div>
-        <div class="list-item">
+        <div class="list-item csv-exclude">
           <div>Acción</div>
         </div>
       </div>
@@ -40,7 +42,7 @@
         <div class="list-item w-hidden-small w-hidden-tiny">
           <div>[[:data.email]]</div>
         </div>
-        <div class="list-item">
+        <div class="list-item csv-exclude">
           <a class="action ver text-link" href="/[[:key]]/menu">Administrar</a>
           <a class="action ver text-link" data-key="[[:key]]" href="#">Ver / Editar</a>
           <a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
@@ -87,13 +89,13 @@
           <input class="input w-input" maxlength="256" name="email" placeholder="ale@gmail.com" type="email" value="[[if data && data.email]][[:data.email]][[/if]]" required>
           <hr>
           <label for="telefono">Color de fondo</label>
-          <input class="input w-input" maxlength="6" name="colorfondo" placeholder="ff0000" type="text" value="[[if data && data.layout && data.layout.colorfondo]][[:data.layout.colorfondo]][[/if]]">
+          <input class="input w-input" maxlength="7" name="colorfondo" placeholder="ff0000" type="text" value="[[if data && data.layout && data.layout.colorfondo]][[:data.layout.colorfondo]][[/if]]">
           <label for="telefono">Color de texto</label>
-          <input class="input w-input" maxlength="6" name="colortexto" placeholder="fff" type="text" value="[[if data && data.layout && data.layout.colortexto]][[:data.layout.colortexto]][[/if]]">          
+          <input class="input w-input" maxlength="7" name="colortexto" placeholder="fff" type="text" value="[[if data && data.layout && data.layout.colortexto]][[:data.layout.colortexto]][[/if]]">          
           <label for="telefono">Color de botón</label>
-          <input class="input w-input" maxlength="6" name="colorboton" placeholder="223c61" type="text" value="[[if data && data.layout && data.layout.colorboton]][[:data.layout.colorboton]][[/if]]">          
+          <input class="input w-input" maxlength="7" name="colorboton" placeholder="223c61" type="text" value="[[if data && data.layout && data.layout.colorboton]][[:data.layout.colorboton]][[/if]]">          
           <label for="telefono">Color de texto del botón</label>
-          <input class="input w-input" maxlength="6" name="colortextoboton" placeholder="fff" type="text" value="[[if data && data.layout &&  data.layout.colortextoboton]][[:data.layout.colortextoboton]][[/if]]">          
+          <input class="input w-input" maxlength="7" name="colortextoboton" placeholder="fff" type="text" value="[[if data && data.layout &&  data.layout.colortextoboton]][[:data.layout.colortextoboton]][[/if]]">          
           <label for="telefono">Fuente</label>
           <select class="w-select" name="pais">
             <option value="">Gibson</option>

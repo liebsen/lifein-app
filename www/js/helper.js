@@ -10,6 +10,30 @@ var helper = {
 		var scrollpos = $(window).scrollTop()
 		this.lastscrollpos = scrollpos
 	}
+	, checkUser : function(user){
+
+        if(user.scope != 'super' && user.scope != id && location.href != '/' + user.scope + '/menu'){
+            location.href = '/' + user.scope + '/menu'
+        }
+
+        if(id && user.layouts && user.layouts[id]){
+            var layout = user.layouts[id]
+            this.setStyleSheet('body { background-color:' + layout.colorfondo + '; color:' + layout.colortexto + '}.w-nav-brand { background-image: url(' + layout.foto + ') }.navbar { background-image: url(' + layout.fondo + ') }.buttons, .item-home { background: ' + layout.colorboton + ';color:' + layout.colorbotontexto + '}')
+        }
+	}
+	, setStyleSheet : function(css){
+		var head = document.head || document.getElementsByTagName('head')[0],
+		style = document.createElement('style')
+		style.type = 'text/css'
+
+		if (style.styleSheet){
+		  style.styleSheet.cssText = css
+		} else {
+		  style.appendChild(document.createTextNode(css))
+		}
+
+		head.appendChild(style)
+	}
 	, aux : {
 		audios : {
 			humanTime : function(date){

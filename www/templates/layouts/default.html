@@ -37,7 +37,7 @@
         <link href="/css/gibson.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
         <link href="/css/lifein.webflow.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
         <link href="/css/sweetalert.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">  
-        
+
         <!--script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js?_={{ rev_parse }}"></script>
         <script type="text/javascript">
           WebFont.load({
@@ -51,17 +51,7 @@
         <script src="/js/jquery.min.js?_={{ rev_parse }}" type="text/javascript"></script>        
         <link href="/images/favicon.png?_={{ rev_parse }}" rel="shortcut icon" type="image/x-icon">
         <link href="/images/Group.png?_={{ rev_parse }}" rel="apple-touch-icon">
-        <script>
-        {% if id %}
-            var id = '{{id}}'
-            , user = localStorage.getItem("firebaseuser")
-            , user = $.parseJSON(user)
 
-            if(user.scope != 'super' && user.scope != id){
-                location.href = '/' + user.scope + '/menu'
-            }
-        {% endif %}
-        </script>
 
     </head>
     <body class="layout-default">
@@ -78,10 +68,18 @@
         <script src="/js/moment-with-locales.min.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/jsrender.min.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/sweetalert.min.js?_={{ rev_parse }}" type="text/javascript"></script>
-        <script src="/js/helper.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/firebase.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/html2csv.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/main.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/helper.js?_={{ rev_parse }}" type="text/javascript"></script>        
+        <script>
+            var id = '{{id}}'
+            , user = localStorage.getItem("firebaseuser")
+            , user = $.parseJSON(user)
 
+            helper.checkUser(user)
+
+        </script>
         {% block assets %}{% endblock %}
   
     </body>

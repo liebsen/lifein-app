@@ -11,6 +11,8 @@
       <h3>Cuentas</h3>
       <div class="subnav">
         <input class="w-button add-cuenta" type="button" value="Agregar Cuenta">
+        <input class="w-button export" name="cuentas" type="button" value="Exportar CSV">
+        <input type="text" class="input w-input filtro" maxlength="256" name="search" placeholder="Buscar..." autocomplete="off" />
       </div>    
       <div class="row title">
         <div class="list-item">
@@ -22,7 +24,7 @@
         <div class="list-item w-hidden-small w-hidden-tiny">
           <div>Nombre</div>
         </div>
-        <div class="list-item">
+        <div class="list-item csv-exclude">
           <div>Acción</div>
         </div>
       </div>
@@ -40,7 +42,7 @@
         <div class="list-item w-hidden-small w-hidden-tiny">
           <div>[[:data.nombre]] [[:data.apellido]]</div>
         </div>
-        <div class="list-item"><a class="action ver text-link" data-key="[[:key]]" href="#">Ver / Editar</a><a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
+        <div class="list-item csv-exclude"><a class="action ver text-link" data-key="[[:key]]" href="#">Ver / Editar</a><a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
         </div>
       </div>
     </script>

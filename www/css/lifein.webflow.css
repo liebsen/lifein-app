@@ -63,6 +63,15 @@ textarea:focus {
     height:300px;
 }
 
+.w-nav-brand {
+  width: 120px;
+  height: 120px;
+  background-image: url('../images/LifeIn-White.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}
+
 .spinner{
   width:128px;
   margin-left:-64px;
@@ -781,6 +790,10 @@ textarea:focus {
   margin-left: auto;
 }
 
+.filtro {
+    width: auto;
+    margin: 5px 0;
+}
 
 .node-add {
   background-image: url("../images/add-circle.svg");
