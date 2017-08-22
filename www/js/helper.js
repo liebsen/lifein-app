@@ -18,7 +18,10 @@ var helper = {
 
         if(id && user.layouts && user.layouts[id]){
             var layout = user.layouts[id]
-            this.setStyleSheet('body { background-color:' + layout.colorfondo + '; color:' + layout.colortexto + '}.w-nav-brand { background-image: url(' + layout.foto + ') }.navbar { background-image: url(' + layout.fondo + ') }.buttons, .item-home { background: ' + layout.colorboton + ';color:' + layout.colorbotontexto + '}')
+            , title = $(document).prop('title')
+	        $('.session-status').html(user.email)
+	        $(document).prop('title', title.replace("LifeIn",user.area))
+            this.setStyleSheet('body, .subnav { background-color:' + layout.colorfondo + '; color:' + layout.colortexto + '}a, .w-nav-link, .text-link{color:' + layout.colortexto + '}.w-nav-brand { border-color:' + layout.colorfondo + '}.w-nav-brand { background-image: url(' + layout.foto + ') }.navbar { background-image: url(' + layout.fondo + ') }.buttons, .item-home { background: ' + layout.colorboton + ';color:' + layout.colorbotontexto + '}')
         }
 	}
 	, setStyleSheet : function(css){

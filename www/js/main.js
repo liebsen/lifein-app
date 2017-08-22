@@ -75,39 +75,6 @@ jQuery.fn.serializeObject = function() {
 }
 
 $(function(){
-
-    var user = localStorage.getItem("firebaseuser")
-    , user = $.parseJSON(user)
-    , title = $(document).prop('title')
-
-    if(user){
-        $('.session-status').html(user.email)
-        $(document).prop('title', title.replace("LifeIn",user.area))
-        /*
-        if(id && user.layouts && user.layouts[id]){
-            var layout = user.layouts[id]
-
-            if(layout.foto){
-              $('.header-brand').attr('src',layout.foto)
-            }
-            if(layout.fondo){
-              $('.navbar').css({"background-image":"url("+layout.fondo+")"})
-            }
-            if(layout.colorfondo){
-              $('body').css({"background-color":layout.colorfondo})
-            }
-            if(layout.colortexto){
-              $('body').css({"color":layout.colortexto})
-            }
-            if(layout.colorboton){
-              $('.buttons, .item-home').css({"background":layout.colorboton})
-            }
-            if(layout.colorbotontexto){
-              $('.buttons, .item-home').css({"color":layout.colorbotontexto})
-            }
-        }*/   
-    }
-
     $('.w-nav-link').not('.salir').click(function(e){
       e.preventDefault()
       var that = this
