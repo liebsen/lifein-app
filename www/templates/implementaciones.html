@@ -43,8 +43,8 @@
           <div>[[:data.email]]</div>
         </div>
         <div class="list-item csv-exclude">
-          <a class="action ver text-link" href="/[[:key]]/menu">Administrar</a>
           <a class="action ver text-link" data-key="[[:key]]" href="#">Ver / Editar</a>
+          <a class="action ver text-link" href="/[[:key]]/menu">Administrar</a>
           <a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
         </div>
       </div>
@@ -59,20 +59,26 @@
 
         <div class="publish__uploadimages--info"></div>
 
-        <div class="publish__uploadimages--preview section-photos" style="background-color: #[[if data  && data.layout && data.layout.colorfondo]][[:data.layout.colorfondo]][[else]]fff[[/if]]">
+        <div class="publish__uploadimages--preview section-photos" style="background-color: [[if data  && data.layout && data.layout.colorfondo]][[:data.layout.colorfondo]][[else]]fff[[/if]]">
           <div class="fondo link-fondo" style="background-image:url([[if data && data.layout && data.layout.fondo]][[:data.layout.fondo]][[else]]/images/fondo-medidas.png[[/if]]);background-position: 0 0;background-size: cover;">
             <!--div class="button-container"><a class="picture-button w-button" data-name="imagen_logo" href="#">Subi una foto de perfil</a>
               <p class="picture-span">Subí una imagen en jpg o png de 900px x 200px aprox.</p>
             </div-->
           </div>
-          <div class="foto link-foto" style="background-image:url([[if data  && data.layout && data.layout.foto]][[:data.layout.foto]][[else]]/images/foto-medidas.png[[/if]]);background-position: 0 0;background-size: cover;">
+          <div class="foto link-foto" style="background-image:url([[if data  && data.layout && data.layout.foto]][[:data.layout.foto]][[else]]/images/foto-medidas.png[[/if]]);background-position: 0 0;background-size: cover;border-color:[[if data  && data.layout && data.layout.colorfondo]][[:data.layout.colorfondo]][[else]]fff[[/if]]">
             <!--div class="button-container"><a class="picture-button w-button" data-name="foto" href="#">Subi una foto de perfil</a>
               <p class="picture-span">Subí una imagen en jpg o png de 100px x 100px aprox.</p>
             </div-->
           </div>
           <div class="texto">
-            <h3 style="color: #[[if data && data.layout && data.layout.colortexto]][[:data.layout.colortexto]][[else]]000[[/if]]">[[if data && data.titulo]][[:data.titulo]][[else]]Implementación[[/if]]</h3>
-            <p style="color: #[[if data && data.layout && data.layout.colortexto]][[:data.layout.colortexto]][[else]]000[[/if]]">[[if data && data.descripcion]][[:data.descripcion]][[else]]Descripción de la implementación[[/if]]</p>
+            <h3 style="color: [[if data && data.layout && data.layout.colortexto]][[:data.layout.colortexto]][[else]]#222[[/if]]">[[if data && data.titulo]][[:data.titulo]][[else]]Implementación[[/if]]</h3>
+            <p style="color: [[if data && data.layout && data.layout.colortexto]][[:data.layout.colortexto]][[else]]#222[[/if]]">[[if data && data.descripcion]][[:data.descripcion]][[else]]Descripción de la implementación[[/if]]</p>
+          </div>
+          <div class="botones">
+            <a class="item-home w-inline-block" href="#" style="color: [[if data && data.layout && data.layout.colortextoboton]][[:data.layout.colortextoboton]][[else]]#223c61[[/if]];background-color: [[if data && data.layout && data.layout.colorboton]][[:data.layout.colorboton]][[else]]#222[[/if]]">
+              <h1 class="heading-2">Sección</h1>
+            </a>
+            <input class="buttons w-button" data-wait="Guardando..." type="button" value="Guardar cambios" style="color: [[if data && data.layout && data.layout.colortextoboton]][[:data.layout.colortextoboton]][[else]]#223c61[[/if]];background-color: [[if data && data.layout && data.layout.colorboton]][[:data.layout.colorboton]][[else]]#222[[/if]]">
           </div>
         </div>
 

@@ -70,6 +70,32 @@
         <script src="/js/html2csv.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/main.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/helper.js?_={{ rev_parse }}" type="text/javascript"></script>        
+        <script id="layout" type="text/x-jsrender">
+            body, .subnav { 
+                background-color:[[:colorfondo]]; 
+                color:[[:colortexto]]
+            }
+
+            a, .w-nav-link, .text-link{
+                color:[[:colortexto]];
+            }
+
+            .navbar { 
+                background-image: url([[:fondo]]) 
+            }
+
+            .w-nav-brand { 
+                border-color:[[:colorfondo]];
+                background-image: url([[:foto]]);
+                box-shadow: 0 0 10px [[:colorfondo]];
+            }
+
+            .buttons, .item-home { 
+                background:[[:colorboton]];
+                color:[[:colortextoboton]];
+            }
+        </script>
+
         <script>
             var id = '{{id}}'
             , user = localStorage.getItem("firebaseuser")
@@ -80,6 +106,7 @@
             helper.checkUser(user)
 
         </script>
+
         {% block assets %}{% endblock %}
   
     </body>

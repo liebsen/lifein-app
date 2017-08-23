@@ -100,6 +100,7 @@
         return firebase.database().ref().update(updates, function(error){
           if(error){
             console.log(error)
+            return false
           }else{
             $('#detail').fadeOut(anim.transition.fadeOut,function(){
               $('.lista').delay(anim.transition.delay).fadeIn(anim.transition.fadeIn,function(){
@@ -109,6 +110,8 @@
             }) 
           }
         })
+      }).then(function(udpates){
+
       })
     })
 
