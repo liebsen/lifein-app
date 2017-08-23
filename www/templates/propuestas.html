@@ -1,0 +1,109 @@
+{% extends "layouts/default.html" %}
+
+{% block head %}
+  <title>{{app_title}} Propuestas</title>
+{% endblock %}
+
+{% block body %}
+
+    <div id="detail"></div>
+    <div class="lista">
+      <h3>Propuestas</h3>
+      <div class="subnav">
+        <!--input class="w-button add-publicacion" type="button" value="Agregar Publicación"-->
+        <input class="w-button export" name="cuentas" type="button" value="Exportar CSV">
+        <input type="text" class="input w-input filtro" maxlength="256" name="search" placeholder="Buscar..." autocomplete="off" />
+      </div>       
+
+      <div class="row title">
+        <div class="list-item">
+          <div>ID</div>
+        </div>
+        <div class="list-item">
+          <div>Propuesta</div>
+        </div>
+        <div class="list-item w-hidden-small w-hidden-tiny">
+          <div>Descripción</div>
+        </div>
+        <div class="list-item w-hidden-small w-hidden-tiny">
+          <div>No</div>
+        </div>        
+        <div class="list-item w-hidden-small w-hidden-tiny">
+          <div>Sí</div>
+        </div>        
+        <div class="list-item w-hidden-small w-hidden-tiny">
+          <div>Fecha</div>
+        </div>        
+        <div class="list-item">
+          <div>Acción</div>
+        </div>
+      </div>
+      <div id="list"></div>
+    </div>
+
+    <script id="item" type="text/x-jsrender">
+      <div class="row" id="[[:key]]">
+        <div class="list-item">
+          <div>[[:key]]</div>
+        </div>
+        <div class="list-item">
+          <div>[[:data.titulo]]</div>
+        </div>
+        <div class="list-item w-hidden-small w-hidden-tiny">
+          <div>[[:data.texto]]</div>
+        </div>
+        <div class="list-item w-hidden-small w-hidden-tiny">
+          <div>[[:data.total_no]]</div>
+        </div>
+        <div class="list-item w-hidden-small w-hidden-tiny">
+          <div>[[:data.total_yes]]</div>
+        </div>
+        <div class="list-item w-hidden-small w-hidden-tiny">
+          <div>[[:data.fecha]]</div>
+        </div>        
+        <div class="list-item"><a class="action ver text-link" data-key="[[:key]]" href="#">Ver / Editar</a><a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
+        </div>
+      </div>
+    </script>
+
+    <script id="form" type="text/x-jsrender">
+      <div class="form-wrapper w-form2">
+        <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]">
+          <h3>Editar reserva</h3>
+
+          <select class="w-select" name="estado">
+            <option value="Publicado"[[if data.estado == 'Publicado']] selected[[/if]]>Publicado</option>
+            <option value="Borrador"[[if data.estado == 'Borrador']] selected[[/if]]>Borrador</option>
+          </select>
+          <label for="Plan-2">Categoría</label>
+          <select class="w-select" name="categoria">
+            <option value="">Seleccioná ...</option>
+          [[for datosdeapoyo.categorias]]
+            <option value="[[>#data]]"[[if ~root.data && ~root.data.categoria == #data]] selected[[/if]]>[[>#data]]</option>
+          [[/for]]
+          </select>
+
+          <label for="titulo">Título</label>
+          <input class="input w-input" maxlength="256" name="titulo" placeholder="Términos y Condiciones" type="text" value="[[if data && data.titulo]][[:data.titulo]][[/if]]" required>
+          <label for="tag">Autor</label>
+          <input class="input w-input" maxlength="256" name="tag" placeholder="terminos_es" type="text" value="[[if data && data.nombre]][[:data.nombre]][[/if]]" required>
+          <label for="content">Contenido</label>
+          <textarea class="input w-input" name="contenido" placeholder="Contenido de la publicación" required>[[if data && data.descripcion]][[:data.descripcion]][[/if]]</textarea>
+
+          <input class="w-button cerrar" type="button" value="Cerrar">
+          <input class="buttons w-button" data-wait="Guardando..." type="submit" value="Guardar cambios">
+        </form>
+        <div class="w-form-done">
+          <div>Thank you! Your submission has been received!</div>
+        </div>
+        <div class="w-form-fail">
+          <div>Oops! Something went wrong while submitting the form</div>
+        </div>
+      </div>  
+    </script>
+
+{% endblock %}
+
+{% block assets %}
+    <script src="/js/propuestas.js" type="text/javascript"></script>    
+{% endblock %}
