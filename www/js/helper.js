@@ -11,15 +11,14 @@ var helper = {
 		this.lastscrollpos = scrollpos
 	}
 	, checkUser : function(user){
-
+		if(!user) return 
         if(user.scope != 'super' && user.scope != id && location.href != '/' + user.scope + '/menu'){
-            location.href = '/' + user.scope + '/menu'
+            return location.href = '/' + user.scope + '/menu'
         }
-
+        $('.session-status').html(user.email)
         if(id && user.layouts && user.layouts[id]){
             var layout = user.layouts[id]
             , title = $(document).prop('title')
-	        $('.session-status').html(user.email)
 	        $(document).prop('title', title.replace("LifeIn",user.area))
             this.setStyleSheet('body, .subnav { background-color:' + layout.colorfondo + '; color:' + layout.colortexto + '}a, .w-nav-link, .text-link{color:' + layout.colortexto + '}.w-nav-brand { border-color:' + layout.colorfondo + '}.w-nav-brand { background-image: url(' + layout.foto + ') }.navbar { background-image: url(' + layout.fondo + ') }.buttons, .item-home { background: ' + layout.colorboton + ';color:' + layout.colorbotontexto + '}')
         }

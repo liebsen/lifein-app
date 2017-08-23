@@ -51,8 +51,6 @@
         <script src="/js/jquery.min.js?_={{ rev_parse }}" type="text/javascript"></script>        
         <link href="/images/favicon.png?_={{ rev_parse }}" rel="shortcut icon" type="image/x-icon">
         <link href="/images/Group.png?_={{ rev_parse }}" rel="apple-touch-icon">
-
-
     </head>
     <body class="layout-default">
 
@@ -76,7 +74,9 @@
             var id = '{{id}}'
             , user = localStorage.getItem("firebaseuser")
             , user = $.parseJSON(user)
+            , segments = 
 
+            $('body').addClass(location.pathname.split('/').reverse()[0])
             helper.checkUser(user)
 
         </script>
