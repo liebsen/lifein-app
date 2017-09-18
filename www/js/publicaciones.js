@@ -1,4 +1,4 @@
-  var currentnode = '/publicaciones/'+id
+  var currentnode = '/publicaciones/'+key
   , publicaciones = firebase.database().ref(currentnode)
   , datosdeapoyo = {}  
   , anim = helper.animation

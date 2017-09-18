@@ -53,7 +53,9 @@
         <link href="/images/Group.png?_={{ rev_parse }}" rel="apple-touch-icon">
     </head>
     <body class="layout-default">
-
+        
+        <div class="modalcontainer"></div>
+        
         <div class="spinner" data-layer="4"><div class="spinner-container"><div class="spinner-rotator"><div class="spinner-left"><div class="spinner-circle"></div></div><div class="spinner-right"><div class="spinner-circle"></div></div></div></div><div class="spinner-message">Si la reproducción no empieza en breve, prueba a reiniciar el dispositivo.</div></div>
 
         {% include 'partials/header.html' %}
@@ -68,8 +70,9 @@
         <script src="/js/sweetalert.min.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/firebase.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/html2csv.js?_={{ rev_parse }}" type="text/javascript"></script>
-        <script src="/js/main.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/helper.js?_={{ rev_parse }}" type="text/javascript"></script>        
+        <script src="/js/main.js?_={{ rev_parse }}" type="text/javascript"></script>
+
         <script id="layout" type="text/x-jsrender">
             body, .subnav { 
                 background-color:[[:colorfondo]]; 
@@ -97,7 +100,7 @@
         </script>
 
         <script>
-            var id = '{{id}}'
+            var key = '{{key}}'
             , user = localStorage.getItem("firebaseuser")
             , user = $.parseJSON(user)
             , segments = 

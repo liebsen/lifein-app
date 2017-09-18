@@ -1,5 +1,7 @@
 var ismobile=navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i)
 , authmessages={"auth/user-not-found":"Usuario no válido","auth/wrong-password":"La contrseña es inválida. Tal vez mayúsculas?"}
+, anim = helper.animation
+, datosdeapoyo = {}  
 
 jQuery.fn.insertAt = function(index, element) {
   var lastIndex = this.children().size()
@@ -75,7 +77,7 @@ jQuery.fn.serializeObject = function() {
 }
 
 $(function(){
-    $('.w-nav-link').not('.salir').click(function(e){
+    $('.w-nav-link').not('.custom').click(function(e){
       e.preventDefault()
       var that = this
       $('body').fadeOut(helper.animation.transition.fadeOut*helper.animation.transition.factor,function(){
@@ -83,6 +85,126 @@ $(function(){
       })
       return false
     })
+    $('.show-profile-dropdown').click(function(){
+        $('.profile-dropdown').toggle()
+    })
+})
+
+
+$(document).on('click','.preferencias',function(){
+    helper.setScroll()
+    $('.spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){
+        firebase.database().ref('implementaciones/'+key).once('value').then(function(grupo) {
+            $('.modalcontainer').html($.templates('#preferencias').render({key:grupo.key,data:grupo.val(),datosdeapoyo:datosdeapoyo},helper)).promise().done(function(){
+                helper.resetWebflow()
+                $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
+                    $('body,html').scrollTop(0)
+                })
+            })
+        })
+    })
+})
+
+
+$(document).on('submit','#preferencias-form',function(e){
+    e.preventDefault()
+    var data = $(this).serializeObject()
+    , updates = {}
+    , layout = {
+      foto : data.foto
+      , fondo : data.fondo
+      , colorfondo : data.colorfondo
+      , colortexto : data.colortexto
+      , colorboton : data.colorboton
+      , colortextoboton : data.colortextoboton
+    }
+
+    delete data.foto
+    delete data.fondo
+    delete data.colorfondo
+    delete data.colortexto
+    delete data.colorboton
+    delete data.colortextoboton
+
+    data.layout = layout
+
+    // text
+    if(key){
+      updates['/implementaciones/' + key] = data
+    } else {
+      key = implementaciones.push().key
+      updates['/implementaciones/' + key] = data
+    }
+
+    $('.spinner').fadeIn(anim.transition.fadeIn, function(){
+
+      return new Promise(function(resolve, reject) {
+
+        // files
+        var until = 0
+        , reach = 0
+
+        $('.photo').each(function(){
+          if($(this).get(0).files.length) {
+            until++
+          }
+        })
+
+        if(until === 0){
+          resolve(updates)
+        }
+
+        $('.photo').each(function(){
+          if($(this).get(0).files.length) {
+
+            var name = $(this).attr('name')
+            , file = $(this).get(0).files[0]
+            , metadata = {
+              customMetadata : {
+                'name' : name
+              }
+            }
+
+            firebase.storage().ref().child('images/' + file.name).put(file,metadata).then(function(snapshot){
+              reach++
+              var prop = snapshot.metadata.customMetadata.name.replace('_',' ')
+              , value = snapshot.downloadURL
+
+              data.layout[prop] = value
+              updates['/implementaciones/' + key] = data
+
+              if(reach === until){
+                resolve(updates)    
+              }
+            })
+          }
+        })
+      }).then(function(updates){
+        var fbuser = localStorage.getItem("firebaseuser")
+        , fbuser = $.parseJSON(fbuser)
+
+        fbuser.layouts[key] = data.layout
+        localStorage.setItem("firebaseuser",JSON.stringify(fbuser))
+
+        return firebase.database().ref().update(updates, function(error){
+          if(error){
+            console.log(error)
+            return false
+          }else{
+            $('#detail').fadeOut(anim.transition.fadeOut,function(){
+              $('.lista').delay(anim.transition.delay).fadeIn(anim.transition.fadeIn,function(){
+                helper.resetScroll()
+                $('.spinner').fadeOut(anim.transition.fadeOut)
+              })
+            }) 
+          }
+        })
+      }).then(function(udpates){
+
+      })
+    })
+
+    return false  
 })
 
 $(document).on('click','.salir',function(){

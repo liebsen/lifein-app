@@ -1,4 +1,4 @@
-  var currentnode = '/propuestas/'+id
+  var currentnode = '/propuestas/'+key
   , reservas = firebase.database().ref(currentnode)
   , datosdeapoyo = {}  
   , anim = helper.animation

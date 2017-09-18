@@ -32,10 +32,15 @@ firebase.auth().onAuthStateChanged(function(user) {
   }).then(function(user){
     if (user) {
 
+      firebase.database().ref('/datosdeapoyo').once('value').then(function(datos) {
+          datosdeapoyo = datos.val()
+      })
+
       firebase.database().ref('/implementaciones').once('value').then(function(implementaciones) {
 
         var layouts = {}
         , titulo = ""
+
         implementaciones.forEach(function(implementacion){
 
           var row = implementacion.val()

@@ -1,4 +1,4 @@
-  var currentnode = '/cuentas/' + id
+  var currentnode = '/cuentas/' + key
   , cuentas = firebase.database().ref(currentnode)
   , datosdeapoyo = {}
   , anim = helper.animation

@@ -1,6 +1,6 @@
 
-
-  var implementaciones = firebase.database().ref('/implementaciones')
+  var currentnode = '/implementaciones'
+  , implementaciones = firebase.database().ref(currentnode)
   , datosdeapoyo = {}
   , anim = helper.animation
 
@@ -18,100 +18,29 @@
 
   $(document).on('submit','#firebase-form',function(e){
     e.preventDefault()
+    
     var data = $(this).serializeObject()
     , updates = {}
     , key = $(this).attr('key')
-    , layout = {
-      foto : data.foto
-      , fondo : data.fondo
-      , colorfondo : data.colorfondo
-      , colortexto : data.colortexto
-      , colorboton : data.colorboton
-      , colortextoboton : data.colortextoboton
+
+    if(!key){
+      return swal("Se necesitan mas datos", "Ingresa key","warning")
     }
 
-    delete data.foto
-    delete data.fondo
-    delete data.colorfondo
-    delete data.colortexto
-    delete data.colorboton
-    delete data.colortextoboton
-
-    data.layout = layout
-
-    // text
-    if(key){
-      updates['/implementaciones/' + key] = data
-    } else {
-      key = implementaciones.push().key
-      updates['/implementaciones/' + key] = data
-    }
+    updates[currentnode +'/' + key] = data
 
     $('.spinner').fadeIn(anim.transition.fadeIn, function(){
-
-      return new Promise(function(resolve, reject) {
-
-        // files
-        var until = 0
-        , reach = 0
-
-        $('.photo').each(function(){
-          if($(this).get(0).files.length) {
-            until++
-          }
-        })
-
-        if(until === 0){
-          resolve(updates)
-        }
-
-        $('.photo').each(function(){
-          if($(this).get(0).files.length) {
-
-            var name = $(this).attr('name')
-            , file = $(this).get(0).files[0]
-            , metadata = {
-              customMetadata : {
-                'name' : name
-              }
-            }
-
-            firebase.storage().ref().child('images/' + file.name).put(file,metadata).then(function(snapshot){
-              reach++
-              var prop = snapshot.metadata.customMetadata.name.replace('_',' ')
-              , value = snapshot.downloadURL
-
-              data.layout[prop] = value
-              updates['/implementaciones/' + key] = data
-
-              if(reach === until){
-                resolve(updates)    
-              }
+      firebase.database().ref().update(updates, function(error){
+        if(error){
+          console.log(error)
+        }else{
+          $('#detail').fadeOut(anim.transition.fadeOut,function(){
+            $('.lista').fadeIn(anim.transition.fadeIn,function(){
+              //helper.resetScroll()
+              $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor)
             })
-          }
-        })
-      }).then(function(updates){
-        var fbuser = localStorage.getItem("firebaseuser")
-        , fbuser = $.parseJSON(fbuser)
-
-        fbuser.layouts[key] = data.layout
-        localStorage.setItem("firebaseuser",JSON.stringify(fbuser))
-
-        return firebase.database().ref().update(updates, function(error){
-          if(error){
-            console.log(error)
-            return false
-          }else{
-            $('#detail').fadeOut(anim.transition.fadeOut,function(){
-              $('.lista').delay(anim.transition.delay).fadeIn(anim.transition.fadeIn,function(){
-                helper.resetScroll()
-                $('.spinner').fadeOut(anim.transition.fadeOut)
-              })
-            }) 
-          }
-        })
-      }).then(function(udpates){
-
+          }) 
+        }
       })
     })
 
@@ -128,13 +57,13 @@
     })  
   })
 
-  $(document).on('click','.action.ver',function(){
+  $(document).on('click','.action.editar',function(){
     var key = $(this).data('key')
     $('body').attr('key',key)
     helper.setScroll()
     $('.spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){
-      firebase.database().ref('implementaciones/'+key).once('value').then(function(grupo) {
-        $('#detail').html($.templates('#form').render({key:grupo.key,data:grupo.val(),datosdeapoyo:datosdeapoyo},helper)).promise().done(function(){
+      firebase.database().ref(currentnode+'/'+key).once('value').then(function(cuenta) {
+        $('#detail').html($.templates('#form').render({key:cuenta.key,data:cuenta.val(),datosdeapoyo:datosdeapoyo},helper)).promise().done(function(){
           $('.lista').fadeOut(anim.transition.fadeOut,function(){
             $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
               $('#detail').delay(200).fadeIn(anim.transition.fadeOut*anim.transition.factor,function(){

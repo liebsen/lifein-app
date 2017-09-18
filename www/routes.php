@@ -170,13 +170,13 @@
     });
 
     // secciones online
-    $app->get('/{id}/{slug}', function ($request, $response, $args) {
+    $app->get('/{key}/{slug}', function ($request, $response, $args) {
 
         $tpl = str_replace('.','/',$args['slug']);
 
         if(file_exists(__DIR__ . '/templates/' . $tpl . '.html')){
             return $this->view->render($response, $tpl . '.html',[
-                'id' => $args['id'],
+                'key' => $args['key'],
                 'params' => $request->getQueryParams()
             ]);
         }

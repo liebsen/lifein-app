@@ -6,18 +6,25 @@ var helper = {
 	, resetScroll : function(){
 		$('body,html').scrollTop(this.lastscrollpos)
 	}
+	, resetWebflow : function(){
+		Webflow.require('ix').init([
+		  {"slug":"showmodal","name":"ShowModal","value":{"style":{},"triggers":[{"type":"click","selector":".modalcontainer","stepsA":[{"display":"block","opacity":0},{"display":"block","opacity":1,"transition":"opacity 500ms ease 0"}],"stepsB":[]}]}},
+		  {"slug":"hidemodal","name":"HideModal","value":{"style":{},"triggers":[{"type":"click","selector":".modalcontainer","stepsA":[{"opacity":0,"transition":"opacity 250ms ease 0"},{"display":"none"}],"stepsB":[]}]}}
+		])
+		Webflow.ready()
+	}	
 	, setScroll : function(){
 		var scrollpos = $(window).scrollTop()
 		this.lastscrollpos = scrollpos
 	}
 	, checkUser : function(user){
 		if(!user) return 
-        if(user.scope != 'super' && user.scope != id && location.href != '/' + user.scope + '/menu'){
+        if(user.scope != 'super' && user.scope != key && location.href != '/' + user.scope + '/menu'){
             return location.href = '/' + user.scope + '/menu'
         }
         $('.session-status').html(user.email)
-        if(id && user.layouts && user.layouts[id]){
-            var layout = user.layouts[id]
+        if(key && user.layouts && user.layouts[key]){
+            var layout = user.layouts[key]
             , title = $(document).prop('title')
 	        $(document).prop('title', title.replace("LifeIn",user.area))
             this.setStyleSheet($.templates('#layout').render(layout)) 
