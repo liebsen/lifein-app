@@ -100,28 +100,6 @@
     })
   })  
 
-  $(document).on('click','.link-fondo',function(e) {
-    var position =  $(this).index()
-    $('.photo:eq(' + position + ')').click()
-    e.preventDefault()
-  })
-
-  $(document).on('click','.link-foto',function(e) {
-    var position =  $(this).index()
-    $('.photo:eq(' + position + ')').click()
-    e.preventDefault()
-  })
-
-  $(document).on('change','.photo',function (e) {
-    var that = this 
-    if (this.files && this.files[0]) {
-        var reader = new FileReader()
-        reader.onload = function (e) {
-          $('.publish__uploadimages--preview > div:eq(' + $(that).index() + ')').css({'background-image':'url('+e.target.result+')'})
-        }
-        reader.readAsDataURL(this.files[0])
-    }     
-  })
 
 
   // live fb handlers

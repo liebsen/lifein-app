@@ -106,8 +106,9 @@ $(document).on('click','.preferencias',function(){
 })
 
 
-$(document).on('submit','#preferencias-form',function(e){
+$(document).on('submit','#preferencias',function(e){
     e.preventDefault()
+    console.log("1")
     var data = $(this).serializeObject()
     , updates = {}
     , layout = {
@@ -139,7 +140,7 @@ $(document).on('submit','#preferencias-form',function(e){
     $('.spinner').fadeIn(anim.transition.fadeIn, function(){
 
       return new Promise(function(resolve, reject) {
-
+        console.log("2")
         // files
         var until = 0
         , reach = 0
@@ -155,6 +156,7 @@ $(document).on('submit','#preferencias-form',function(e){
         }
 
         $('.photo').each(function(){
+            console.log("3")
           if($(this).get(0).files.length) {
 
             var name = $(this).attr('name')
@@ -169,7 +171,7 @@ $(document).on('submit','#preferencias-form',function(e){
               reach++
               var prop = snapshot.metadata.customMetadata.name.replace('_',' ')
               , value = snapshot.downloadURL
-
+              console.log("4")
               data.layout[prop] = value
               updates['/implementaciones/' + key] = data
 
@@ -194,17 +196,39 @@ $(document).on('submit','#preferencias-form',function(e){
             $('#detail').fadeOut(anim.transition.fadeOut,function(){
               $('.lista').delay(anim.transition.delay).fadeIn(anim.transition.fadeIn,function(){
                 helper.resetScroll()
+                swal("Preferencias","Las preferencias han sido actualizadas","success")
                 $('.spinner').fadeOut(anim.transition.fadeOut)
               })
             }) 
           }
         })
-      }).then(function(udpates){
-
       })
     })
 
     return false  
+})
+
+$(document).on('click','.link-fondo',function(e) {
+    var position =  $(this).index()
+    $('.photo:eq(' + position + ')').click()
+    e.preventDefault()
+})
+
+$(document).on('click','.link-foto',function(e) {
+    var position =  $(this).index()
+    $('.photo:eq(' + position + ')').click()
+    e.preventDefault()
+})
+
+$(document).on('change','.photo',function (e) {
+    var that = this 
+    if (this.files && this.files[0]) {
+        var reader = new FileReader()
+        reader.onload = function (e) {
+          $('.publish__uploadimages--preview > div:eq(' + $(that).index() + ')').css({'background-image':'url('+e.target.result+')'})
+        }
+        reader.readAsDataURL(this.files[0])
+    }     
 })
 
 $(document).on('click','.salir',function(){

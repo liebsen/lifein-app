@@ -114,6 +114,15 @@ var helper = {
 			}
 		}
     }
+	, randomString : function(a) {
+	  var text = ""
+	  , possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+
+	  for (var i = 0; i < a; i++)
+	    text += possible.charAt(Math.floor(Math.random() * possible.length))
+
+	  return text
+	}    
 	, sameString : function(a,b){
 		return $.trim(a.toUpperCase()) === $.trim(b.toUpperCase())
 	}

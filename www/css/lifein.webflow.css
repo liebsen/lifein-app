@@ -101,12 +101,14 @@ textarea:focus {
 .profile-dropdown {
   display: none;
   position: absolute;
-  top: 63px;
-  background-color: #398ad1;
+  top: 64px;
+  background-color: #3898EC;
+  min-width: 200px;
 }
 
 .profile-dropdown a {
   display: inline-block;
+  color: #fff;
   width: 100%;
 }
 

@@ -6,78 +6,86 @@
 
 {% block body %}
 
-    <div id="detail"></div>
-    <div class="lista">
-      <h3>Cuentas</h3>
-      <div class="subnav">
-        <input class="w-button add-cuenta" type="button" value="Agregar Cuenta">
-        <input class="w-button export" name="cuentas" type="button" value="Exportar CSV">
-        <input type="text" class="input w-input filtro" maxlength="256" name="search" placeholder="Buscar..." autocomplete="off" />
-      </div>    
-      <div class="row title">
-        <div class="list-item">
-          <div>ID</div>
-        </div>
-        <div class="list-item w-hidden-small w-hidden-tiny">
-          <div>Email</div>
-        </div>
-        <div class="list-item w-hidden-small w-hidden-tiny">
-          <div>Nombre</div>
-        </div>
-        <div class="list-item csv-exclude">
-          <div>Acción</div>
-        </div>
+  <div id="detail"></div>
+  <div class="lista">
+    <h3>Cuentas</h3>
+    <div class="subnav">
+      <input class="w-button add-cuenta" type="button" value="Agregar Cuenta">
+      <input class="w-button export" name="cuentas" type="button" value="Exportar CSV">
+      <input type="text" class="input w-input filtro" maxlength="256" name="search" placeholder="Buscar..." autocomplete="off" />
+    </div>    
+    <div class="row title">
+      <div class="list-item">
+        <div>ID</div>
       </div>
-      <div id="list"></div>
+      <div class="list-item w-hidden-small w-hidden-tiny">
+        <div>Email</div>
+      </div>
+      <div class="list-item w-hidden-small w-hidden-tiny">
+        <div>Nombre</div>
+      </div>
+      <div class="list-item csv-exclude">
+        <div>Acción</div>
+      </div>
     </div>
+    <div id="list"></div>
+  </div>
 
-    <script id="item" type="text/x-jsrender">
-      <div class="row" id="[[:key]]">
-        <div class="list-item">
-          <div>[[:key]]</div>
-        </div>
-        <div class="list-item w-hidden-small w-hidden-tiny">
-          <div>[[:data.email]]</div>
-        </div>
-        <div class="list-item w-hidden-small w-hidden-tiny">
-          <div>[[:data.nombre]] [[:data.apellido]]</div>
-        </div>
-        <div class="list-item csv-exclude"><a class="action ver text-link" data-key="[[:key]]" href="#">Ver / Editar</a><a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
-        </div>
+  <script id="item" type="text/x-jsrender">
+    <div class="row" id="[[:key]]">
+      <div class="list-item">
+        <div>[[:key]]</div>
       </div>
-    </script>
+      <div class="list-item w-hidden-small w-hidden-tiny">
+        <div>[[:data.email]]</div>
+      </div>
+      <div class="list-item w-hidden-small w-hidden-tiny">
+        <div>[[:data.nombre]] [[:data.apellido]]</div>
+      </div>
+      <div class="list-item csv-exclude"><a class="action ver text-link" data-key="[[:key]]" href="#">Ver / Editar</a><a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
+      </div>
+    </div>
+  </script>
 
-    <script id="form" type="text/x-jsrender">
-      <div class="form-wrapper w-form2">
-        <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]">
-          <h3>Perfil del usuario</h3>
-          <label for="nombre">Nombre</label>
-          <input class="input w-input" maxlength="256" name="nombre" placeholder="Alejandro" type="text" value="[[if data && data.nombre]][[:data.nombre]][[/if]]" required>
-          <label for="Apellido">Apellido</label>
-          <input class="input w-input" maxlength="256" name="apellido" placeholder="Ramirez" type="text" value="[[if data && data.apellido]][[:data.apellido]][[/if]]" required>
-          <label for="Email-7">email</label>
-          <input class="input w-input" maxlength="256" name="email" placeholder="ale@gmail.com" type="email" value="[[if data && data.email]][[:data.email]][[/if]]" required>
-          <hr>
-          <label for="telefono">Teléfono</label>
-          <input class="input w-input" maxlength="256" name="telefono" placeholder="-" type="text" value="[[if data && data.telefono]][[:data.telefono]][[/if]]">
-          <label for="Plan-2">país</label>
-          <select class="w-select" name="pais">
-            <option value="">Seleccioná ...</option>
-          [[for datosdeapoyo.paises]]
-            <option value="[[>#data]]"[[if ~root.data && ~root.data.pais == #data]] selected[[/if]]>[[>#data]]</option>
-          [[/for]]
-          </select>
-          <input class="w-button cerrar" type="button" value="Cerrar">
-          <input class="buttons w-button" data-wait="Guardando..." type="submit" value="Guardar cambios">
-        </form>
-        <div class="w-form-done">
-          <div>Thank you! Your submission has been received!</div>
-        </div>
-        <div class="w-form-fail">
-          <div>Oops! Something went wrong while submitting the form</div>
-        </div>
-      </div>  
-    </script>
+  <script id="form" type="text/x-jsrender">
+    <div class="form-wrapper w-form2">
+      <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]">
+        <h3>Perfil del usuario</h3>
+        <label for="nombre">Nombre</label>
+        <input class="input w-input" maxlength="256" name="nombre" placeholder="Alejandro" type="text" value="[[if data && data.nombre]][[:data.nombre]][[/if]]" required>
+        <label for="Apellido">Apellido</label>
+        <input class="input w-input" maxlength="256" name="apellido" placeholder="Ramirez" type="text" value="[[if data && data.apellido]][[:data.apellido]][[/if]]" required>
+        <label for="Email-7">email</label>
+        <input class="input w-input" maxlength="256" name="email" placeholder="ale@gmail.com" type="email" value="[[if data && data.email]][[:data.email]][[/if]]" required>
+        <hr>
+        <label for="telefono">Teléfono</label>
+        <input class="input w-input" maxlength="256" name="telefono" placeholder="-" type="text" value="[[if data && data.telefono]][[:data.telefono]][[/if]]">
+        <label for="Plan-2">país</label>
+        <select class="w-select" name="pais">
+          <option value="">Seleccioná ...</option>
+        [[for datosdeapoyo.paises]]
+          <option value="[[>#data]]"[[if ~root.data && ~root.data.pais == #data]] selected[[/if]]>[[>#data]]</option>
+        [[/for]]
+        </select>
+        <input class="w-button cerrar" type="button" value="Cerrar">
+        <input class="buttons w-button" data-wait="Guardando..." type="submit" value="Guardar cambios">
+      </form>
+      <div class="w-form-done">
+        <div>Thank you! Your submission has been received!</div>
+      </div>
+      <div class="w-form-fail">
+        <div>Oops! Something went wrong while submitting the form</div>
+      </div>
+    </div>  
+  </script>
+
+  <script id="email_title" type="text/x-jsrender">
+    Bienvenido [[:nombre]] a Life In
+  </script>
+
+  <script id="email_message" type="text/x-jsrender">
+    Bienvenido [[:nombre]] a Life In. Tus datos de acceso son los siguientes. Nombre de usuario: [[:email]],Contraseña: [[:password]]
+  </script>
 
 {% endblock %}
 

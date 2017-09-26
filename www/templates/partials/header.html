@@ -2,10 +2,14 @@
       <div class="w-container">
         <a class="w-nav-brand" href="menu"></a>
         <nav class="w-nav-menu" role="navigation">
-          <a class="w-nav-link show-profile-dropdown custom" href="#"><img src="/images/icono-nombre.svg"> <span class="session-status"></span></a>
-          <div class="profile-dropdown">
-            <a class="w-nav-link preferencias custom" data-ix="showmodal" href="#">Preferencias</a>
-            <a class="w-nav-link salir custom" href="#">Cerrar sesión</a>
+          <div class="w-dropdown">
+            <div class="w-dropdown-toggle"><span class="session-status"></span> &nbsp; <img src="/images/icono-nombre.svg"></div>
+            <div class="w-dropdown-list">
+            {% if key != 'super' %}
+              <a class="w-dropdown-link preferencias custom" data-ix="showmodal" href="#">Preferencias</a>
+            {% endif %}
+              <a class="w-dropdown-link salir custom" href="#">Cerrar sesión</a>
+            </div>
           </div>
         </nav>
         <div class="w-nav-button">

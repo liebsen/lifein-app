@@ -15,20 +15,13 @@
     datosdeapoyo = datos.val()
   })
 
-
   $(document).on('submit','#firebase-form',function(e){
     e.preventDefault()
     
     var data = $(this).serializeObject()
     , updates = {}
-    , key = data.tag 
+    , key = $(this).attr('key')
 
-    if(!data.tag){
-      return swal("Se necesitan mas datos", "Ingresa etiqueta","warning")
-    }
-
-    delete data.tag 
-      
     updates[currentnode +'/' + key] = data
 
     $('.spinner').fadeIn(anim.transition.fadeIn, function(){
@@ -36,6 +29,7 @@
         if(error){
           console.log(error)
         }else{
+       
           $('#detail').fadeOut(anim.transition.fadeOut,function(){
             $('.lista').fadeIn(anim.transition.fadeIn,function(){
               //helper.resetScroll()
@@ -65,7 +59,6 @@
     helper.setScroll()
     $('.spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){  
       firebase.database().ref(currentnode +'/'+key).once('value').then(function(publicacion) {
-        console.log(publicacion.val())
         $('#detail').html($.templates('#form').render({key:publicacion.key,data:publicacion.val(),aux:helper.aux.publicaciones,datosdeapoyo:datosdeapoyo},helper)).promise().done(function(){
           $('.lista').fadeOut(anim.transition.fadeOut,function(){
             $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){                    

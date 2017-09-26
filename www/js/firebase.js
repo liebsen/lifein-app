@@ -8,6 +8,7 @@ var config = {
 };
 
 firebase.initializeApp(config)
+var secondaryApp = firebase.initializeApp(config, "Secondary")
 firebase.auth().onAuthStateChanged(function(user) {
 
   return new Promise(function(resolve, reject) {
