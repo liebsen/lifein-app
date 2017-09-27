@@ -65,8 +65,8 @@
                 swal('Error',error,'error')
               });        
             }, function(error) {
-              var errorCode = error.code;
-              , errorMessage = error.message;
+              var errorCode = error.code
+              , errorMessage = error.message
               if (errorCode == 'auth/weak-password') {
                 swal('Error','La contraseña es demasiado débil.','error');
               } else {

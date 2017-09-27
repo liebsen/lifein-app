@@ -20,14 +20,8 @@
     
     var data = $(this).serializeObject()
     , updates = {}
-    , key = data.tag 
+    , key = $(this).attr('key')
 
-    if(!data.tag){
-      return swal("Se necesitan mas datos", "Ingresa etiqueta","warning")
-    }
-
-    delete data.tag 
-      
     updates[currentnode +'/' + key] = data
 
     $('.spinner').fadeIn(anim.transition.fadeIn, function(){
