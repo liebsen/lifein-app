@@ -1,12 +1,12 @@
 {
-    "name": "flydevs/musicjuggle",
-    "description": "Music Juggle",
+    "name": "martinfree/lifein-app",
+    "description": "Life In",
     "type": "web administrator",
     "keywords": [
         "music",
         "administrator"
     ],
-    "homepage": "https://musicjuggle.com",
+    "homepage": "https://lifein-app.com",
     "license": "MIT",
     "authors": [
         {
