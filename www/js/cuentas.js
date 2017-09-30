@@ -37,41 +37,13 @@
           if(newKey){
             var emailData = data
             emailData.password = helper.randomString(12)
-            secondaryApp.auth().createUserWithEmailAndPassword(data.email, emailData.password).then(function(user) {
-              user.updateProfile({
-                displayName: data.nombre + ' ' + data.apellido,
-                photoURL: ''
-              }).then(function() {
-                $.ajax({
-                  method :'get',
-                  url : '/sharer',
-                  data : { 
-                    email_to: data.email, 
-                    name_to: data.nombre, 
-                    title: $.templates('#email_title').render(emailData),
-                    content : $.templates('#email_message').render(emailData)
-                  },
-                  success : function(resp){
-                    if(resp.status!='success') swal("Error","Error al enviar notificación","error")
-                    $('#detail').fadeOut(anim.transition.fadeOut,function(){
-                      $('.lista').delay(anim.transition.delay).fadeIn(anim.transition.fadeIn,function(){
-                        helper.resetScroll()
-                        $('.spinner').fadeOut(anim.transition.fadeOut)
-                      })
-                    })                     
-                  }
+            LI.createAccount('email',emailData).then(function(){
+              $('#detail').fadeOut(anim.transition.fadeOut,function(){
+                $('.lista').delay(anim.transition.delay).fadeIn(anim.transition.fadeIn,function(){
+                  helper.resetScroll()
+                  $('.spinner').fadeOut(anim.transition.fadeOut)
                 })
-              }, function(error) {
-                swal('Error',error,'error')
-              });        
-            }, function(error) {
-              var errorCode = error.code
-              , errorMessage = error.message
-              if (errorCode == 'auth/weak-password') {
-                swal('Error','La contraseña es demasiado débil.','error');
-              } else {
-                swal('Error',error,'error')
-              }
+              }) 
             })
           } else {             
             $('#detail').fadeOut(anim.transition.fadeOut,function(){

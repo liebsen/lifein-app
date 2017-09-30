@@ -19,14 +19,17 @@ var helper = {
 	}
 	, checkUser : function(user){
 		if(!user) return 
-        if(user.scope != 'super' && user.scope != key && location.href != '/' + user.scope + '/menu'){
+        if(typeof user.scope == 'object' && user.scope[0] != key && location.href != '/' + user.scope + '/menu'){
             return location.href = '/' + user.scope + '/menu'
         }
         $('.session-status').html(user.email)
+        console.log("layout")
+        console.log(user.layouts)
+        
         if(key && user.layouts && user.layouts[key]){
             var layout = user.layouts[key]
             , title = $(document).prop('title')
-	        $(document).prop('title', title.replace("LifeIn",user.area))
+	        $(document).prop('title', title.replace(user.room))
             this.setStyleSheet($.templates('#layout').render(layout)) 
         }
 	}
@@ -149,22 +152,5 @@ var helper = {
         if(!results) return ''
         if(!results[2]) return ''
         return decodeURI(results[2].replace(/\+/g, " "))
-    }
-    , spotify : {
-    	getArtists : function(artists){
-    		var parts = []
-    		for(var i in artists){
-    			parts.push(artists[i].name)
-    		}
-    		return parts
-    	}
-		, isActive : function(id){
-			var jsonstr = $('.song.active').attr('json')
-			var json = $.parseJSON(jsonstr)
-			return json.data.id == id
-		}
-		, toJSON : function(json){
-			return JSON.stringify(json)
-		}
     }
 }

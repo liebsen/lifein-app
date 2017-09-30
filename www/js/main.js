@@ -275,5 +275,35 @@ $(document).on('keyup','.filtro',function(e){
     })
 })
 
+$(document).on('click','.bind-entry',function(){
+    var url = $(this).attr('url')
+    , key = $(this).attr('key')
+    , val = $(this).attr('val')
+
+    $('.spinner').fadeIn(anim.transition.fadeIn, function(){
+        firebase.database().ref(url).orderByChild(key).equalTo(val).once('value', function(snap) {
+            var item = snap.val()
+            $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor)
+            if(item){
+                var snapKey = Object.keys(item)[0]
+                return swal({
+                  title: null,
+                  text: $.templates('#bind_entry').render(item[snapKey]),
+                  type: "success",
+                  showCancelButton: false,
+                  confirmButtonColor: "#DD6B55",
+                  confirmButtonText: "OK",
+                  closeOnConfirm: false,
+                  html: true
+                },
+                function(){
+                  swal.close()
+                })
+            }
+            return swal("Error","no se encontró " + val + " en " + url,"error")
+        })
+    })
+})
+
 moment.locale('es')
 $.views.settings.delimiters("[[", "]]")

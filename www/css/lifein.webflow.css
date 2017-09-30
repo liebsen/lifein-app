@@ -614,7 +614,7 @@ textarea:focus {
   display: inline-block;
   padding-right: 10px;
   padding-left: 10px;
-  background-color: #223c61;
+  background-color: #34c5e4;
   color: #fff;
   text-align: center;
   text-transform: uppercase;
@@ -632,7 +632,7 @@ textarea:focus {
 
 .form-wrapper {
   display: block;
-  width: 60%;
+  max-width: 1200px;
   margin-right: auto;
   margin-bottom: 50px;
   margin-left: auto;

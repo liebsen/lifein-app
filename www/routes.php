@@ -136,7 +136,7 @@
     	$mail->SMTPSecure = getenv('MAIL_SMTP_SECURE');
     	$mail->Port = getenv('MAIL_SMTP_PORT');
     	$mail->setFrom($email_from?:getenv('MAIL_FROM'), $name_from?:getenv('MAIL_FROM_NAME'));
-        $mail->Subject   = $title;
+        $mail->Subject   = $subject;
     	$mail->Body    = $content;
     	$mail->AltBody = $content;
     	

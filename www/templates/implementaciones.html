@@ -2,86 +2,159 @@
 
 {% block head %}
   <title>{{app_title}} Implementaciones</title>
+  <link href="/css/jquery.datetimepicker.min.css?_=59a4295c76289e96428584f8" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
 
-    <div id="detail"></div>
-    <div class="lista">
-      <h3>Implementaciones</h3>
-      <div class="subnav">
-        <input class="w-button add-grupo" type="button" value="Agregar Implementación">
-        <input class="w-button export" name="implementaciones" type="button" value="Exportar CSV">
-        <input type="text" class="input w-input filtro" maxlength="256" name="search" placeholder="Buscar..." autocomplete="off" />
-      </div>    
-      <div class="row title">
-        <div class="list-item">
-          <div>ID</div>
-        </div>
-        <div class="list-item w-hidden-small w-hidden-tiny">
-          <div>Nombre</div>
-        </div>
-        <div class="list-item w-hidden-small w-hidden-tiny">
-          <div>Email</div>
-        </div>
-        <div class="list-item csv-exclude">
-          <div>Acción</div>
-        </div>
+  <div id="detail"></div>
+  <div class="lista">
+    <h3>Implementaciones</h3>
+    <div class="subnav">
+      <input class="w-button add-item" type="button" value="Agregar Implementación">
+      <input class="w-button export" name="implementaciones" type="button" value="Exportar CSV">
+      <input type="text" class="input w-input filtro" maxlength="256" name="search" placeholder="Buscar..." autocomplete="off" />
+    </div>    
+    <div class="row title">
+      <div class="list-item">
+        <div>ID</div>
       </div>
-      <div id="list"></div>
+      <div class="list-item w-hidden-small w-hidden-tiny">
+        <div>Nombre</div>
+      </div>
+      <div class="list-item w-hidden-small w-hidden-tiny">
+        <div>Email</div>
+      </div>
+      <div class="list-item w-hidden-small w-hidden-tiny">
+        <div>Tel</div>
+      </div>
+      <div class="list-item w-hidden-small w-hidden-tiny">
+        <div>Administrador</div>
+      </div>
+      <div class="list-item csv-exclude">
+        <div>Acción</div>
+      </div>
     </div>
+    <div id="list"></div>
+  </div>
 
-    <script id="item" type="text/x-jsrender">
-      <div class="row" id="[[:key]]">
-        <div class="list-item">
-          <div>[[:key]]</div>
-        </div>
-        <div class="list-item w-hidden-small w-hidden-tiny">
-          <div>[[:data.titulo]]</div>
-        </div>
-        <div class="list-item w-hidden-small w-hidden-tiny">
-          <div>[[:data.email]]</div>
-        </div>
-        <div class="list-item csv-exclude">
-          <a class="action editar text-link" data-key="[[:key]]" href="#">Ver / Editar</a>
-          <a class="action text-link" href="/[[:key]]/menu">Administrar</a>
-          <a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
-        </div>
+  <script id="item" type="text/x-jsrender">
+    <div class="row" id="[[:key]]">
+      <div class="list-item">
+        <div>[[:key]]</div>
       </div>
-    </script>
+      <div class="list-item w-hidden-small w-hidden-tiny">
+        <div>[[:data.titulo]]</div>
+      </div>
+      <div class="list-item w-hidden-small w-hidden-tiny">
+        <div><a href="mailto:[[:data.email]]">[[:data.email]]</a></div>
+      </div>
+      <div class="list-item w-hidden-small w-hidden-tiny">
+        <div><a href="call:[[:data.telefono]]">[[:data.telefono]]</a></div>
+      </div>
+      <div class="list-item w-hidden-small w-hidden-tiny">
+      [[if admins.length]]
+        [[for admins]]
+        <div class="bind" url="/cuentas" key="email" val="[[:email]]"><span class="alert-text">[[:nombre]]</span></div>
+        [[/for]]
+      [[else]]
+        <div><span class="warning-text">No tiene</span></div>
+      [[/if]]
+      </div>
+      <div class="list-item csv-exclude">
+        <a class="action editar text-link" data-key="[[:key]]" href="#">Ver / Editar</a>
+        <a class="action text-link" href="/[[:key]]/menu">Administrar</a>
+        <a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
+      </div>
+    </div>
+  </script>
 
-    <script id="form" type="text/x-jsrender">
-      <div class="form-wrapper w-form2">
-        <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]">
-          <h3>Datos básicos de implementación</h3>
-          <label for="titulo">Nombre</label>
-          <input class="input w-input" maxlength="256" name="titulo" placeholder="Nombre de la implementación" type="text" value="[[if data && data.titulo]][[:data.titulo]][[/if]]" required>
-          <label for="Email-7">email</label>
-          <input class="input w-input" maxlength="256" name="email" placeholder="ale@gmail.com" type="email" value="[[if data && data.email]][[:data.email]][[/if]]" required>
-          <hr>
-          <label for="telefono">Teléfono</label>
-          <input class="input w-input" maxlength="256" name="telefono" placeholder="-" type="text" value="[[if data && data.telefono]][[:data.telefono]][[/if]]">
-          <label for="Plan-2">país</label>
-          <select class="w-select" name="pais">
+  <script id="form" type="text/x-jsrender">
+    <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]">
+      <div class="form-wrapper">
+        <div class="w-col w-col-6">
+          <h3>Implementación</h3>
+
+          <label for="Plan-2">Plan</label>
+          <select class="w-select" name="implementacion_plan">
             <option value="">Seleccioná ...</option>
-          [[for datosdeapoyo.paises]]
-            <option value="[[>#data]]"[[if ~root.data && ~root.data.pais == #data]] selected[[/if]]>[[>#data]]</option>
+          [[for datosdeapoyo.planes]]
+            <option value="[[>#data]]"[[if ~root.data && ~root.data.plan == #data || ~root.data && ~root.data.plan != #data && #data == 'Inicial']] selected[[/if]]>[[>#data]]</option>
           [[/for]]
           </select>
+
+          <label for="titulo">Nombre</label>
+          <input class="input w-input" maxlength="256" name="implementacion_titulo" placeholder="Nombre de la implementación" type="text" value="[[if data && data.titulo]][[:data.titulo]][[/if]]" required>
+
+          <label for="Email-7">Dirección</label>
+          <input class="input w-input" maxlength="256" name="implementacion_direccion" id="implementacion_direccion" placeholder="Ruta 8 km10, Moreno, Buenos Aires" type="text" value="[[if data && data.direccion]][[:data.direccion]][[/if]]" required>
+
+          <label for="Email-7">Email</label>
+          <input class="input w-input" maxlength="256" name="implementacion_email" placeholder="ale@gmail.com" type="email" value="[[if data && data.email]][[:data.email]][[/if]]" required>
+
+          <label for="Email-7">Sitio web</label>
+          <input class="input w-input" maxlength="256" name="implementacion_web" placeholder="https://barriolossauces.com.ar" type="text" value="[[if data && data.web]][[:data.web]][[/if]]">
+          
+          <label for="telefono">Teléfono</label>
+          <input class="input w-input" maxlength="256" name="implementacion_telefono" placeholder="4333-5555" type="text" value="[[if data && data.telefono]][[:data.telefono]][[/if]]">
+
+        </div>
+        <div class="w-col w-col-6">
+          <h3>Administrador</h3>
+
+          <label for="Plan-2">Estado</label>
+          <select class="w-select" name="administrador_estado">
+            <option value="habilitado">Seleccioná ...</option>
+            <option value="habilitado"[[if admin && admin.estado == 'habilitado']] selected[[/if]]>Habilitado</option>
+            <option value="deshabilitado"[[if admin && admin.estado == 'deshabilitado']] selected[[/if]]>Desabilitado</option>
+          </select>
+                    
+          <label for="titulo">Nombre</label>
+          <input class="input w-input" maxlength="256" name="administrador_nombre" placeholder="Nombre de la implementación" type="text" value="[[if admin && admin.nombre]][[:admin.nombre]][[/if]]" required>
+
+          <label for="Email-7">Email</label>
+          <input class="input w-input" maxlength="256" name="administrador_email" placeholder="ale@gmail.com" type="email" value="[[if admin && admin.email]][[:admin.email]][[/if]]" required>
+          
+          <label for="telefono">Teléfono</label>
+          <input class="input w-input" maxlength="256" name="administrador_telefono" placeholder="4333-5555" type="text" value="[[if admin && admin.telefono]][[:admin.telefono]][[/if]]">
+
+          <label for="telefono">Empresa</label>
+          <input class="input w-input" maxlength="256" name="administrador_empresa" placeholder="Empresa" type="text" value="[[if admin && admin.empresa]][[:admin.empresa]][[/if]]">
+
+          <label for="telefono">Caduca</label>
+          <input class="input w-input datetimepicker" maxlength="256" name="administrador_caduca" id="administrador_caduca" placeholder="" type="text" value="[[if admin && admin.caduca]][[:admin.caduca]][[/if]]">
+
+        </div>
+        <div class="w-col w-col-12">
           <input class="w-button cerrar" type="button" value="Cerrar">
           <input class="buttons w-button" data-wait="Guardando..." type="submit" value="Guardar cambios">
-        </form>
-        <div class="w-form-done">
-          <div>Thank you! Your submission has been received!</div>
-        </div>
-        <div class="w-form-fail">
-          <div>Oops! Something went wrong while submitting the form</div>
         </div>
       </div>  
-    </script>
+    </form>
+  </script>
+
+  <script id="email_subject" type="text/x-jsrender">
+    Bienvenido a Life In
+  </script>
+
+  <script id="email_title" type="text/x-jsrender">
+    Bienvenido [[:nombre]] a Life In
+  </script>
+
+  <script id="email_message" type="text/x-jsrender">
+    Bienvenido [[:nombre]] a Life In.<br> 
+    Has sido asignado como administrador para la implementación [[:implementacion]].<br> 
+    Tus datos de acceso son los siguientes.<br> 
+    Nombre de usuario: [[:email]]<br>
+    Contraseña: [[:password]]<br>
+    URL: https://lifeinapp.herokuapp.com<br>
+  </script>
 
 {% endblock %}
 
 {% block assets %}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpktUQ26-j4iKtdZQwMPZROHWR4cUN5aQ&libraries=places"
+        async defer></script>
+    <script src="/js/jquery.datetimepicker.full.min.js?_=59a4295c76289e96428584f8" type="text/javascript"></script>
     <script src="/js/implementaciones.js" type="text/javascript"></script>    
 {% endblock %}
