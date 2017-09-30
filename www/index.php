@@ -25,9 +25,7 @@
             'cache' => false
         ]);
 
-        var_dump($_ENV);
-        var_dump($_ENV['SOURCE_VERSION']);
-        var_dump(getenv('SOURCE_VERSION'));
+        var_dump(file_get_contents('.profile.d/source_version.sh'));
         exit;
         // Instantiate and add Slim specific extension
         $basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
