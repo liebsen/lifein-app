@@ -25,10 +25,6 @@
             'cache' => false
         ]);
 
-        var_dump($_ENV);
-        var_dump($_ENV['SOURCE_VERSION']);
-        var_dump(getenv('SOURCE_VERSION'));
-        exit;
         // Instantiate and add Slim specific extension
         $basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
         $view->offsetSet('rev_parse', $_ENV['SOURCE_VERSION'] || exec('git rev-parse HEAD'));
