@@ -27,7 +27,7 @@
 
         // Instantiate and add Slim specific extension
         $basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
-        $view->offsetSet('rev_parse', substr(exec('git rev-parse HEAD'),0,7));
+        $view->offsetSet('rev_parse', getenv('SOURCE_VERSION') || "1");
         $view->offsetSet('base_path', $basePath);
         $view->offsetSet('app_title', getenv('APP_TITLE'));
         $view->offsetSet('currentyear', date('Y'));
