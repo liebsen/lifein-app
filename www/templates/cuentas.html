@@ -10,7 +10,7 @@
   <div class="lista">
     <h3>Cuentas</h3>
     <div class="subnav">
-      <input class="w-button add-cuenta" type="button" value="Agregar Cuenta">
+      <input class="w-button add-item" type="button" value="Agregar Cuenta">
       <input class="w-button export" name="cuentas" type="button" value="Exportar CSV">
       <input type="text" class="input w-input filtro" maxlength="256" name="search" placeholder="Buscar..." autocomplete="off" />
     </div>    
@@ -50,25 +50,50 @@
   <script id="form" type="text/x-jsrender">
     <div class="form-wrapper w-form2">
       <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]">
-        <h3>Perfil del usuario</h3>
-        <label for="nombre">Nombre</label>
-        <input class="input w-input" maxlength="256" name="nombre" placeholder="Alejandro" type="text" value="[[if data && data.nombre]][[:data.nombre]][[/if]]" required>
-        <label for="Apellido">Apellido</label>
-        <input class="input w-input" maxlength="256" name="apellido" placeholder="Ramirez" type="text" value="[[if data && data.apellido]][[:data.apellido]][[/if]]" required>
-        <label for="Email-7">email</label>
-        <input class="input w-input" maxlength="256" name="email" placeholder="ale@gmail.com" type="email" value="[[if data && data.email]][[:data.email]][[/if]]" required>
-        <hr>
-        <label for="telefono">Teléfono</label>
-        <input class="input w-input" maxlength="256" name="telefono" placeholder="-" type="text" value="[[if data && data.telefono]][[:data.telefono]][[/if]]">
-        <label for="Plan-2">país</label>
-        <select class="w-select" name="pais">
-          <option value="">Seleccioná ...</option>
-        [[for datosdeapoyo.paises]]
-          <option value="[[>#data]]"[[if ~root.data && ~root.data.pais == #data]] selected[[/if]]>[[>#data]]</option>
-        [[/for]]
-        </select>
-        <input class="w-button cerrar" type="button" value="Cerrar">
-        <input class="buttons w-button" data-wait="Guardando..." type="submit" value="Guardar cambios">
+        <div class="w-col w-col-6">
+          <h3>Cuenta</h3>
+          <label for="Email-7">Email</label>
+          <input class="input w-input" maxlength="256" name="email" placeholder="ale@gmail.com" type="email" value="[[if data && data.email]][[:data.email]][[/if]]" required>
+
+          <label for="telefono">Teléfono</label>
+          <input class="input w-input" maxlength="256" name="telefono" placeholder="-" type="text" value="[[if data && data.telefono]][[:data.telefono]][[/if]]">
+        </div>
+        <div class="w-col w-col-6">
+          <h3>Perfil</h3>
+
+          <div class="foto link-foto" style="background-image:url([[if data && data.foto]][[:data.foto]][[else]]https://firebasestorage.googleapis.com/v0/b/lifeindev-808c2.appspot.com/o/images%2Fdummy_user.png?alt=media&token=9421354b-b0a2-4e8f-85d0-9fac6917e103[[/if]]);background-position: 0 0;background-size: cover;border-color:fff">
+          </div>
+
+          <label for="nombre">Nombre</label>
+          <input class="input w-input" maxlength="256" name="nombre" placeholder="Alejandro" type="text" value="[[if data && data.nombre]][[:data.nombre]][[/if]]" required>
+
+          <label for="Apellido">Apellido</label>
+          <input class="input w-input" maxlength="256" name="apellido" placeholder="Ramirez" type="text" value="[[if data && data.apellido]][[:data.apellido]][[/if]]" required>
+
+          <label for="Apellido">Dirección</label>
+          <input class="input w-input" maxlength="256" name="direccion" placeholder="Av. Rivadavia 1234" type="text" value="[[if data && data.direccion]][[:data.direccion]][[/if]]" required>
+
+          <label for="Apellido">unidad funcinal</label>
+          <input class="input w-input" maxlength="256" name="manzana_ufuncinal" placeholder="A" type="text" value="[[if data && data.manzana_ufuncinal]][[:data.manzana_ufuncinal]][[/if]]" required>
+
+          <label for="Apellido">manzana ufuncinal</label>
+          <input class="input w-input" maxlength="256" name="manzana_ufuncinal" placeholder="2A" type="text" value="[[if data && data.manzana_ufuncinal]][[:data.manzana_ufuncinal]][[/if]]" required>
+
+          <label for="Apellido">piso_manzana</label>
+          <input class="input w-input" maxlength="256" name="piso_manzana" placeholder="2" type="text" value="[[if data && data.piso_manzana]][[:data.piso_manzana]][[/if]]" required>
+          
+          <label for="Plan-2">Plan</label>
+          <select class="w-select" name="pais">
+            <option value="">Seleccioná ...</option>
+          [[for datosdeapoyo.planes]]
+            <option value="[[>#data]]"[[if ~root.data && ~root.data.planes == #data]] selected[[/if]]>[[>#data]]</option>
+          [[/for]]
+          </select>
+        </div>
+        <div class="w-col w-col-12">
+          <input class="w-button cerrar" type="button" value="Cerrar">
+          <input class="buttons w-button" data-wait="Guardando..." type="submit" value="Guardar cambios">
+        </div>
       </form>
       <div class="w-form-done">
         <div>Thank you! Your submission has been received!</div>

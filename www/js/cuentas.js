@@ -60,11 +60,12 @@
     return false  
   })
 
-  $(document).on('click','.add-cuenta',function(e){
+  $(document).on('click','.add-item',function(e){
     $('#detail').html($.templates('#form').render({key:null,data:{plan:""},datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
       $('.lista').fadeOut(anim.transition.fadeOut,function(){
         $('#detail').delay(200).fadeIn(anim.transition.fadeOut*anim.transition.factor,function(){
           $('body,html').scrollTop(0)
+          LI.initAutocomplete('direccion')
         })
       })    
     })  
@@ -81,6 +82,7 @@
             $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
               $('#detail').delay(200).fadeIn(anim.transition.fadeOut*anim.transition.factor,function(){
                 $('body,html').scrollTop(0)
+                LI.initAutocomplete('direccion')
               })
             })
           })

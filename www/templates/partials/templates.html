@@ -36,7 +36,7 @@
           <input type="hidden" name="foto" value="[[if data && data.layout && data.layout.foto]][[:data.layout.foto]][[/if]]">
           
           <div class="w-col w-col-4">
-
+            <h3>Datos básicos</h3>
             <label for="nombre">ID</label>
             <input class="input w-input" maxlength="256" name="nombre" placeholder="Key" type="text" value="[[:key]]" disabled>
             <label for="Apellido">Implementación</label>
@@ -45,6 +45,7 @@
             <input class="input w-input" maxlength="256" name="email" placeholder="ale@gmail.com" type="email" value="[[if data && data.email]][[:data.email]][[/if]]" required>
           </div>
           <div class="w-col w-col-4">
+            <h3>Estilos personalizados</h3>
             <div class="w-col w-col-6">
               <label for="telefono">Color de fondo</label>
               <input type="text" name="colorfondo" id="colorfondo" class="input w-input minicolors" data-format="rgb" data-opacity=".5" value="[[if data && data.layout && data.layout.colorfondo]][[:data.layout.colorfondo]][[else]]#ffffff[[/if]]">
@@ -71,6 +72,7 @@
             </select>
           </div>
           <div class="w-col w-col-4">
+            <h3>Datos generales</h3>
             <label for="telefono">Teléfono</label>
             <input class="input w-input" maxlength="256" name="telefono" placeholder="Teléfono" type="text" value="[[if data && data.telefono]][[:data.telefono]][[/if]]">
             <label for="telefono">Dirección</label>
