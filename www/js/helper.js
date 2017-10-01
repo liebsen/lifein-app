@@ -10,7 +10,6 @@ var LI = {
         var input = document.getElementById(name)
         var autocomplete = new google.maps.places.Autocomplete(input)
 
-        console.log("autocomplete:"+name)
         autocomplete.addListener('place_changed', function() {
             var place = autocomplete.getPlace();
             if (!place.geometry) {
@@ -80,6 +79,11 @@ var LI = {
 		  {"slug":"showmodal","name":"ShowModal","value":{"style":{},"triggers":[{"type":"click","selector":".modalcontainer","stepsA":[{"display":"block","opacity":0},{"display":"block","opacity":1,"transition":"opacity 500ms ease 0"}],"stepsB":[]}]}},
 		  {"slug":"hidemodal","name":"HideModal","value":{"style":{},"triggers":[{"type":"click","selector":".modalcontainer","stepsA":[{"opacity":0,"transition":"opacity 250ms ease 0"},{"display":"none"}],"stepsB":[]}]}}
 		])
+        $('.minicolors').each(function(){
+          if( ! $(this).hasClass('minicolors-theme-default')){
+            $(this).minicolors({format:'rgba'})
+          }
+        })
 		Webflow.ready()
 	}	
 	, setScroll : function(){

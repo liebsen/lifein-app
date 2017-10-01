@@ -73,23 +73,25 @@
                   emailData.implementacion = updates.implementacion.titulo
                   emailData.password = LI.randomString(12)
                   LI.createAccount('email',emailData).then(function(){
-                    resolve()
+                    resolve(true)
                   })
                 })
               } else {
-                resolve()
+                resolve(false)
               }  
             }
           })
-        }).then(function(){
+        }).then(function(newAccount){
           return firebase.database().ref(currentnode + '/' + key).set(updates.implementacion, function(error){
             if(error){
               swal("Error",error,"error")
             }else{
-              $('#detail').fadeOut(anim.transition.fadeOut,function(){
-                $('.lista').fadeIn(anim.transition.fadeIn,function(){
-                  LI.resetScroll()
-                  $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor)
+              $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor, function(){
+                $('#detail').fadeOut(anim.transition.fadeOut,function(){
+                  $('.lista').fadeIn(anim.transition.fadeIn,function(){
+                    LI.resetScroll()
+                    swal("Implementaciones","La implementación ha sido actualizada. " + ( newAccount ? "Se ha enviado una notificación de bienvenida con los datos de ingreso al administrador." : "" ),"success")
+                  })
                 })
               }) 
             }

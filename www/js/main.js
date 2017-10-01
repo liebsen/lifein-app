@@ -92,12 +92,13 @@ $(function(){
 
 $(document).on('click','.preferencias',function(){
     LI.setScroll()
+    if($('.modalcontainer').html() != '') return $('.modalcontainer').fadeIn()
+    console.log($('.modalcontainer').length)
     $('.spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){
         firebase.database().ref('implementaciones/'+key).once('value').then(function(grupo) {
-            $('.modalcontainer').html($.templates('#preferencias').render({key:grupo.key,data:grupo.val(),datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
-                LI.resetWebflow()
-                $('.minicolors').minicolors({format:'rgba'});
-                $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
+            $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
+                $('.modalcontainer').html($.templates('#preferencias').render({key:grupo.key,data:grupo.val(),datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
+                    LI.resetWebflow()                
                     $('body,html').scrollTop(0)
                 })
             })
@@ -118,11 +119,6 @@ $(document).on('submit','#preferencias',function(e){
       , colorboton : data.colorboton
       , colortextoboton : data.colortextoboton
     }
-
-    console.log(data)
-
-    return 
-
 
     delete data.foto
     delete data.fondo
@@ -189,22 +185,17 @@ $(document).on('submit','#preferencias',function(e){
 
         fbuser.layouts[key] = data.layout
         localStorage.setItem("firebaseuser",JSON.stringify(fbuser))
-        LI.setStyleSheet($.templates('#layout').render(layout)) 
-
+        LI.setStyleSheet($.templates('#layout').render(data.layout)) 
 
         return firebase.database().ref().update(updates, function(error){
           if(error){
-            console.log(error)
-            return false
-          }else{
-            $('#detail').fadeOut(anim.transition.fadeOut,function(){
-              $('.lista').delay(anim.transition.delay).fadeIn(anim.transition.fadeIn,function(){
-                LI.resetScroll()
-                swal("Preferencias","Las preferencias han sido actualizadas","success")
-                $('.spinner').fadeOut(anim.transition.fadeOut)
-              })
-            }) 
+            swal("Error firebase",error,"error")
           }
+          $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
+            $('.modalcontainer').fadeOut(anim.transition.fadeOut)
+            LI.resetScroll()
+            swal("Preferencias","Las preferencias han sido actualizadas","success")
+          })
         })
       })
     })

@@ -122,7 +122,7 @@
 
         $body['currentyear'] = date('Y');
         $body['api_url'] = $container->request->getUri()->getScheme() . '://' . $container->request->getUri()->getHost();
-        $body['content'] = htmlentities($body['content']);
+        $body['content'] = html_entity_decode($body['content']);
         $content = $view->fetch('emails/' . $template,$body);
 
     	$mail = new PHPMailer;

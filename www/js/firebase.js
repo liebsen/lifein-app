@@ -53,10 +53,6 @@ firebase.auth().onAuthStateChanged(function(user) {
           , key = room.key
           , inscope = $.inArray(key, user.scope) > -1 
 
-          console.log(inscope)
-          console.log(key)
-          console.log(user.scope)
-
           if(user.scope == "s" || inscope){
             layouts[key] = row.layout
           }
