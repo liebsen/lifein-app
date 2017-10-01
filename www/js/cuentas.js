@@ -22,6 +22,8 @@
     , newKey = undefined 
     , key = $(this).attr('key')
 
+    data.geo : { lat: $('#direccion').attr('lat'), lng : $('#direccion').attr('lng') }
+
     if(key){
       updates[currentnode + '/' + key] = data
     } else {
@@ -77,12 +79,17 @@
     LI.setScroll()
     $('.spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){
       firebase.database().ref(currentnode+'/'+key).once('value').then(function(cuenta) {
-        $('#detail').html($.templates('#form').render({key:cuenta.key,data:cuenta.val(),datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
+        var data = cuenta.val()
+        $('#detail').html($.templates('#form').render({key:cuenta.key,data:data,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
           $('.lista').fadeOut(anim.transition.fadeOut,function(){
             $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
               $('#detail').delay(200).fadeIn(anim.transition.fadeOut*anim.transition.factor,function(){
-                $('body,html').scrollTop(0)
                 LI.initAutocomplete('direccion')
+                if(data.geo){
+                  $('#implementacion_direccion')
+                    .attr('lat',data.geo.lat)
+                    .attr('lng',data.geo.lng)
+                $('body,html').scrollTop(0)
               })
             })
           })

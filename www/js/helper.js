@@ -6,10 +6,11 @@ var LI = {
     , settings : {
         defaultRoom : "LifeIn"
     }
-    , initAutocomplete : function (name, global){
+    , initAutocomplete : function (name){
         var input = document.getElementById(name)
         var autocomplete = new google.maps.places.Autocomplete(input)
 
+        console.log("autocomplete:"+name)
         autocomplete.addListener('place_changed', function() {
             var place = autocomplete.getPlace();
             if (!place.geometry) {
@@ -26,7 +27,6 @@ var LI = {
             }
         })
     }
-
     , createAccount : function(tpl, data){
         return $.Deferred(function(def) {
             secondaryApp.auth().createUserWithEmailAndPassword(data.email, data.password).then(function(user) {

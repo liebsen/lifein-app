@@ -563,14 +563,17 @@ textarea:focus {
 }
 
 .foto {
-  position: absolute;
-  bottom:15px;
-  left:20px;
   border: 4px solid #fff;
   width:120px;
   height:120px;
   border-radius: 50%;
   cursor: pointer;
+}
+
+.foto.abs {
+  position: absolute;
+  bottom:15px;
+  left:20px;
 }
 
 .texto {
