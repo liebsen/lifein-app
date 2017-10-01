@@ -93,6 +93,7 @@
                     .attr('lat',data.geo.lat)
                     .attr('lng',data.geo.lng)
                 $('body,html').scrollTop(0)
+                }
               })
             })
           })
