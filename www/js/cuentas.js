@@ -22,7 +22,10 @@
     , newKey = undefined 
     , key = $(this).attr('key')
 
-    data.geo : { lat: $('#direccion').attr('lat'), lng : $('#direccion').attr('lng') }
+    data.geo = { 
+      lat: $('#direccion').attr('lat')
+      , lng : $('#direccion').attr('lng') 
+    }
 
     if(key){
       updates[currentnode + '/' + key] = data
