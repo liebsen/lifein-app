@@ -1,8 +1,77 @@
-var helper = {
+var LI = {
 	lastscrollpos : 0
 	, child_added_index : 0
 	, count : 0
 	, delay : 0	
+    , settings : {
+        defaultRoom : "LifeIn"
+    }
+    , initAutocomplete : function (name, global){
+        var input = document.getElementById(name)
+        var autocomplete = new google.maps.places.Autocomplete(input)
+
+        autocomplete.addListener('place_changed', function() {
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+              // User entered the name of a Place that was not suggested and
+              // pressed the Enter key, or the Place Details request failed.
+              window.alert("No details available for input: '" + place.name + "'");
+              return;
+            }
+            if (place.geometry.viewport) {
+              var latlng = place.geometry.location.toJSON()
+              $('#'+name)
+                .attr('lat',latlng.lat)
+                .attr('lng',latlng.lng)
+            }
+        })
+    }
+
+    , createAccount : function(tpl, data){
+        return $.Deferred(function(def) {
+            secondaryApp.auth().createUserWithEmailAndPassword(data.email, data.password).then(function(user) {
+                user.updateProfile({
+                    displayName: data.nombre + ' ' + data.apellido,
+                    photoURL: ''
+                }).then(function() {
+                    $.ajax({
+                        method :'get',
+                        url : '/sharer',
+                        data : { 
+                            email_to: data.email, 
+                            name_to: data.nombre, 
+                            subject: $.templates('#'+tpl+'_subject').render(data),
+                            title: $.templates('#'+tpl+'_title').render(data),
+                            content : $.templates('#'+tpl+'_message').render(data)
+                        },
+                        success : function(resp){
+                            if(resp.status!='success') swal("Error","Error al enviar notificación","error")
+                            def.resolve()
+                        }
+                    })
+                }, function(error) {
+                    swal('Error',error,'error')
+                    def.reject()
+                });        
+            }, function(error) {
+                var errorCode = error.code
+                , errorMessage = error.message
+                if (errorCode == 'auth/weak-password') {
+                    swal('Error','La contraseña es demasiado débil.','error');
+                } else {
+                    swal('Error',error,'error')
+                }
+                def.reject()
+            })
+        })
+    }
+    , tools : {
+        getResource : function(url){
+            firebase.database().ref(url).once('value', function(snap) {
+                console.log(snap.val())
+            })
+        }
+    }
 	, resetScroll : function(){
 		$('body,html').scrollTop(this.lastscrollpos)
 	}
@@ -22,9 +91,8 @@ var helper = {
         if(typeof user.scope == 'object' && user.scope[0] != key && location.href != '/' + user.scope + '/menu'){
             return location.href = '/' + user.scope + '/menu'
         }
+
         $('.session-status').html(user.email)
-        console.log("layout")
-        console.log(user.layouts)
         
         if(key && user.layouts && user.layouts[key]){
             var layout = user.layouts[key]
@@ -47,55 +115,43 @@ var helper = {
 		head.appendChild(style)
 	}
 	, aux : {
-		audios : {
-			humanTime : function(date){
-				return moment(date).fromNow()
-			}
-			, getMimeType : function(url){
-				var extension = url.substr( (url.lastIndexOf('.') +1) )
-				, extension = extension.indexOf('?') > -1 ? extension.split("?")[0] : extension
-				, mimetype = extension
+		humanTime : function(date){
+			return moment(date).fromNow()
+		}
+		, getMimeType : function(url){
+			var extension = url.substr( (url.lastIndexOf('.') +1) )
+			, extension = extension.indexOf('?') > -1 ? extension.split("?")[0] : extension
+			, mimetype = extension
 
-				switch(extension) {
-				        case 'au':
-				        case 'snd':
-				        mimetype = "basic"
-				        break;
-				        case 'rmi':
-				        mimetype = "mid"
-				        break;
-				        case 'mp3':
-				        mimetype = "mpeg"
-				        break;
-				        case 'mp4':
-				        mimetype = "mp4"
-				        break;
-				        case 'aif':
-				        case 'aifc':
-				        case 'aiff':
-				        mimetype = "x-aiff"
-				        break;
-				}
+			switch(extension) {
+			        case 'au':
+			        case 'snd':
+			        mimetype = "basic"
+			        break;
+			        case 'rmi':
+			        mimetype = "mid"
+			        break;
+			        case 'mp3':
+			        mimetype = "mpeg"
+			        break;
+			        case 'mp4':
+			        mimetype = "mp4"
+			        break;
+			        case 'aif':
+			        case 'aifc':
+			        case 'aiff':
+			        mimetype = "x-aiff"
+			        break;
+			}
 
-				return mimetype
-			}
+			return mimetype
 		}
-		, consultas : {
-			humanTime : function(date){
-				return moment(date).fromNow()
-			}
+		, commaList: function(list){
+			return list.join(", ")
 		}
-		, cotizaciones : {
-			humanTime : function(date){
-				return moment(date).fromNow()
-			}
-			, commaList: function(list){
-				return list.join(", ")
-			}
-			, formatNumber : function (number){
-				return typeof Intl=='object' ? new Intl.NumberFormat().format(number) : number
-			}			
-		}
+		, formatNumber : function (number){
+			return typeof Intl=='object' ? new Intl.NumberFormat().format(number) : number
+		}			
 	}
     , animation : {
     	transition : {
@@ -107,12 +163,12 @@ var helper = {
     	}
 		, delayed : function(sel,delay) {
 			if(delay==undefined) delay = this.transition.delayed
-		  	$($(sel).eq(helper.count)).fadeIn()
-		  	helper.count += 1
-		  	delay = delay - helper.count/$(sel).length*delay
-			if (helper.count < helper.child_added_index) {
+		  	$($(sel).eq(LI.count)).fadeIn()
+		  	LI.count += 1
+		  	delay = delay - LI.count/$(sel).length*delay
+			if (LI.count < LI.child_added_index) {
 				setTimeout(function(){
-					helper.animation.delayed(sel)
+					LI.animation.delayed(sel)
 				}, delay)
 			}
 		}

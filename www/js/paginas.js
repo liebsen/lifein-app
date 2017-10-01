@@ -1,5 +1,5 @@
 var paginas = firebase.database().ref('/paginas')
-, anim = helper.animation
+, anim = LI.animation
 
 $(document).on('submit','#firebase-form',function(e){
   e.preventDefault()
@@ -23,7 +23,7 @@ $(document).on('submit','#firebase-form',function(e){
       }else{
         $('#detail').fadeOut(anim.transition.fadeOut,function(){
           $('.lista').fadeIn(anim.transition.fadeIn,function(){
-            //helper.resetScroll()
+            //LI.resetScroll()
             $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor)
           })
         }) 
@@ -35,7 +35,7 @@ $(document).on('submit','#firebase-form',function(e){
 })
 
 $(document).on('click','.add-pagina',function(e){
-  $('#detail').html($.templates('#form').render({key:null,data:{estado:""},aux:helper.aux.paginas},helper)).promise().done(function(){
+  $('#detail').html($.templates('#form').render({key:null,data:{estado:""},aux:LI.aux.paginas},LI)).promise().done(function(){
     $('.lista').fadeOut(anim.transition.fadeOut,function(){
       $('#detail').delay(200).fadeIn(anim.transition.fadeOut*anim.transition.factor,function(){
         $('body,html').scrollTop(0)
@@ -47,10 +47,10 @@ $(document).on('click','.add-pagina',function(e){
 $(document).on('click','.action.ver',function(){
   var key = $(this).data('key')
   $('body').attr('key',key)
-  helper.setScroll()
+  LI.setScroll()
   $('.spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){  
     firebase.database().ref('paginas/'+key).once('value').then(function(pagina) {
-      $('#detail').html($.templates('#form').render({key:pagina.key,data:pagina.val(),aux:helper.aux.paginas},helper)).promise().done(function(){
+      $('#detail').html($.templates('#form').render({key:pagina.key,data:pagina.val(),aux:LI.aux.paginas},LI)).promise().done(function(){
         $('.lista').fadeOut(anim.transition.fadeOut,function(){
           $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){                    
             $('#detail').delay(200).fadeIn(anim.transition.fadeOut*anim.transition.factor,function(){
@@ -82,14 +82,14 @@ $(document).on('click','.action.eliminar',function(){
 $(document).on('click','.cerrar',function(){
   $('#detail').fadeOut(anim.transition.fadeOut,function(){
     $('.lista').delay(anim.transition.delay).fadeIn(anim.transition.fadeIn,function(){
-      helper.resetScroll()
+      LI.resetScroll()
     })
   })
 })  
 
 // live fb handlers
 paginas.on('child_added', (data) => {
-  $('#list').prepend($.templates('#item').render({key:data.key,data:data.val()}, helper.aux.paginas)).promise().done(function(){
+  $('#list').prepend($.templates('#item').render({key:data.key,data:data.val()}, LI.aux.paginas)).promise().done(function(){
     $('#list').find('#'+data.key).animateAdded()
   })  
   $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor, function(){

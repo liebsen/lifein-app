@@ -37,6 +37,7 @@
         <link href="/css/gibson.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
         <link href="/css/lifein.webflow.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
         <link href="/css/sweetalert.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">  
+        <link href="/css/jquery.minicolors.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">  
 
         <!--script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js?_={{ rev_parse }}"></script>
         <script type="text/javascript">
@@ -47,8 +48,8 @@
           });
         </script-->
         <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
-        <script src="/js/modernizr-latest.js?_={{ rev_parse }}" type="text/javascript"></script>
-        <script src="/js/jquery.min.js?_={{ rev_parse }}" type="text/javascript"></script>        
+        <script src="/js/vendor/modernizr-latest.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/vendor/jquery.min.js?_={{ rev_parse }}" type="text/javascript"></script>        
         <link href="/images/favicon.png?_={{ rev_parse }}" rel="shortcut icon" type="image/x-icon">
         <link href="/images/Group.png?_={{ rev_parse }}" rel="apple-touch-icon">
     </head>
@@ -62,14 +63,17 @@
 
         {% block body %}{% endblock %}
 
+        {% include 'partials/templates.html' %}
+
         {% include 'partials/footer.html' %}
 
-        <script src="/js/webflow.js?_={{ rev_parse }}" type="text/javascript"></script>
-        <script src="/js/moment-with-locales.min.js?_={{ rev_parse }}" type="text/javascript"></script>
-        <script src="/js/jsrender.min.js?_={{ rev_parse }}" type="text/javascript"></script>
-        <script src="/js/sweetalert.min.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/vendor/webflow.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/vendor/moment-with-locales.min.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/vendor/jsrender.min.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/vendor/jquery.minicolors.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/vendor/sweetalert.min.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/vendor/html2csv.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/firebase.js?_={{ rev_parse }}" type="text/javascript"></script>
-        <script src="/js/html2csv.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/helper.js?_={{ rev_parse }}" type="text/javascript"></script>        
         <script src="/js/main.js?_={{ rev_parse }}" type="text/javascript"></script>
 
@@ -106,7 +110,7 @@
             , segments = 
 
             $('body').addClass(location.pathname.split('/').reverse()[0])
-            helper.checkUser(user)
+            LI.checkUser(user)
 
         </script>
 

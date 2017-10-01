@@ -1,6 +1,6 @@
 var ismobile=navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i)
 , authmessages={"auth/user-not-found":"Usuario no válido","auth/wrong-password":"La contrseña es inválida. Tal vez mayúsculas?"}
-, anim = helper.animation
+, anim = LI.animation
 , datosdeapoyo = {}  
 
 jQuery.fn.insertAt = function(index, element) {
@@ -80,7 +80,7 @@ $(function(){
     $('.w-nav-link').not('.custom').click(function(e){
       e.preventDefault()
       var that = this
-      $('body').fadeOut(helper.animation.transition.fadeOut*helper.animation.transition.factor,function(){
+      $('body').fadeOut(LI.animation.transition.fadeOut*LI.animation.transition.factor,function(){
         location.href = $(that).attr('href')
       })
       return false
@@ -90,13 +90,13 @@ $(function(){
     })
 })
 
-
 $(document).on('click','.preferencias',function(){
-    helper.setScroll()
+    LI.setScroll()
     $('.spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){
         firebase.database().ref('implementaciones/'+key).once('value').then(function(grupo) {
-            $('.modalcontainer').html($.templates('#preferencias').render({key:grupo.key,data:grupo.val(),datosdeapoyo:datosdeapoyo},helper)).promise().done(function(){
-                helper.resetWebflow()
+            $('.modalcontainer').html($.templates('#preferencias').render({key:grupo.key,data:grupo.val(),datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
+                LI.resetWebflow()
+                $('.minicolors').minicolors({format:'rgba'});
                 $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
                     $('body,html').scrollTop(0)
                 })
@@ -105,10 +105,9 @@ $(document).on('click','.preferencias',function(){
     })
 })
 
-
 $(document).on('submit','#preferencias',function(e){
     e.preventDefault()
-    console.log("1")
+
     var data = $(this).serializeObject()
     , updates = {}
     , layout = {
@@ -119,6 +118,11 @@ $(document).on('submit','#preferencias',function(e){
       , colorboton : data.colorboton
       , colortextoboton : data.colortextoboton
     }
+
+    console.log(data)
+
+    return 
+
 
     delete data.foto
     delete data.fondo
@@ -140,7 +144,6 @@ $(document).on('submit','#preferencias',function(e){
     $('.spinner').fadeIn(anim.transition.fadeIn, function(){
 
       return new Promise(function(resolve, reject) {
-        console.log("2")
         // files
         var until = 0
         , reach = 0
@@ -156,7 +159,6 @@ $(document).on('submit','#preferencias',function(e){
         }
 
         $('.photo').each(function(){
-            console.log("3")
           if($(this).get(0).files.length) {
 
             var name = $(this).attr('name')
@@ -171,7 +173,7 @@ $(document).on('submit','#preferencias',function(e){
               reach++
               var prop = snapshot.metadata.customMetadata.name.replace('_',' ')
               , value = snapshot.downloadURL
-              console.log("4")
+
               data.layout[prop] = value
               updates['/implementaciones/' + key] = data
 
@@ -187,6 +189,8 @@ $(document).on('submit','#preferencias',function(e){
 
         fbuser.layouts[key] = data.layout
         localStorage.setItem("firebaseuser",JSON.stringify(fbuser))
+        LI.setStyleSheet($.templates('#layout').render(layout)) 
+
 
         return firebase.database().ref().update(updates, function(error){
           if(error){
@@ -195,7 +199,7 @@ $(document).on('submit','#preferencias',function(e){
           }else{
             $('#detail').fadeOut(anim.transition.fadeOut,function(){
               $('.lista').delay(anim.transition.delay).fadeIn(anim.transition.fadeIn,function(){
-                helper.resetScroll()
+                LI.resetScroll()
                 swal("Preferencias","Las preferencias han sido actualizadas","success")
                 $('.spinner').fadeOut(anim.transition.fadeOut)
               })
@@ -232,7 +236,7 @@ $(document).on('change','.photo',function (e) {
 })
 
 $(document).on('click','.salir',function(){
-    $('.spinner').fadeIn(helper.animation.transition.fadeIn*helper.animation.transition.factor,function(){
+    $('.spinner').fadeIn(LI.animation.transition.fadeIn*LI.animation.transition.factor,function(){
         firebase.auth().signOut().then(function() {
             localStorage.clear()
             location.href = '/'

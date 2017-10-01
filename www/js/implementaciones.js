@@ -2,7 +2,7 @@
   var currentnode = '/implementaciones'
   , implementaciones = firebase.database().ref(currentnode)
   , datosdeapoyo = {}
-  , anim = helper.animation
+  , anim = LI.animation
 
   implementaciones.once('value').then(function(datos) {
     if(!datos.val()){
@@ -71,7 +71,7 @@
                 return firebase.database().ref('/administradores/' + newKey).set(updates.administrador).then(function(){
                   var emailData = updates.administrador
                   emailData.implementacion = updates.implementacion.titulo
-                  emailData.password = helper.randomString(12)
+                  emailData.password = LI.randomString(12)
                   LI.createAccount('email',emailData).then(function(){
                     resolve()
                   })
@@ -88,7 +88,7 @@
             }else{
               $('#detail').fadeOut(anim.transition.fadeOut,function(){
                 $('.lista').fadeIn(anim.transition.fadeIn,function(){
-                  helper.resetScroll()
+                  LI.resetScroll()
                   $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor)
                 })
               }) 
@@ -102,7 +102,7 @@
   })
 
   $(document).on('click','.add-item',function(e){
-    $('#detail').html($.templates('#form').render({key:null,data:{plan:""},datosdeapoyo:datosdeapoyo},helper)).promise().done(function(){
+    $('#detail').html($.templates('#form').render({key:null,data:{plan:""},datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
       $('.lista').fadeOut(anim.transition.fadeOut,function(){
         $('#detail').delay(200).fadeIn(anim.transition.fadeOut*anim.transition.factor,function(){
           $('body,html').scrollTop(0)
@@ -116,7 +116,7 @@
   $(document).on('click','.action.editar',function(){
     var key = $(this).data('key')
     $('body').attr('key',key)
-    helper.setScroll()
+    LI.setScroll()
     $('.spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){
       firebase.database().ref(currentnode+'/'+key).once('value').then(function(data) {
 
@@ -130,7 +130,7 @@
             admins.push(admin)
           }
 
-          $('#detail').html($.templates('#form').render({key:data.key,data:implementacion,admins:admins,datosdeapoyo:datosdeapoyo},helper)).promise().done(function(){
+          $('#detail').html($.templates('#form').render({key:data.key,data:implementacion,admins:admins,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
             $('.lista').fadeOut(anim.transition.fadeOut,function(){
               $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
                 $('#detail').delay(200).fadeIn(anim.transition.fadeOut*anim.transition.factor,function(){
@@ -188,7 +188,7 @@
   $(document).on('click','.cerrar',function(){
     $('#detail').fadeOut(anim.transition.fadeOut,function(){
       $('.lista').delay(anim.transition.delay).fadeIn(anim.transition.fadeIn,function(){
-        helper.resetScroll()
+        LI.resetScroll()
       })
     })
   })  
@@ -209,7 +209,7 @@
         }
 
         if(ctr === adminsLength){
-          $('#list').prepend($.templates('#item').render({key:data.key,data:data.val(),admins:adminsData}, helper)).promise().done(function(){
+          $('#list').prepend($.templates('#item').render({key:data.key,data:data.val(),admins:adminsData}, LI)).promise().done(function(){
             $('#list').find('#'+data.key).animateAdded()
           })  
           $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor, function(){

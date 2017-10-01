@@ -103,8 +103,8 @@ firebase.auth().onAuthStateChanged(function(user) {
           swal.close()
           $('.login').prop('disabled',false).animate({opacity:1}).text("Continuar")
           $('.session-status').html("Sin inicio de sesión")
-          $('.spinner').fadeOut(helper.animation.transition.fadeOut*helper.animation.transition.factor,function(){
-              $('.contenedor-login').fadeIn(helper.animation.transition.fadeIn)
+          $('.spinner').fadeOut(LI.animation.transition.fadeOut*LI.animation.transition.factor,function(){
+              $('.contenedor-login').fadeIn(LI.animation.transition.fadeIn)
           })
         })
       }
@@ -122,75 +122,3 @@ firebase.auth().onAuthStateChanged(function(user) {
   })
 })
 
-// LI.getResource('')
-var LI = {
-    settings : {
-        defaultRoom : "LifeIn"
-    }
-    , initAutocomplete : function (name, global){
-        var input = document.getElementById(name)
-        var autocomplete = new google.maps.places.Autocomplete(input)
-
-        autocomplete.addListener('place_changed', function() {
-            var place = autocomplete.getPlace();
-            if (!place.geometry) {
-              // User entered the name of a Place that was not suggested and
-              // pressed the Enter key, or the Place Details request failed.
-              window.alert("No details available for input: '" + place.name + "'");
-              return;
-            }
-            if (place.geometry.viewport) {
-              var latlng = place.geometry.location.toJSON()
-              $('#'+name)
-                .attr('lat',latlng.lat)
-                .attr('lng',latlng.lng)
-            }
-        })
-    }
-
-    , createAccount : function(tpl, data){
-        return $.Deferred(function(def) {
-            secondaryApp.auth().createUserWithEmailAndPassword(data.email, data.password).then(function(user) {
-                user.updateProfile({
-                    displayName: data.nombre + ' ' + data.apellido,
-                    photoURL: ''
-                }).then(function() {
-                    $.ajax({
-                        method :'get',
-                        url : '/sharer',
-                        data : { 
-                            email_to: data.email, 
-                            name_to: data.nombre, 
-                            subject: $.templates('#'+tpl+'_subject').render(data),
-                            title: $.templates('#'+tpl+'_title').render(data),
-                            content : $.templates('#'+tpl+'_message').render(data)
-                        },
-                        success : function(resp){
-                            if(resp.status!='success') swal("Error","Error al enviar notificación","error")
-                            def.resolve()
-                        }
-                    })
-                }, function(error) {
-                    swal('Error',error,'error')
-                    def.reject()
-                });        
-            }, function(error) {
-                var errorCode = error.code
-                , errorMessage = error.message
-                if (errorCode == 'auth/weak-password') {
-                    swal('Error','La contraseña es demasiado débil.','error');
-                } else {
-                    swal('Error',error,'error')
-                }
-                def.reject()
-            })
-        })
-    }
-    , tools : {
-        getResource : function(url){
-            firebase.database().ref(url).once('value', function(snap) {
-                console.log(snap.val())
-            })
-        }
-    }
-}
