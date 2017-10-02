@@ -3,6 +3,7 @@ body {
   color: #222;
   font-size: 15px;
   line-height: 20px;
+  min-height: auto;
   padding-bottom: 30px;
 }
 
@@ -354,7 +355,7 @@ textarea:focus {
   display: none;
   width: 60%;
   max-width: 500px;
-  margin-top: 50px;
+  margin-top: 10%;
   margin-right: auto;
   margin-left: auto;
   padding-top: 20px;
@@ -362,11 +363,15 @@ textarea:focus {
   border: 1px solid #e7e7e7;
   border-radius: 10px;
   background-color: #fff;
-  box-shadow: 0 0 6px 0 #fff;
+  box-shadow: 0 0 6px 0 #848484;
 }
 
 .homepage-bg {
   background-color: #223c61;
+  background-image: url('/images/EinPKO3.jpg');
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .login-form {
