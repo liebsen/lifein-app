@@ -21,5 +21,32 @@
       </div>
     </div>
 
+    <div class="sections-conteiner">
+    {% if key=='s' %}
+      <a class="item-home w-inline-block" href="implementaciones">
+        <h1>Implementaciones</h1>
+      </a>
+    {% else %}  
+      <a class="item-home w-inline-block" href="cuentas">
+        <h1 class="heading-2">Cuentas</h1>
+      </a>
+      <a class="item-home w-inline-block" href="publicaciones">
+        <h1>Publicaciones</h1>
+      </a>
+      <a class="item-home w-inline-block" href="reservas">
+        <h1>Reservas</h1>
+      </a>
+      <a class="item-home w-inline-block" href="autorizaciones">
+        <h1>Autorizaciones</h1>
+      </a>
+      <a class="item-home w-inline-block" href="lostandfound">
+        <h1>Lost & Found</h1>
+      </a>
+      <a class="item-home w-inline-block" href="propuestas">
+        <h1>Propuestas</h1>
+      </a>    
+    {% endif %}  
+    </div>    
+
 
 

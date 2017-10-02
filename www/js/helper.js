@@ -4,7 +4,22 @@ var LI = {
 	, count : 0
 	, delay : 0	
     , settings : {
-        defaultRoom : "LifeIn"
+        defaults : {
+            layout : {
+                colorfondo : "#ffffff",
+                colortexto : "#222",
+                colorboton : "#222",
+                colortextoboton : "#223c61",
+                font : "Poppins",
+                foto : "/images/foto-medidas.png",
+                //foto : "/images/LifeIn-White.png",
+                fondo : "/images/fondo-medidas.png"
+            },
+            room : "LifeIn"
+        }
+    }
+    , getLayoutProp : function(name,prop){
+        return prop && prop != "" ? prop : LI.settings.defaults.layout[name]
     }
     , initAutocomplete : function (name){
         var input = document.getElementById(name)
@@ -102,9 +117,18 @@ var LI = {
             var layout = user.layouts[key]
             , title = $(document).prop('title')
 	        $(document).prop('title', title.replace(user.room))
-            this.setStyleSheet($.templates('#layout').render(layout)) 
+            console.log("setting layout")
+            console.log(layout.font)
+            console.log(layout.font!=undefined)
+            console.log(layout.foto!='')
+
+            this.setStyleSheet($.templates('#layout').render(layout,LI)) 
+            this.setExternalStyleSheet("https://fonts.googleapis.com/css?family=" + layout.font + ":300,400,500,700") 
         }
 	}
+    , setExternalStyleSheet : function(css){
+        $("head").append("<link rel='stylesheet' type='text/css' href='"+css+"' />");
+    }
 	, setStyleSheet : function(css){
 		var head = document.head || document.getElementsByTagName('head')[0]
 		, style = document.createElement('style')

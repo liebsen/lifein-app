@@ -96,8 +96,9 @@ $(document).on('click','.preferencias',function(){
     console.log($('.modalcontainer').length)
     $('.spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){
         firebase.database().ref('implementaciones/'+key).once('value').then(function(grupo) {
+          var data = grupo.val()
             $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
-                $('.modalcontainer').html($.templates('#preferencias').render({key:grupo.key,data:grupo.val(),datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
+                $('.modalcontainer').html($.templates('#preferencias').render({key:grupo.key,data:data,layout:data.layout,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
                     LI.resetWebflow()                
                     $('body,html').scrollTop(0)
                 })
@@ -114,6 +115,7 @@ $(document).on('submit','#preferencias',function(e){
     , layout = {
       foto : data.foto
       , fondo : data.fondo
+      , font : data.fuente
       , colorfondo : data.colorfondo
       , colortexto : data.colortexto
       , colorboton : data.colorboton
@@ -185,8 +187,8 @@ $(document).on('submit','#preferencias',function(e){
 
         fbuser.layouts[key] = data.layout
         localStorage.setItem("firebaseuser",JSON.stringify(fbuser))
-        LI.setStyleSheet($.templates('#layout').render(data.layout)) 
-
+        LI.setStyleSheet($.templates('#layout').render(data.layout,LI)) 
+        LI.setExternalStyleSheet("https://fonts.googleapis.com/css?family=" + data.layout.font + ":300,400,500,700") 
         return firebase.database().ref().update(updates, function(error){
           if(error){
             swal("Error firebase",error,"error")

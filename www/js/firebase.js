@@ -43,7 +43,7 @@ firebase.auth().onAuthStateChanged(function(user) {
         var layouts = {}
         , titulo = ""
         , roomsLength = Object.keys(rooms.val()).length
-        , defaultRoom = LI.settings.defaultRoom
+        , defaultRoom = LI.settings.defaults.room
         , ctr = 0
 
         rooms.forEach(function(room){

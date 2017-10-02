@@ -36,22 +36,14 @@
         
         <link href="/css/normalize.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
         <link href="/css/webflow.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
-        <link href="/css/gibson.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
         <link href="/css/lifein.webflow.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
         <link href="/css/sweetalert.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">  
         <link href="/css/jquery.minicolors.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">  
 
-        <!--script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js?_={{ rev_parse }}"></script>
-        <script type="text/javascript">
-          WebFont.load({
-            google: {
-              families: ["Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic"]
-            }
-          });
-        </script-->
         <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
         <script src="/js/vendor/modernizr-latest.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/vendor/jquery.min.js?_={{ rev_parse }}" type="text/javascript"></script>        
+
         <link href="/images/favicon.png?_={{ rev_parse }}" rel="shortcut icon" type="image/x-icon">
         <link href="/images/Group.png?_={{ rev_parse }}" rel="apple-touch-icon">
     </head>
@@ -78,33 +70,6 @@
         <script src="/js/firebase.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/helper.js?_={{ rev_parse }}" type="text/javascript"></script>        
         <script src="/js/main.js?_={{ rev_parse }}" type="text/javascript"></script>
-
-        <script id="layout" type="text/x-jsrender">
-            body, .subnav { 
-                background-color:[[:colorfondo]]; 
-                color:[[:colortexto]]
-            }
-
-            a, .w-nav-link, .text-link, .session-status {
-                color:[[:colortexto]];
-            }
-
-            .navbar { 
-                background-image: url([[:fondo]]) 
-            }
-
-            .w-nav-brand { 
-                border-color:[[:colorfondo]];
-                background-image: url([[:foto]]);
-                box-shadow: 0 0 10px [[:colorfondo]];
-            }
-
-            .buttons, .item-home { 
-                background:[[:colorboton]];
-                color:[[:colortextoboton]];
-            }
-        </script>
-
         <script>
             var key = '{{key}}'
             , user = localStorage.getItem("firebaseuser")
