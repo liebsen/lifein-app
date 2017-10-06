@@ -73,8 +73,8 @@
     }
 
     $('.spinner').fadeIn(anim.transition.fadeIn, function(){
-      return new Promise(function(resolve, reject){
-        return firebase.database().ref('/administradores/' + adminKey).set(updates.administrador).then(function(){
+      return firebase.database().ref('/administradores/' + adminKey).set(updates.administrador).then(function(){
+        return new Promise(function(resolve, reject){
           if(newAdminKey){
             var emailData = updates.administrador
             emailData.implementacion = updates.implementacion.titulo
@@ -89,8 +89,8 @@
           }
         })
       }).then(function(){
-        return new Promise(function(resolve, reject){
-          return firebase.database().ref('/administradores/' + seguridadKey).set(updates.seguridad).then(function(){
+        return firebase.database().ref('/administradores/' + seguridadKey).set(updates.seguridad).then(function(){
+          return new Promise(function(resolve, reject){
             if(newSeguridadKey){
               var emailData = updates.seguridad
               emailData.implementacion = updates.implementacion.titulo
