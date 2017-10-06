@@ -115,10 +115,11 @@
                   LI.resetScroll()
                   swal({
                     title:"Implementaciones",
-                    html:"La implementación ha sido actualizada. " + 
-                    ( updates.administrador.scope ? "<br>Se ha enviado una notificación de bienvenida con los datos de ingreso al administrador." : "" ) + 
-                    ( updates.seguridad.scope ? "<br>Se ha enviado una notificación de bienvenida con los datos de ingreso al seguridad." : "" ),
-                    type: "success"
+                    text:"La implementación ha sido actualizada. " + 
+                    ( newAdminKey ? "<br>Se ha enviado una notificación de bienvenida con los datos de ingreso al administrador." : "" ) + 
+                    ( newSeguridadKey ? "<br>Se ha enviado una notificación de bienvenida con los datos de ingreso al seguridad." : "" ),
+                    type: "success",
+                    html: true
                   })
                 })
               })
