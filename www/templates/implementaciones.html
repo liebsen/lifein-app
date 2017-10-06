@@ -73,7 +73,7 @@
     <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]" admin-key="[[:adminKey]]" seguridad-key="[[:seguridadKey]]">
       <div class="form-wrapper">
         <div class="w-col w-col-4">
-          <h3>Implementación</h3>
+          <h3>Implementación [[:key]]</h3>
 
           <label for="Plan-2">Plan</label>
           <select class="w-select" name="implementacion_plan">
@@ -93,14 +93,14 @@
           <input class="input w-input" maxlength="256" name="implementacion_email" placeholder="ale@gmail.com" type="email" value="[[if data && data.email]][[:data.email]][[/if]]" required>
 
           <label for="Email-7">Sitio web</label>
-          <input class="input w-input" maxlength="256" name="implementacion_web" placeholder="https://barriolossauces.com.ar" type="text" value="[[if data && data.web]][[:data.web]][[/if]]">
+          <input class="input w-input" maxlength="256" name="implementacion_web" placeholder="https://barriolossauces.com.ar" type="text" value="[[if data && data.sitioweb]][[:data.sitioweb]][[/if]]">
           
           <label for="telefono">Teléfono</label>
           <input class="input w-input" maxlength="256" name="implementacion_telefono" placeholder="4333-5555" type="text" value="[[if data && data.telefono]][[:data.telefono]][[/if]]">
 
         </div>
         <div class="w-col w-col-4">
-          <h3>Administrador</h3>
+          <h3>Administrador [[:adminKey]]</h3>
 
           <label for="Plan-2">Estado</label>
           <select class="w-select" name="administrador_estado"  required>
@@ -127,7 +127,7 @@
         </div>
 
         <div class="w-col w-col-4">
-          <h3>Seguridad</h3>
+          <h3>Seguridad [[:seguridadKey]]</h3>
 
           <label for="Plan-2">Estado</label>
           <select class="w-select" name="seguridad_estado" required>

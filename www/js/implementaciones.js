@@ -20,10 +20,12 @@
     e.preventDefault()
     
     var data = $(this).serializeObject()
-    , newKey = undefined 
     , key = $(this).attr('key')    
     , adminKey = $(this).attr('admin-key')    
     , seguridadKey = $(this).attr('seguridad-key')    
+    , newKey = undefined 
+    , newAdminKey = undefined 
+    , newSeguridadKey = undefined 
     , updates = {
       implementacion : {
         email : $.trim(data.implementacion_email).toLowerCase(),
@@ -60,43 +62,52 @@
 
     if(!adminKey){
       adminKey = firebase.database().ref('/administradores').push().key
+      newAdminKey = adminKey
       updates.administrador.scope = [key]
     }
 
     if(!seguridadKey){
       seguridadKey = firebase.database().ref('/administradores').push().key
+      newSeguridadKey = seguridadKey
       updates.seguridad.scope = [key]
     }
 
     $('.spinner').fadeIn(anim.transition.fadeIn, function(){
       return new Promise(function(resolve, reject){
         return firebase.database().ref('/administradores/' + adminKey).set(updates.administrador).then(function(){
-          if(updates.administrador.scope){
+          if(newAdminKey){
             var emailData = updates.administrador
             emailData.implementacion = updates.implementacion.titulo
             emailData.password = LI.randomString(12)
 
             LI.createAccount('email_admin',emailData).then(function(){
               resolve()
+            }).catch(function(){
+                $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor);
             })
+            
           } else {
             resolve()
           }
         })
       }).then(function(){
-        return firebase.database().ref('/administradores/' + seguridadKey).set(updates.seguridad).then(function(){
-          if(updates.seguridad.scope){
-            var emailData = updates.seguridad
-            emailData.implementacion = updates.implementacion.titulo
-            emailData.password = LI.randomString(12)
+        return new Promise(function(resolve, reject){
+          return firebase.database().ref('/administradores/' + seguridadKey).set(updates.seguridad).then(function(){
+            if(newSeguridadKey){
+              var emailData = updates.seguridad
+              emailData.implementacion = updates.implementacion.titulo
+              emailData.password = LI.randomString(12)
 
-            LI.createAccount('email_seguridad',emailData).then(function(){
+              LI.createAccount('email_seguridad',emailData).then(function(){
+                resolve()
+              }).catch(function(){
+                $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor);
+              })
+            } else {
               resolve()
-            })
-          } else {
-            resolve()
-          }
-        })    
+            }
+          })
+        })
       }).then(function(){
         return firebase.database().ref(currentnode + '/' + key).set(updates.implementacion, function(error){
           if(error){
@@ -159,20 +170,14 @@
             if($.inArray(key,row.scope) > -1){
               if(row.rol == 'administrador'){
                 adminsData.push(row)
-                adminKey = row.key
+                adminKey = admin.key
               } else if (row.rol == 'seguridad'){
                 seguridadData.push(row)
-                seguridadKey = row.key
+                seguridadKey = admin.key
               }
             }
 
-
             if(ctr === adminsLength){
-
-            console.log(key)
-            console.log(adminsData[0])
-
-
               $('#detail').html($.templates('#form').render({key:data.key,data:implementacion,adminKey:adminKey,admin:adminsData[0],seguridad:seguridadData[0],seguridadKey:seguridadKey,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
                 $('.lista').fadeOut(anim.transition.fadeOut,function(){
                   $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
