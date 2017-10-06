@@ -37,6 +37,7 @@
         titulo : $.trim(data.implementacion_titulo),
       }
       , administrador : {
+        scope : [key],
         email : $.trim(data.administrador_email).toLowerCase(),
         nombre : $.trim(data.administrador_nombre),
         empresa : $.trim(data.administrador_empresa),
@@ -46,6 +47,7 @@
         rol : 'administrador'
       }
       , seguridad : {
+        scope : [key],
         email : $.trim(data.seguridad_email).toLowerCase(),
         nombre : $.trim(data.seguridad_nombre),
         empresa : $.trim(data.seguridad_empresa),
@@ -63,13 +65,11 @@
     if(!adminKey){
       adminKey = firebase.database().ref('/administradores').push().key
       newAdminKey = adminKey
-      updates.administrador.scope = [key]
     }
 
     if(!seguridadKey){
       seguridadKey = firebase.database().ref('/administradores').push().key
       newSeguridadKey = seguridadKey
-      updates.seguridad.scope = [key]
     }
 
     $('.spinner').fadeIn(anim.transition.fadeIn, function(){
@@ -246,6 +246,7 @@
     firebase.database().ref('/administradores/').once('value', function(admins) {
       var adminsLength = Object.keys(admins.val()).length
       , adminsData = []
+      , seguridadData = []
       , ctr = 0
 
       admins.forEach(function(admin){
@@ -253,11 +254,15 @@
         var row = admin.val()
 
         if(typeof row.scope == 'object' && $.inArray(data.key,row.scope) > -1){
-          adminsData.push(row)
+          if(row.rol == 'administrador'){          
+            adminsData.push(row)
+          } else if(row.rol == 'seguridad'){          
+            seguridadData.push(row)
+          }
         }
 
         if(ctr === adminsLength){
-          $('#list').prepend($.templates('#item').render({key:data.key,data:data.val(),admins:adminsData}, LI)).promise().done(function(){
+          $('#list').prepend($.templates('#item').render({key:data.key,data:data.val(),admins:adminsData,seguridad:seguridadData}, LI)).promise().done(function(){
             $('#list').find('#'+data.key).animateAdded()
           })  
           $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor, function(){

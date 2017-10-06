@@ -16,9 +16,6 @@
       <input type="text" class="input w-input filtro" maxlength="256" name="search" placeholder="Buscar..." autocomplete="off" />
     </div>    
     <div class="row title">
-      <div class="list-item">
-        <div>ID</div>
-      </div>
       <div class="list-item w-hidden-small w-hidden-tiny">
         <div>Nombre</div>
       </div>
@@ -31,6 +28,9 @@
       <div class="list-item w-hidden-small w-hidden-tiny">
         <div>Administrador</div>
       </div>
+      <div class="list-item w-hidden-small w-hidden-tiny">
+        <div>Seguridad</div>
+      </div>
       <div class="list-item csv-exclude">
         <div>Acción</div>
       </div>
@@ -40,9 +40,6 @@
 
   <script id="item" type="text/x-jsrender">
     <div class="row" id="[[:key]]">
-      <div class="list-item">
-        <div>[[:key]]</div>
-      </div>
       <div class="list-item w-hidden-small w-hidden-tiny">
         <div>[[:data.titulo]]</div>
       </div>
@@ -61,6 +58,16 @@
         <div><span class="warning-text">No tiene</span></div>
       [[/if]]
       </div>
+      <div class="list-item w-hidden-small w-hidden-tiny">
+      [[if seguridad.length]]
+        [[for seguridad]]
+        <div class="bind" url="/cuentas" key="email" val="[[:email]]"><span class="alert-text">[[:nombre]]</span></div>
+        [[/for]]
+      [[else]]
+        <div><span class="warning-text">No tiene</span></div>
+      [[/if]]
+      </div>
+
       <div class="list-item csv-exclude">
         <a class="action editar text-link" data-key="[[:key]]" href="#">Ver / Editar</a>
         <a class="action text-link" href="/[[:key]]/menu">Administrar</a>
@@ -73,7 +80,7 @@
     <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]" admin-key="[[:adminKey]]" seguridad-key="[[:seguridadKey]]">
       <div class="form-wrapper">
         <div class="w-col w-col-4">
-          <h3>Implementación [[:key]]</h3>
+          <h3>Implementación</h3>
 
           <label for="Plan-2">Plan</label>
           <select class="w-select" name="implementacion_plan">
@@ -100,7 +107,7 @@
 
         </div>
         <div class="w-col w-col-4">
-          <h3>Administrador [[:adminKey]]</h3>
+          <h3>Administrador</h3>
 
           <label for="Plan-2">Estado</label>
           <select class="w-select" name="administrador_estado"  required>
@@ -127,7 +134,7 @@
         </div>
 
         <div class="w-col w-col-4">
-          <h3>Seguridad [[:seguridadKey]]</h3>
+          <h3>Seguridad</h3>
 
           <label for="Plan-2">Estado</label>
           <select class="w-select" name="seguridad_estado" required>
