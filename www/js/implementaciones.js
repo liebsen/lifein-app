@@ -37,7 +37,6 @@
         titulo : $.trim(data.implementacion_titulo),
       }
       , administrador : {
-        scope : [key],
         email : $.trim(data.administrador_email).toLowerCase(),
         nombre : $.trim(data.administrador_nombre),
         empresa : $.trim(data.administrador_empresa),
@@ -47,7 +46,6 @@
         rol : 'administrador'
       }
       , seguridad : {
-        scope : [key],
         email : $.trim(data.seguridad_email).toLowerCase(),
         nombre : $.trim(data.seguridad_nombre),
         empresa : $.trim(data.seguridad_empresa),
@@ -61,6 +59,9 @@
     if(!key){
       key = implementaciones.push().key
     }
+
+    updates.administrador.scope = [key]
+    updates.seguridad.scope = [key]
 
     if(!adminKey){
       adminKey = firebase.database().ref('/administradores').push().key
