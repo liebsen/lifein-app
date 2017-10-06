@@ -73,14 +73,14 @@
     }
 
     $('.spinner').fadeIn(anim.transition.fadeIn, function(){
-      return firebase.database().ref('/administradores/' + adminKey).set(updates.administrador).then(function(){
-        return new Promise(function(resolve, reject){
+      return new Promise(function(resolve, reject){
+        return firebase.database().ref('/administradores/' + adminKey).set(updates.administrador).then(function(){
           if(newAdminKey){
             var emailData = updates.administrador
             emailData.implementacion = updates.implementacion.titulo
             emailData.password = LI.randomString(12)
 
-            LI.createAccount('email_admin',emailData).then(function(){
+            return LI.createAccount('email_admin',emailData).then(function(){
               resolve()
             })
 
@@ -90,20 +90,18 @@
         })
       }).then(function(){
         return firebase.database().ref('/administradores/' + seguridadKey).set(updates.seguridad).then(function(){
-          return new Promise(function(resolve, reject){
-            if(newSeguridadKey){
-              var emailData = updates.seguridad
-              emailData.implementacion = updates.implementacion.titulo
-              emailData.password = LI.randomString(12)
+          if(newSeguridadKey){
+            var emailData = updates.seguridad
+            emailData.implementacion = updates.implementacion.titulo
+            emailData.password = LI.randomString(12)
 
-              LI.createAccount('email_seguridad',emailData).then(function(){
-                resolve()
-              })
+            return LI.createAccount('email_seguridad',emailData).then(function(){
+              return true
+            })
 
-            } else {
-              resolve()
-            }
-          })
+          } else {
+            return true
+          }
         })
       }).then(function(){
         return firebase.database().ref(currentnode + '/' + key).set(updates.implementacion, function(error){
@@ -114,10 +112,13 @@
               $('#detail').fadeOut(anim.transition.fadeOut,function(){
                 $('.lista').fadeIn(anim.transition.fadeIn,function(){
                   LI.resetScroll()
-                  swal("Implementaciones","La implementación ha sido actualizada. " + 
+                  swal({
+                    title:"Implementaciones",
+                    html:"La implementación ha sido actualizada. " + 
                     ( updates.administrador.scope ? "<br>Se ha enviado una notificación de bienvenida con los datos de ingreso al administrador." : "" ) + 
-                    ( updates.seguridad.scope ? "<br>Se ha enviado una notificación de bienvenida con los datos de ingreso al seguridad." : "" )
-                  ,"success")
+                    ( updates.seguridad.scope ? "<br>Se ha enviado una notificación de bienvenida con los datos de ingreso al seguridad." : "" ),
+                    type: "success"
+                  })
                 })
               })
             }) 

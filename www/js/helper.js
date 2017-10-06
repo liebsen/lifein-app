@@ -42,41 +42,37 @@ var LI = {
         })
     }
     , createAccount : function(tpl, data){
-        return $.Deferred(function(def) {
-            secondaryApp.auth().createUserWithEmailAndPassword(data.email, data.password).then(function(user) {
-                user.updateProfile({
-                    displayName: data.nombre + ' ' + data.apellido,
-                    photoURL: ''
-                }).then(function() {
-                    $.ajax({
-                        method :'get',
-                        url : '/sharer',
-                        data : { 
-                            email_to: data.email, 
-                            name_to: data.nombre, 
-                            subject: $.templates('#'+tpl+'_subject').render(data),
-                            title: $.templates('#'+tpl+'_title').render(data),
-                            content : $.templates('#'+tpl+'_message').render(data)
-                        },
-                        success : function(resp){
-                            if(resp.status!='success') swal("Error","Error al enviar notificación","error")
-                            //def.resolve()
-                        }
-                    })
-                }, function(error) {
-                    swal('Error',error,'error')
-                    def.reject()
-                });        
+        return secondaryApp.auth().createUserWithEmailAndPassword(data.email, data.password).then(function(user) {
+            user.updateProfile({
+                displayName: data.nombre + ' ' + data.apellido,
+                photoURL: ''
+            }).then(function() {
+                $.ajax({
+                    method :'get',
+                    url : '/sharer',
+                    data : { 
+                        email_to: data.email, 
+                        name_to: data.nombre, 
+                        subject: $.templates('#'+tpl+'_subject').render(data),
+                        title: $.templates('#'+tpl+'_title').render(data),
+                        content : $.templates('#'+tpl+'_message').render(data)
+                    },
+                    success : function(resp){
+                        if(resp.status!='success') swal("Error","Error al enviar notificación","error")
+                        //def.resolve()
+                    }
+                })
             }, function(error) {
-                var errorCode = error.code
-                , errorMessage = error.message
-                if (errorCode == 'auth/weak-password') {
-                    swal('Error','La contraseña es demasiado débil.','error');
-                } else {
-                    swal('Error',error,'error')
-                }
-                def.reject()
-            })
+                swal('Error',error,'error')
+            });        
+        }, function(error) {
+            var errorCode = error.code
+            , errorMessage = error.message
+            if (errorCode == 'auth/weak-password') {
+                swal('Error','La contraseña es demasiado débil.','error');
+            } else {
+                swal('Error',error,'error')
+            }
         })
     }
     , tools : {
