@@ -80,14 +80,9 @@
             emailData.implementacion = updates.implementacion.titulo
             emailData.password = LI.randomString(12)
 
-            try {
-              LI.createAccount('email_admin',emailData).then(function(){
-                resolve()
-              })
-            } catch(e){
-              $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor);
+            LI.createAccount('email_admin',emailData).then(function(){
               resolve()
-            }
+            })
 
           } else {
             resolve()
@@ -101,14 +96,9 @@
               emailData.implementacion = updates.implementacion.titulo
               emailData.password = LI.randomString(12)
 
-              try {
-                LI.createAccount('email_seguridad',emailData).then(function(){
-                  resolve()
-                })
-              } catch(e){
-                $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor);
+              LI.createAccount('email_seguridad',emailData).then(function(){
                 resolve()
-              }
+              })
 
             } else {
               resolve()
