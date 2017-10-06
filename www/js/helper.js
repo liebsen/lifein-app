@@ -60,7 +60,7 @@ var LI = {
                         },
                         success : function(resp){
                             if(resp.status!='success') swal("Error","Error al enviar notificación","error")
-                            def.resolve()
+                            //def.resolve()
                         }
                     })
                 }, function(error) {
@@ -117,10 +117,6 @@ var LI = {
             var layout = user.layouts[key]
             , title = $(document).prop('title')
 	        $(document).prop('title', title.replace(user.room))
-            console.log("setting layout")
-            console.log(layout.font)
-            console.log(layout.font!=undefined)
-            console.log(layout.foto!='')
 
             this.setStyleSheet($.templates('#layout').render(layout,LI)) 
             this.setExternalStyleSheet("https://fonts.googleapis.com/css?family=" + layout.font + ":300,400,500,700") 

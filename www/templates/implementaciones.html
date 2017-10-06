@@ -70,9 +70,9 @@
   </script>
 
   <script id="form" type="text/x-jsrender">
-    <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]">
+    <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]" admin-key="[[:adminKey]]" seguridad-key="[[:seguridadKey]]">
       <div class="form-wrapper">
-        <div class="w-col w-col-6">
+        <div class="w-col w-col-4">
           <h3>Implementación</h3>
 
           <label for="Plan-2">Plan</label>
@@ -99,18 +99,18 @@
           <input class="input w-input" maxlength="256" name="implementacion_telefono" placeholder="4333-5555" type="text" value="[[if data && data.telefono]][[:data.telefono]][[/if]]">
 
         </div>
-        <div class="w-col w-col-6">
+        <div class="w-col w-col-4">
           <h3>Administrador</h3>
 
           <label for="Plan-2">Estado</label>
-          <select class="w-select" name="administrador_estado">
-            <option value="habilitado">Seleccioná ...</option>
-            <option value="habilitado"[[if admin && admin.estado == 'habilitado']] selected[[/if]]>Habilitado</option>
+          <select class="w-select" name="administrador_estado"  required>
+            <option value="">Seleccioná ...</option>
+            <option value="habilitado"[[if admin && admin.estado == 'habilitado' || !admin]] selected[[/if]]>Habilitado</option>
             <option value="deshabilitado"[[if admin && admin.estado == 'deshabilitado']] selected[[/if]]>Desabilitado</option>
           </select>
                     
           <label for="titulo">Nombre</label>
-          <input class="input w-input" maxlength="256" name="administrador_nombre" placeholder="Nombre de la implementación" type="text" value="[[if admin && admin.nombre]][[:admin.nombre]][[/if]]" required>
+          <input class="input w-input" maxlength="256" name="administrador_nombre" placeholder="Nombre completo" type="text" value="[[if admin && admin.nombre]][[:admin.nombre]][[/if]]" required>
 
           <label for="Email-7">Email</label>
           <input class="input w-input" maxlength="256" name="administrador_email" placeholder="ale@gmail.com" type="email" value="[[if admin && admin.email]][[:admin.email]][[/if]]" required>
@@ -125,6 +125,34 @@
           <input class="input w-input datetimepicker" maxlength="256" name="administrador_caduca" id="administrador_caduca" placeholder="" type="text" value="[[if admin && admin.caduca]][[:admin.caduca]][[/if]]">
 
         </div>
+
+        <div class="w-col w-col-4">
+          <h3>Seguridad</h3>
+
+          <label for="Plan-2">Estado</label>
+          <select class="w-select" name="seguridad_estado" required>
+            <option value="">Seleccioná ...</option>
+            <option value="habilitado"[[if seguridad && seguridad.estado == 'habilitado' || !seguridad]] selected[[/if]]>Habilitado</option>
+            <option value="deshabilitado"[[if seguridad && seguridad.estado == 'deshabilitado']] selected[[/if]]>Desabilitado</option>
+          </select>
+                    
+          <label for="titulo">Nombre</label>
+          <input class="input w-input" maxlength="256" name="seguridad_nombre" placeholder="Nombre copleto" type="text" value="[[if seguridad && seguridad.nombre]][[:seguridad.nombre]][[/if]]" required>
+
+          <label for="Email-7">Email</label>
+          <input class="input w-input" maxlength="256" name="seguridad_email" placeholder="ale@gmail.com" type="email" value="[[if seguridad && seguridad.email]][[:seguridad.email]][[/if]]" required>
+          
+          <label for="telefono">Teléfono</label>
+          <input class="input w-input" maxlength="256" name="seguridad_telefono" placeholder="4333-5555" type="text" value="[[if seguridad && seguridad.telefono]][[:seguridad.telefono]][[/if]]">
+
+          <label for="telefono">Empresa</label>
+          <input class="input w-input" maxlength="256" name="seguridad_empresa" placeholder="Empresa" type="text" value="[[if seguridad && seguridad.empresa]][[:seguridad.empresa]][[/if]]">
+
+          <label for="telefono">Caduca</label>
+          <input class="input w-input datetimepicker" maxlength="256" name="seguridad_caduca" id="seguridad_caduca" placeholder="" type="text" value="[[if seguridad && seguridad.caduca]][[:seguridad.caduca]][[/if]]">
+
+        </div>
+
         <div class="w-col w-col-12">
           <input class="w-button cerrar" type="button" value="Cerrar">
           <input class="buttons w-button" data-wait="Guardando..." type="submit" value="Guardar cambios">
@@ -133,17 +161,34 @@
     </form>
   </script>
 
-  <script id="email_subject" type="text/x-jsrender">
+  <script id="email_admin_subject" type="text/x-jsrender">
     Bienvenido a Life In
   </script>
 
-  <script id="email_title" type="text/x-jsrender">
+  <script id="email_admin_title" type="text/x-jsrender">
     Bienvenido [[:nombre]] a Life In
   </script>
 
-  <script id="email_message" type="text/x-jsrender">
+  <script id="email_admin_message" type="text/x-jsrender">
     Bienvenido [[:nombre]] a Life In.<br> 
     Has sido asignado como administrador para la implementación [[:implementacion]].<br> 
+    Tus datos de acceso son los siguientes.<br> 
+    Nombre de usuario: [[:email]]<br>
+    Contraseña: [[:password]]<br>
+    URL: https://lifeinapp.herokuapp.com<br>
+  </script>
+
+  <script id="email_seguridad_subject" type="text/x-jsrender">
+    Bienvenido a Life In
+  </script>
+
+  <script id="email_seguridad_title" type="text/x-jsrender">
+    Bienvenido [[:nombre]] a Life In
+  </script>
+
+  <script id="email_seguridad_message" type="text/x-jsrender">
+    Bienvenido [[:nombre]] a Life In.<br> 
+    Has sido asignado como seguridad para la implementación [[:implementacion]].<br> 
     Tus datos de acceso son los siguientes.<br> 
     Nombre de usuario: [[:email]]<br>
     Contraseña: [[:password]]<br>

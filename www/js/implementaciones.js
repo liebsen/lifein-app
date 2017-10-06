@@ -22,6 +22,8 @@
     var data = $(this).serializeObject()
     , newKey = undefined 
     , key = $(this).attr('key')    
+    , adminKey = $(this).attr('admin-key')    
+    , seguridadKey = $(this).attr('seguridad-key')    
     , updates = {
       implementacion : {
         email : $.trim(data.implementacion_email).toLowerCase(),
@@ -39,63 +41,79 @@
         caduca : $.trim(data.administrador_caduca),
         telefono : $.trim(data.administrador_telefono),
         estado : data.administrador_estado,
+        rol : 'administrador'
       }
+      , seguridad : {
+        email : $.trim(data.seguridad_email).toLowerCase(),
+        nombre : $.trim(data.seguridad_nombre),
+        empresa : $.trim(data.seguridad_empresa),
+        caduca : $.trim(data.seguridad_caduca),
+        telefono : $.trim(data.seguridad_telefono),
+        estado : data.seguridad_estado,
+        rol : 'seguridad'
+      }      
     }
 
     if(!key){
       key = implementaciones.push().key
-      newKey = key
+    }
+
+    if(!adminKey){
+      adminKey = firebase.database().ref('/administradores').push().key
+      updates.administrador.scope = [key]
+    }
+
+    if(!seguridadKey){
+      seguridadKey = firebase.database().ref('/administradores').push().key
+      updates.seguridad.scope = [key]
     }
 
     $('.spinner').fadeIn(anim.transition.fadeIn, function(){
-      var adminsRef = firebase.database().ref('/administradores/')
-      return adminsRef.once('value', function(admins) {
-        var adminsLength = Object.keys(admins.val()).length
-        , adminKeys = []
-        , ctr = 0
+      return new Promise(function(resolve, reject){
+        return firebase.database().ref('/administradores/' + adminKey).set(updates.administrador).then(function(){
+          if(updates.administrador.scope){
+            var emailData = updates.administrador
+            emailData.implementacion = updates.implementacion.titulo
+            emailData.password = LI.randomString(12)
 
-        return new Promise(function(resolve, reject){
-          return admins.forEach(function(administrador){
-            ctr++
-            var admin = administrador.val()
+            LI.createAccount('email_admin',emailData).then(function(){
+              resolve()
+            })
+          } else {
+            resolve()
+          }
+        })
+      }).then(function(){
+        return firebase.database().ref('/administradores/' + seguridadKey).set(updates.seguridad).then(function(){
+          if(updates.seguridad.scope){
+            var emailData = updates.seguridad
+            emailData.implementacion = updates.implementacion.titulo
+            emailData.password = LI.randomString(12)
 
-            if($.inArray(key,admin.scope) > -1 && admin.email == updates.administrador.email ){
-              adminKeys.push(key)
-              firebase.database().ref('/administradores/' + key).set(updates.administrador)
-            } 
-
-            if(ctr === adminsLength){
-              if(adminKeys.length == 0){
-                var newKey = adminsRef.push().key
-                updates.administrador.scope = [key]
-                return firebase.database().ref('/administradores/' + newKey).set(updates.administrador).then(function(){
-                  var emailData = updates.administrador
-                  emailData.implementacion = updates.implementacion.titulo
-                  emailData.password = LI.randomString(12)
-                  LI.createAccount('email',emailData).then(function(){
-                    resolve(true)
-                  })
+            LI.createAccount('email_seguridad',emailData).then(function(){
+              resolve()
+            })
+          } else {
+            resolve()
+          }
+        })    
+      }).then(function(){
+        return firebase.database().ref(currentnode + '/' + key).set(updates.implementacion, function(error){
+          if(error){
+            swal("Error",error,"error")
+          }else{
+            $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor, function(){
+              $('#detail').fadeOut(anim.transition.fadeOut,function(){
+                $('.lista').fadeIn(anim.transition.fadeIn,function(){
+                  LI.resetScroll()
+                  swal("Implementaciones","La implementación ha sido actualizada. " + 
+                    ( updates.administrador.scope ? "<br>Se ha enviado una notificación de bienvenida con los datos de ingreso al administrador." : "" ) + 
+                    ( updates.seguridad.scope ? "<br>Se ha enviado una notificación de bienvenida con los datos de ingreso al seguridad." : "" )
+                  ,"success")
                 })
-              } else {
-                resolve(false)
-              }  
-            }
-          })
-        }).then(function(newAccount){
-          return firebase.database().ref(currentnode + '/' + key).set(updates.implementacion, function(error){
-            if(error){
-              swal("Error",error,"error")
-            }else{
-              $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor, function(){
-                $('#detail').fadeOut(anim.transition.fadeOut,function(){
-                  $('.lista').fadeIn(anim.transition.fadeIn,function(){
-                    LI.resetScroll()
-                    swal("Implementaciones","La implementación ha sido actualizada. " + ( newAccount ? "Se ha enviado una notificación de bienvenida con los datos de ingreso al administrador." : "" ),"success")
-                  })
-                })
-              }) 
-            }
-          })
+              })
+            }) 
+          }
         })
       })
     })
@@ -125,28 +143,53 @@
         var implementacion = data.val()
 
         firebase.database().ref('/administradores/').once('value', function(snap) {
-          var admin = snap.val()
-          var admins = null
+          var admins = snap.val()
+          , adminsLength = Object.keys(admins).length
+          , adminsData = []
+          , seguridadData = []
+          , adminKey = undefined
+          , seguridadKey = undefined
+          , ctr = 0
 
-          if($.inArray(key,admin.scope) > -1){
-            admins.push(admin)
-          }
+          snap.forEach(function(admin){
+            ctr++
 
-          $('#detail').html($.templates('#form').render({key:data.key,data:implementacion,admins:admins,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
-            $('.lista').fadeOut(anim.transition.fadeOut,function(){
-              $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
-                $('#detail').delay(200).fadeIn(anim.transition.fadeOut*anim.transition.factor,function(){
-                  $('body,html').scrollTop(0)
-                  LI.initAutocomplete('implementacion_direccion')
-                  $('.datetimepicker').datetimepicker()
-                  if(implementacion.geo){
-                    $('#implementacion_direccion')
-                      .attr('lat',implementacion.geo.lat)
-                      .attr('lng',implementacion.geo.lng)
-                  }                  
+            var row = admin.val()
+
+            if($.inArray(key,row.scope) > -1){
+              if(row.rol == 'administrador'){
+                adminsData.push(row)
+                adminKey = row.key
+              } else if (row.rol == 'seguridad'){
+                seguridadData.push(row)
+                seguridadKey = row.key
+              }
+            }
+
+
+            if(ctr === adminsLength){
+
+            console.log(key)
+            console.log(adminsData[0])
+
+
+              $('#detail').html($.templates('#form').render({key:data.key,data:implementacion,adminKey:adminKey,admin:adminsData[0],seguridad:seguridadData[0],seguridadKey:seguridadKey,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
+                $('.lista').fadeOut(anim.transition.fadeOut,function(){
+                  $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
+                    $('#detail').delay(200).fadeIn(anim.transition.fadeOut*anim.transition.factor,function(){
+                      $('body,html').scrollTop(0)
+                      LI.initAutocomplete('implementacion_direccion')
+                      $('.datetimepicker').datetimepicker()
+                      if(implementacion.geo){
+                        $('#implementacion_direccion')
+                          .attr('lat',implementacion.geo.lat)
+                          .attr('lng',implementacion.geo.lng)
+                      }                  
+                    })
+                  })
                 })
               })
-            })
+            }
           })
         })
       })
