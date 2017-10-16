@@ -52,6 +52,13 @@
       <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]">
         <div class="w-col w-col-6">
           <h3>Cuenta</h3>
+
+          <label for="Email-7">Estado</label>
+          <div class="switch">
+            <input name="estado" id="estado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if data.estado && data.estado == 1]] checked[[/if]]>
+            <label for="estado"></label>
+          </div>
+
           <label for="Email-7">Email</label>
           <input class="input w-input" maxlength="256" name="email" placeholder="ale@gmail.com" type="email" value="[[if data && data.email]][[:data.email]][[/if]]" required>
 
@@ -73,7 +80,7 @@
           </div>
           <div class="w-col w-col-12">
             <label for="Plan-2">Plan</label>
-            <select class="w-select" name="pais">
+            <select class="w-select" name="plan">
               <option value="">Seleccioná ...</option>
             [[for datosdeapoyo.planes]]
               <option value="[[>#data]]"[[if ~root.data && ~root.data.planes == #data]] selected[[/if]]>[[>#data]]</option>
@@ -84,7 +91,7 @@
             <input class="input w-input" maxlength="256" id="direccion" name="direccion" placeholder="Av. Rivadavia 1234" type="text" value="[[if data && data.direccion]][[:data.direccion]][[/if]]" required>
 
             <label for="Apellido">unidad funcinal</label>
-            <input class="input w-input" maxlength="256" name="manzana_ufuncinal" placeholder="A" type="text" value="[[if data && data.manzana_ufuncinal]][[:data.manzana_ufuncinal]][[/if]]" required>
+            <input class="input w-input" maxlength="256" name="unidad_funcional" placeholder="A" type="text" value="[[if data && data.unidad_funcional]][[:data.unidad_funcional]][[/if]]" required>
 
             <label for="Apellido">manzana ufuncinal</label>
             <input class="input w-input" maxlength="256" name="manzana_ufuncinal" placeholder="2A" type="text" value="[[if data && data.manzana_ufuncinal]][[:data.manzana_ufuncinal]][[/if]]" required>

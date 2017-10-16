@@ -28,6 +28,7 @@
     , newSeguridadKey = undefined 
     , updates = {
       implementacion : {
+        estado : (data.implementacion_estado?1:0),
         email : $.trim(data.implementacion_email).toLowerCase(),
         plan : data.implementacion_plan,
         direccion : $.trim(data.implementacion_direccion),
@@ -37,21 +38,21 @@
         titulo : $.trim(data.implementacion_titulo),
       }
       , administrador : {
+        estado : (data.administrador_estado?1:0),
         email : $.trim(data.administrador_email).toLowerCase(),
         nombre : $.trim(data.administrador_nombre),
         empresa : $.trim(data.administrador_empresa),
         caduca : $.trim(data.administrador_caduca),
         telefono : $.trim(data.administrador_telefono),
-        estado : data.administrador_estado,
         rol : 'administrador'
       }
       , seguridad : {
+        estado : (data.seguridad_estado?1:0),
         email : $.trim(data.seguridad_email).toLowerCase(),
         nombre : $.trim(data.seguridad_nombre),
         empresa : $.trim(data.seguridad_empresa),
         caduca : $.trim(data.seguridad_caduca),
         telefono : $.trim(data.seguridad_telefono),
-        estado : data.seguridad_estado,
         rol : 'seguridad'
       }      
     }
@@ -276,10 +277,11 @@
   })
 
   implementaciones.on('child_changed', (data) => {
-    var index = $('#'+data.key).index()
-    $('#'+data.key).remove()
-    $('#list').insertAt(index, $.templates('#item').render({key:data.key,data:data.val()}))
-    $('#'+data.key).animateChanged()
+    var index = $('#'+data.key).index();
+    $('#'+data.key).remove();
+console.log(index)
+    $('#list').insertAt(index, $.templates('#item').render({key:data.key,data:data.val()}));
+    $('#'+data.key).animateChanged();
   })
 
   implementaciones.on('child_removed', (data) => {

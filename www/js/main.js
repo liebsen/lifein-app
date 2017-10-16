@@ -272,6 +272,10 @@ $(document).on('keyup','.filtro',function(e){
     })
 })
 
+$(document).on('click','a.toggler',function(){
+  $(this).toggleClass('on');
+});
+
 $(document).on('click','.bind-entry',function(){
     var url = $(this).attr('url')
     , key = $(this).attr('key')

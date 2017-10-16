@@ -82,6 +82,12 @@
         <div class="w-col w-col-4">
           <h3>Implementación</h3>
 
+          <label for="Email-7">Estado</label>
+          <div class="switch">
+            <input name="implementacion_estado" id="implementacion_estado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if data && data.estado && data.estado == 1]] checked[[/if]]>
+            <label for="implementacion_estado"></label>
+          </div>
+
           <label for="Plan-2">Plan</label>
           <select class="w-select" name="implementacion_plan">
             <option value="">Seleccioná ...</option>
@@ -109,12 +115,11 @@
         <div class="w-col w-col-4">
           <h3>Administrador</h3>
 
-          <label for="Plan-2">Estado</label>
-          <select class="w-select" name="administrador_estado"  required>
-            <option value="">Seleccioná ...</option>
-            <option value="habilitado"[[if admin && admin.estado == 'habilitado' || !admin]] selected[[/if]]>Habilitado</option>
-            <option value="deshabilitado"[[if admin && admin.estado == 'deshabilitado']] selected[[/if]]>Desabilitado</option>
-          </select>
+          <label for="Email-7">Estado</label>
+          <div class="switch">
+            <input name="administrador_estado" id="administrador_estado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if admin && admin.estado && admin.estado == 1]] checked[[/if]]>
+            <label for="administrador_estado"></label>
+          </div>
                     
           <label for="titulo">Nombre</label>
           <input class="input w-input" maxlength="256" name="administrador_nombre" placeholder="Nombre completo" type="text" value="[[if admin && admin.nombre]][[:admin.nombre]][[/if]]" required>
@@ -136,18 +141,17 @@
         <div class="w-col w-col-4">
           <h3>Seguridad</h3>
 
-          <label for="Plan-2">Estado</label>
-          <select class="w-select" name="seguridad_estado" required>
-            <option value="">Seleccioná ...</option>
-            <option value="habilitado"[[if seguridad && seguridad.estado == 'habilitado' || !seguridad]] selected[[/if]]>Habilitado</option>
-            <option value="deshabilitado"[[if seguridad && seguridad.estado == 'deshabilitado']] selected[[/if]]>Desabilitado</option>
-          </select>
-                    
+          <label for="Email-7">Estado</label>
+          <div class="switch">
+            <input name="seguridad_estado" id="seguridad_estado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if seguridad && seguridad.estado && seguridad.estado == 1]] checked[[/if]]>
+            <label for="seguridad_estado"></label>
+          </div>
+
           <label for="titulo">Nombre</label>
-          <input class="input w-input" maxlength="256" name="seguridad_nombre" placeholder="Nombre copleto" type="text" value="[[if seguridad && seguridad.nombre]][[:seguridad.nombre]][[/if]]" required>
+          <input class="input w-input" maxlength="256" name="seguridad_nombre" placeholder="Nombre copleto" type="text" value="[[if seguridad && seguridad.nombre]][[:seguridad.nombre]][[/if]]">
 
           <label for="Email-7">Email</label>
-          <input class="input w-input" maxlength="256" name="seguridad_email" placeholder="ale@gmail.com" type="email" value="[[if seguridad && seguridad.email]][[:seguridad.email]][[/if]]" required>
+          <input class="input w-input" maxlength="256" name="seguridad_email" placeholder="ale@gmail.com" type="email" value="[[if seguridad && seguridad.email]][[:seguridad.email]][[/if]]">
           
           <label for="telefono">Teléfono</label>
           <input class="input w-input" maxlength="256" name="seguridad_telefono" placeholder="4333-5555" type="text" value="[[if seguridad && seguridad.telefono]][[:seguridad.telefono]][[/if]]">
@@ -157,7 +161,6 @@
 
           <label for="telefono">Caduca</label>
           <input class="input w-input datetimepicker" maxlength="256" name="seguridad_caduca" id="seguridad_caduca" placeholder="" type="text" value="[[if seguridad && seguridad.caduca]][[:seguridad.caduca]][[/if]]">
-
         </div>
 
         <div class="w-col w-col-12">

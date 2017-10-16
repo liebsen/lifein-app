@@ -1,85 +1,88 @@
   var currentnode = '/cuentas/' + key
   , cuentas = firebase.database().ref(currentnode)
   , datosdeapoyo = {}
-  , anim = LI.animation
+  , anim = LI.animation;
 
   cuentas.once('value').then(function(datos) {
     if(!datos.val()){
       $('.spinner').fadeOut(anim.transition.fadeOut, function(){
-        $('.lista').delay(anim.transition.delay).fadeIn()
-      })    
+        $('.lista').delay(anim.transition.delay).fadeIn();
+      })   ; 
     }
   })
     
   firebase.database().ref('/datosdeapoyo').once('value').then(function(datos) {
-    datosdeapoyo = datos.val()
+    datosdeapoyo = datos.val();
   })
 
   $(document).on('submit','#firebase-form',function(e){
-    e.preventDefault()
+    e.preventDefault();
     var data = $(this).serializeObject()
     , updates = {}
-    , newKey = undefined 
+    , newKey = null 
     , key = $(this).attr('key')
-
-    data.geo = { 
-      lat: $('#direccion').attr('lat')
-      , lng : $('#direccion').attr('lng') 
+    , lat = $('#direccion').attr('lat')
+    , lng = $('#direccion').attr('lng');
+    
+    data.estado = data.estado?1:0;
+    if(lat && lng){
+      data.geo = { lat:lat, lng:lng};
     }
 
     if(key){
-      updates[currentnode + '/' + key] = data
+      updates[currentnode + '/' + key] = data;
     } else {
-      var newKey = cuentas.push().key
-      updates[currentnode + '/' + newKey] = data
+      var newKey = cuentas.push().key;
+      key = newKey;
+      updates[currentnode + '/' + key] = data;
     }
 
     $('.spinner').fadeIn(anim.transition.fadeIn, function(){
       firebase.database().ref().update(updates, function(error){
         if(error){
-          console.log(error)
+          console.log(error);
         }else{
           if(newKey){
-            var emailData = data
-            emailData.password = LI.randomString(12)
+            var emailData = data;
+            emailData.password = LI.randomString(12);
             LI.createAccount('email',emailData).then(function(){
               $('#detail').fadeOut(anim.transition.fadeOut,function(){
                 $('.lista').delay(anim.transition.delay).fadeIn(anim.transition.fadeIn,function(){
-                  LI.resetScroll()
-                  $('.spinner').fadeOut(anim.transition.fadeOut)
+                  LI.resetScroll();
+                  $('.spinner').fadeOut(anim.transition.fadeOut);
                 })
               }) 
             })
           } else {             
             $('#detail').fadeOut(anim.transition.fadeOut,function(){
               $('.lista').delay(anim.transition.delay).fadeIn(anim.transition.fadeIn,function(){
-                LI.resetScroll()
-                $('.spinner').fadeOut(anim.transition.fadeOut)
+                LI.resetScroll();
+                $('.spinner').fadeOut(anim.transition.fadeOut);
               })
             }) 
           }
         }
-      })
-    })
+      });
+    });
 
     return false  
-  })
+  });
 
   $(document).on('click','.add-item',function(e){
     $('#detail').html($.templates('#form').render({key:null,data:{plan:""},datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
       $('.lista').fadeOut(anim.transition.fadeOut,function(){
         $('#detail').delay(200).fadeIn(anim.transition.fadeOut*anim.transition.factor,function(){
-          $('body,html').scrollTop(0)
-          LI.initAutocomplete('direccion')
-        })
-      })    
-    })  
-  })
+          $('body,html').scrollTop(0);
+          LI.initAutocomplete('direccion');
+        });
+      });   
+    });
+  });
 
   $(document).on('click','.action.ver',function(){
-    var key = $(this).data('key')
-    $('body').attr('key',key)
-    LI.setScroll()
+    var key = $(this).data('key');
+    $('body').attr('key',key);
+    LI.setScroll();
     $('.spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){
       firebase.database().ref(currentnode+'/'+key).once('value').then(function(cuenta) {
         var data = cuenta.val()
@@ -87,23 +90,23 @@
           $('.lista').fadeOut(anim.transition.fadeOut,function(){
             $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
               $('#detail').delay(200).fadeIn(anim.transition.fadeOut*anim.transition.factor,function(){
-                LI.initAutocomplete('direccion')
+                LI.initAutocomplete('direccion');
                 if(data.geo){
-                  $('#implementacion_direccion')
+                  $('#direccion')
                     .attr('lat',data.geo.lat)
-                    .attr('lng',data.geo.lng)
-                $('body,html').scrollTop(0)
+                    .attr('lng',data.geo.lng);
+                LI.controls();
                 }
-              })
-            })
-          })
-        })
-      })
-    })
-  })
+              });
+            });
+          });
+        });
+      });
+    });
+  });
 
   $(document).on('click','.action.eliminar',function(){
-    var key = $(this).data('key')
+    var key = $(this).data('key');
     swal({   
       title: "Borrar cuenta",   
       text: "Seguro que querés eliminar esta cuenta?",   

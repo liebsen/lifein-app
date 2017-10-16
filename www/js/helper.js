@@ -18,6 +18,9 @@ var LI = {
             room : "LifeIn"
         }
     }
+    , controls : function(){
+        $('body,html').scrollTop(0)
+    }
     , getLayoutProp : function(name,prop){
         return prop && prop != "" ? prop : LI.settings.defaults.layout[name]
     }

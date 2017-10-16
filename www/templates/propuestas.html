@@ -69,12 +69,14 @@
     <script id="form" type="text/x-jsrender">
       <div class="form-wrapper w-form2">
         <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]">
-          <h3>Editar reserva</h3>
+          <h3>Editar propuesta</h3>
 
-          <select class="w-select" name="estado">
-            <option value="Publicado"[[if data.estado == 'Publicado']] selected[[/if]]>Publicado</option>
-            <option value="Borrador"[[if data.estado == 'Borrador']] selected[[/if]]>Borrador</option>
-          </select>
+          <label for="Email-7">Estado</label>
+          <div class="switch">
+            <input name="estado" id="estado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if data.estado && data.estado == 1]] checked[[/if]]>
+            <label for="estado"></label>
+          </div>
+
           <label for="Plan-2">Categoría</label>
           <select class="w-select" name="categoria">
             <option value="">Seleccioná ...</option>

@@ -21,7 +21,8 @@
     var data = $(this).serializeObject()
     , updates = {}
     , key = $(this).attr('key')
-      
+    
+    data.estado = data.estado?1:0;
     updates[currentnode +'/' + key] = data
 
     $('.spinner').fadeIn(anim.transition.fadeIn, function(){
