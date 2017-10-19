@@ -17,14 +17,14 @@
 
       <div class="row title">
         <div class="list-item">
-          <div>ID</div>
-        </div>
-        <div class="list-item">
           <div>Quien solicita</div>
         </div>
         <div class="list-item w-hidden-small w-hidden-tiny">
           <div>Nombre</div>
         </div>
+        <div class="list-item">
+          <div>Estado</div>
+        </div>        
         <div class="list-item w-hidden-small w-hidden-tiny">
           <div>Habilitación</div>
         </div>
@@ -41,14 +41,14 @@
     <script id="item" type="text/x-jsrender">
       <div class="row" id="[[:key]]">
         <div class="list-item">
-          <div>[[:key]]</div>
-        </div>
-        <div class="list-item">
-          <div>[[:data.solicita]]</div>
+          <div class="bind-entry bind-icon" url="/cuentas/[[:~getKey()]]/[[:data.usuario_id]]">[[:data.solicita]]</div>
         </div>
         <div class="list-item w-hidden-small w-hidden-tiny">
           <div>[[:data.nombre]]</div>
         </div>
+        <div class="list-item">
+          <div><span class="[[if data.estado]]success[[else]]error[[/if]]-text">[[if data.estado]]Aprobado[[else]]Sin aprobar[[/if]]</span></div>
+        </div>        
         <div class="list-item w-hidden-small w-hidden-tiny">
           <div>[[:data.habilitacion]]</div>
         </div>
@@ -70,20 +70,29 @@
             <input name="estado" id="estado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if data.estado && data.estado == 1]] checked[[/if]]>
             <label for="estado"></label>
           </div>
-          <label for="Plan-2">Categoría</label>
-          <select class="w-select" name="categoria">
-            <option value="">Seleccioná ...</option>
-          [[for datosdeapoyo.categorias]]
-            <option value="[[>#data]]"[[if ~root.data && ~root.data.categoria == #data]] selected[[/if]]>[[>#data]]</option>
-          [[/for]]
-          </select>
 
-          <label for="titulo">Título</label>
-          <input class="input w-input" maxlength="256" name="titulo" placeholder="Términos y Condiciones" type="text" value="[[if data && data.titulo]][[:data.titulo]][[/if]]" required>
-          <label for="tag">Autor</label>
-          <input class="input w-input" maxlength="256" name="tag" placeholder="terminos_es" type="text" value="[[if data && data.nombre]][[:data.nombre]][[/if]]" required>
-          <label for="content">Contenido</label>
-          <textarea class="input w-input" name="contenido" placeholder="Contenido de la publicación" required>[[if data && data.descripcion]][[:data.descripcion]][[/if]]</textarea>
+          <div class="w-col">
+            <div class="w-col w-col-4 text-center" class="bind-entry" url="/cuentas/[[:~getKey()]]/[[:cuenta.id]]">
+              <div class="foto center" style="background-image:url([[:cuenta.foto]])"></div>
+              <h5>[[:cuenta.nombre]]</h5>
+            </div>
+            <div class="w-col w-col-4 text-center">
+              <h3>[[:data.nombre]]</h3>
+              <h5>DNI: [[:data.dni]]</h5>
+              <h5>Patente: [[:data.patente]]</h5>
+              <h5>Habilitación: [[:data.habilitacion]]</h5>
+            </div>
+            <div class="w-col w-col-4 text-center">
+              <div class="calendar-big">
+                <h3 class="day">[[:~dateDay(data.fecha)]]</h3>
+                <h5 class="mon">[[:~dateMon(data.fecha)]]</h5>
+                <h3 class="hour">[[:~dateHour(data.fecha)]]</h3>                
+              </div>
+            </div>
+          </div>
+
+          <label for="content">Motivo de actualización</label>
+          <textarea class="input w-input" name="texto" placeholder="Escriba brevemente el motivo de actualización. Si se habilita la autorización o se cancela se notificará al usuario."></textarea>
 
           <input class="w-button cerrar" type="button" value="Cerrar">
           <input class="buttons w-button" data-wait="Guardando..." type="submit" value="Guardar cambios">

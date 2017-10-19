@@ -1,79 +1,112 @@
   var currentnode = '/reservas/'+key
   , reservas = firebase.database().ref(currentnode)
   , datosdeapoyo = {}  
-  , anim = LI.animation
+  , anim = LI.animation.transition;
 
   reservas.once('value').then(function(datos) {
     if(!datos.val()){
-      $('.spinner').fadeOut(anim.transition.fadeOut, function(){
-        $('.lista').delay(anim.transition.delay).fadeIn()
+      $('.spinner').fadeOut(anim.fadeOut, function(){
+        $('.lista').delay(anim.delay).fadeIn();
       })    
     }
   })
 
   firebase.database().ref('/datosdeapoyo').once('value').then(function(datos) {
-    datosdeapoyo = datos.val()
+    datosdeapoyo = datos.val();
   })
 
   $(document).on('submit','#firebase-form',function(e){
-    e.preventDefault()
+    e.preventDefault();
     
     var data = $(this).serializeObject()
-    , updates = {}
-    , key = $(this).attr('key')
+    , _key = $(this).attr('key')
+    , estado = data.estado?1:0;
 
-    data.estado = data.estado?1:0;
-    updates[currentnode +'/' + key] = data
+    $('.spinner').fadeIn(anim.fadeIn, function(){
+      firebase.database().ref(currentnode + '/' + _key).once('value').then(function(item) {
+        var reserva = item.val();
+        var estado_ref = reserva.estado;
+        reserva.estado = estado;
+        firebase.database().ref(currentnode + '/' + _key).update(reserva, function(error){
+          if(error){
+            console.log(error);
+          }else{
+            var noti = false;
+            if(!estado_ref && estado){
+              noti = {
+                fecha: moment().format(),
+                icon : 'success',
+                tipo : 'particular',
+                destino : reserva.usuario_id,
+                titulo : "La reserva de " + reserva.espacio + " para el " + LI.aux.easyDate(reserva.fecha) + " fue aprobada",
+                texto : data.texto
+              };
+            } else if(estado_ref && !estado){
+              noti = {
+                fecha: moment().format(),
+                icon : 'error',
+                tipo : 'particular',
+                destino : reserva.usuario_id,
+                titulo : "La reserva de " + reserva.espacio + " para el " + LI.aux.easyDate(reserva.fecha) + " no fue aprobada",
+                texto : data.texto
+              };
+            }
 
-    $('.spinner').fadeIn(anim.transition.fadeIn, function(){
-      firebase.database().ref().update(updates, function(error){
-        if(error){
-          console.log(error)
-        }else{
-          $('#detail').fadeOut(anim.transition.fadeOut,function(){
-            $('.lista').fadeIn(anim.transition.fadeIn,function(){
-              //LI.resetScroll()
-              $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor)
-            })
-          }) 
-        }
+            console.log(noti);
+
+            if(noti){
+              var notificaciones = firebase.database().ref('/notificaciones/' + key);
+              notificaciones.child(notificaciones.push().key).set(noti);
+            }
+
+            $('#detail').fadeOut(anim.fadeOut,function(){
+              $('.lista').fadeIn(anim.fadeIn,function(){
+                //LI.resetScroll()
+                $('.spinner').fadeOut(anim.fadeOut*anim.factor);
+              })
+            }) 
+          }
+        })
       })
     })
 
-    return false  
+    return false;
   })
 
   $(document).on('click','.add-item',function(e){
-    $('#detail').html($.templates('#form').render({key:null,data:{estado:""},aux:LI.aux,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
-      $('.lista').fadeOut(anim.transition.fadeOut,function(){
-        $('#detail').delay(200).fadeIn(anim.transition.fadeOut*anim.transition.factor,function(){
-          $('body,html').scrollTop(0)
+    $('#detail').html($.templates('#form').render({key:null,data:{estado:""},datosdeapoyo:datosdeapoyo},LI.aux)).promise().done(function(){
+      $('.lista').fadeOut(anim.fadeOut,function(){
+        $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
+          $('body,html').scrollTop(0);
         })
       })    
     })  
   })
 
   $(document).on('click','.action.ver',function(){
-    var key = $(this).data('key')
+    var _key = $(this).data('key')
     $('body').attr('key',key)
     LI.setScroll()
-    $('.spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){  
-      firebase.database().ref(currentnode +'/'+key).once('value').then(function(item) {
-        $('#detail').html($.templates('#form').render({key:item.key,data:item.val(),aux:LI.aux,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
-          $('.lista').fadeOut(anim.transition.fadeOut,function(){
-            $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){                    
-              $('#detail').delay(200).fadeIn(anim.transition.fadeOut*anim.transition.factor,function(){
-                $('body,html').scrollTop(0)
-              })
-            })
-          })
-        })
-      })
-    })
-  })
+    $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){  
+      firebase.database().ref(currentnode +'/'+_key).once('value').then(function(item) {
+        firebase.database().ref('/cuentas/'+key+'/'+item.val().usuario_id).once('value').then(function(cuenta) {
+          console.log(cuenta.val())
+          $('#detail').html($.templates('#form').render({key:item.key,data:item.val(),cuenta:cuenta.val(),datosdeapoyo:datosdeapoyo},LI.aux)).promise().done(function(){
+            $('.lista').fadeOut(anim.fadeOut,function(){
+              $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){                    
+                $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
+                  $('body,html').scrollTop(0);
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
 
   $(document).on('click','.action.eliminar',function(){
-    var key = $(this).data('key')
+    var key = $(this).data('key');
     swal({   
       title: "Borrar reserva",   
       text: "Seguro que querés eliminar esta reserva?",
@@ -83,15 +116,15 @@
       showLoaderOnConfirm: true,
     }, function(){    
       firebase.database().ref(currentnode + key).remove().then(function(){
-        swal.close()
+        swal.close();
       })
     })
   })  
 
   $(document).on('click','.cerrar',function(){
-    $('#detail').fadeOut(anim.transition.fadeOut,function(){
-      $('.lista').delay(anim.transition.delay).fadeIn(anim.transition.fadeIn,function(){
-        LI.resetScroll()
+    $('#detail').fadeOut(anim.fadeOut,function(){
+      $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){
+        LI.resetScroll();
       })
     })
   })  
@@ -101,20 +134,20 @@
     $('#list').prepend($.templates('#item').render({key:data.key,data:data.val()}, LI.aux)).promise().done(function(){
       $('#list').find('#'+data.key).animateAdded()
     })  
-    $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor, function(){
-      $('.lista').delay(anim.transition.delay).fadeIn()
+    $('.spinner').fadeOut(anim.fadeOut*anim.factor, function(){
+      $('.lista').delay(anim.delay).fadeIn();
     })
   })
 
   reservas.on('child_changed', (data) => {
-    var index = $('#'+data.key).index()
-    $('#'+data.key).remove()
-    $('#list').insertAt(index, $.templates('#item').render({key:data.key,data:data.val()}))
-    $('#'+data.key).animateChanged()
+    var index = $('#'+data.key).index();
+    $('#'+data.key).remove();
+    $('#list').insertAt(index, $.templates('#item').render({key:data.key,data:data.val()}, LI.aux));
+    $('#'+data.key).animateChanged();
   })
 
   reservas.on('child_removed', (data) => {
     $('#'+data.key).animateRemoved(function(){
-      $(this).remove()  
+      $(this).remove();
     })    
   })

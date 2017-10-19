@@ -31,6 +31,9 @@
       <div class="list-item w-hidden-small w-hidden-tiny">
         <div>Seguridad</div>
       </div>
+      <div class="list-item w-hidden-small w-hidden-tiny">
+        <div>Estado</div>
+      </div>
       <div class="list-item csv-exclude">
         <div>Acción</div>
       </div>
@@ -50,27 +53,29 @@
         <div><a href="call:[[:data.telefono]]">[[:data.telefono]]</a></div>
       </div>
       <div class="list-item w-hidden-small w-hidden-tiny">
-      [[if admins.length]]
+      [[if admins]]
         [[for admins]]
-        <div class="bind" url="/cuentas" key="email" val="[[:email]]"><span class="alert-text">[[:nombre]]</span></div>
+        <div class="bind" url="/cuentas" key="email" val="[[:email]]"><span class="[[if estado]]success[[else]]error[[/if]]-text">[[:nombre]]</span></div>
         [[/for]]
       [[else]]
         <div><span class="warning-text">No tiene</span></div>
       [[/if]]
       </div>
       <div class="list-item w-hidden-small w-hidden-tiny">
-      [[if seguridad.length]]
+      [[if seguridad]]
         [[for seguridad]]
-        <div class="bind" url="/cuentas" key="email" val="[[:email]]"><span class="alert-text">[[:nombre]]</span></div>
+        <div class="bind" url="/cuentas" key="email" val="[[:email]]"><span class="[[if estado]]success[[else]]error[[/if]]-text">[[:nombre]]</span></div>
         [[/for]]
       [[else]]
         <div><span class="warning-text">No tiene</span></div>
       [[/if]]
       </div>
-
+      <div class="list-item w-hidden-small w-hidden-tiny">
+        <div class="[[if data.estado]]success[[else]]error[[/if]]-text">[[if data.estado]]Habilitado[[else]]Deshabilitado[[/if]]</div>
+      </div>
       <div class="list-item csv-exclude">
         <a class="action editar text-link" data-key="[[:key]]" href="#">Ver / Editar</a>
-        <a class="action text-link" href="/[[:key]]/menu">Administrar</a>
+        <a class="action text-link" href="/[[:key]]/menu" target="_blank">Administrar</a>
         <a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
       </div>
     </div>

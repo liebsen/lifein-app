@@ -1,12 +1,12 @@
   var currentnode = '/cuentas/' + key
   , cuentas = firebase.database().ref(currentnode)
   , datosdeapoyo = {}
-  , anim = LI.animation;
+  , anim = LI.animation.transition;
 
   cuentas.once('value').then(function(datos) {
     if(!datos.val()){
-      $('.spinner').fadeOut(anim.transition.fadeOut, function(){
-        $('.lista').delay(anim.transition.delay).fadeIn();
+      $('.spinner').fadeOut(anim.fadeOut, function(){
+        $('.lista').delay(anim.delay).fadeIn();
       })   ; 
     }
   })
@@ -37,7 +37,7 @@
       updates[currentnode + '/' + key] = data;
     }
 
-    $('.spinner').fadeIn(anim.transition.fadeIn, function(){
+    $('.spinner').fadeIn(anim.fadeIn, function(){
       firebase.database().ref().update(updates, function(error){
         if(error){
           console.log(error);
@@ -46,18 +46,18 @@
             var emailData = data;
             emailData.password = LI.randomString(12);
             LI.createAccount('email',emailData).then(function(){
-              $('#detail').fadeOut(anim.transition.fadeOut,function(){
-                $('.lista').delay(anim.transition.delay).fadeIn(anim.transition.fadeIn,function(){
+              $('#detail').fadeOut(anim.fadeOut,function(){
+                $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){
                   LI.resetScroll();
-                  $('.spinner').fadeOut(anim.transition.fadeOut);
+                  $('.spinner').fadeOut(anim.fadeOut);
                 })
               }) 
             })
           } else {             
-            $('#detail').fadeOut(anim.transition.fadeOut,function(){
-              $('.lista').delay(anim.transition.delay).fadeIn(anim.transition.fadeIn,function(){
+            $('#detail').fadeOut(anim.fadeOut,function(){
+              $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){
                 LI.resetScroll();
-                $('.spinner').fadeOut(anim.transition.fadeOut);
+                $('.spinner').fadeOut(anim.fadeOut);
               })
             }) 
           }
@@ -70,8 +70,8 @@
 
   $(document).on('click','.add-item',function(e){
     $('#detail').html($.templates('#form').render({key:null,data:{plan:""},datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
-      $('.lista').fadeOut(anim.transition.fadeOut,function(){
-        $('#detail').delay(200).fadeIn(anim.transition.fadeOut*anim.transition.factor,function(){
+      $('.lista').fadeOut(anim.fadeOut,function(){
+        $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
           $('body,html').scrollTop(0);
           LI.initAutocomplete('direccion');
         });
@@ -83,13 +83,13 @@
     var key = $(this).data('key');
     $('body').attr('key',key);
     LI.setScroll();
-    $('.spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){
+    $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){
       firebase.database().ref(currentnode+'/'+key).once('value').then(function(cuenta) {
         var data = cuenta.val()
         $('#detail').html($.templates('#form').render({key:cuenta.key,data:data,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
-          $('.lista').fadeOut(anim.transition.fadeOut,function(){
-            $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
-              $('#detail').delay(200).fadeIn(anim.transition.fadeOut*anim.transition.factor,function(){
+          $('.lista').fadeOut(anim.fadeOut,function(){
+            $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){
+              $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
                 LI.initAutocomplete('direccion');
                 if(data.geo){
                   $('#direccion')
@@ -122,8 +122,8 @@
   })  
 
   $(document).on('click','.cerrar',function(){
-    $('#detail').fadeOut(anim.transition.fadeOut,function(){
-      $('.lista').delay(anim.transition.delay).fadeIn(anim.transition.fadeIn,function(){
+    $('#detail').fadeOut(anim.fadeOut,function(){
+      $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){
         LI.resetScroll()
       })
     })
@@ -134,8 +134,8 @@
     $('#list').prepend($.templates('#item').render({key:data.key,data:data.val()}, LI)).promise().done(function(){
       $('#list').find('#'+data.key).animateAdded()
     })  
-    $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor, function(){
-      $('.lista').delay(anim.transition.delay).fadeIn()
+    $('.spinner').fadeOut(anim.fadeOut*anim.factor, function(){
+      $('.lista').delay(anim.delay).fadeIn()
     })  
   })
 

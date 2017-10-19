@@ -1,6 +1,6 @@
 var ismobile=navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i)
 , authmessages={"auth/user-not-found":"Usuario no válido","auth/wrong-password":"La contrseña es inválida. Tal vez mayúsculas?"}
-, anim = LI.animation
+, anim = LI.animation.transition
 , datosdeapoyo = {}  
 
 jQuery.fn.insertAt = function(index, element) {
@@ -94,10 +94,10 @@ $(document).on('click','.preferencias',function(){
     LI.setScroll()
     if($('.modalcontainer').html() != '') return $('.modalcontainer').fadeIn()
     console.log($('.modalcontainer').length)
-    $('.spinner').fadeIn(anim.transition.fadeIn*anim.transition.factor, function(){
+    $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){
         firebase.database().ref('implementaciones/'+key).once('value').then(function(grupo) {
           var data = grupo.val()
-            $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
+            $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){
                 $('.modalcontainer').html($.templates('#preferencias').render({key:grupo.key,data:data,layout:data.layout,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
                     LI.resetWebflow()                
                     $('body,html').scrollTop(0)
@@ -139,7 +139,7 @@ $(document).on('submit','#preferencias',function(e){
       updates['/implementaciones/' + key] = data
     }
 
-    $('.spinner').fadeIn(anim.transition.fadeIn, function(){
+    $('.spinner').fadeIn(anim.fadeIn, function(){
 
       return new Promise(function(resolve, reject) {
         // files
@@ -193,8 +193,8 @@ $(document).on('submit','#preferencias',function(e){
           if(error){
             swal("Error firebase",error,"error")
           }
-          $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor,function(){
-            $('.modalcontainer').fadeOut(anim.transition.fadeOut)
+          $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){
+            $('.modalcontainer').fadeOut(anim.fadeOut)
             LI.resetScroll()
             swal("Preferencias","Las preferencias han sido actualizadas","success")
           })
@@ -278,32 +278,46 @@ $(document).on('click','a.toggler',function(){
 
 $(document).on('click','.bind-entry',function(){
     var url = $(this).attr('url')
-    , key = $(this).attr('key')
-    , val = $(this).attr('val')
+    , key = $(this).attr('key')||0
+    , val = $(this).attr('val');
 
-    $('.spinner').fadeIn(anim.transition.fadeIn, function(){
-        firebase.database().ref(url).orderByChild(key).equalTo(val).once('value', function(snap) {
-            var item = snap.val()
-            $('.spinner').fadeOut(anim.transition.fadeOut*anim.transition.factor)
-            if(item){
-                var snapKey = Object.keys(item)[0]
-                return swal({
-                  title: null,
-                  text: $.templates('#bind_entry').render(item[snapKey]),
-                  type: "success",
-                  showCancelButton: false,
-                  confirmButtonColor: "#DD6B55",
-                  confirmButtonText: "OK",
-                  closeOnConfirm: false,
-                  html: true
-                },
-                function(){
-                  swal.close()
-                })
-            }
-            return swal("Error","no se encontró " + val + " en " + url,"error")
-        })
-    })
+    console.log(url);
+    $('.spinner').fadeIn(anim.fadeIn, function(){
+      return new Promise(function(resolve, reject) { 
+        if(key){
+          firebase.database().ref(url).orderByChild(key).equalTo(val).once('value', function(snap) {
+            resolve(snap);
+          });
+        } else {
+          firebase.database().ref(url).once('value', function(snap) {
+            resolve(snap);
+          });
+        }
+      }).then(function(snap){
+        var item = snap.val()
+        $('.spinner').fadeOut(anim.fadeOut*anim.factor)
+        if(item){
+          if(key){
+            var snapKey = Object.keys(item)[0];
+            item = item[snapKey];
+          } 
+          return swal({
+            title: null,
+            text: $.templates('#bind_entry').render(item,LI.aux),
+            type: "success",
+            showCancelButton: false,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "OK",
+            closeOnConfirm: false,
+            html: true
+          },
+          function(){
+            swal.close();
+          })
+        }
+        return swal("Error","no se encontró " + val + " en " + url,"error");
+      });
+    });
 })
 
 moment.locale('es')

@@ -1,9 +1,9 @@
-  var currentnode = '/propuestas/'+key
-  , reservas = firebase.database().ref(currentnode)
+  var currentnode = '/telefonos_utiles/'+key
+  , telefonos_utiles = firebase.database().ref(currentnode)
   , datosdeapoyo = {}  
   , anim = LI.animation.transition
 
-  reservas.once('value').then(function(datos) {
+  telefonos_utiles.once('value').then(function(datos) {
     if(!datos.val()){
       $('.spinner').fadeOut(anim.fadeOut, function(){
         $('.lista').delay(anim.delay).fadeIn()
@@ -20,10 +20,10 @@
     
     var data = $(this).serializeObject()
     , updates = {}
-    , key = $(this).attr('key')
-    
+    , _key = $(this).attr('key')
+
     data.estado = data.estado?1:0;
-    updates[currentnode +'/' + key] = data
+    updates[currentnode +'/' + _key] = data
 
     $('.spinner').fadeIn(anim.fadeIn, function(){
       firebase.database().ref().update(updates, function(error){
@@ -97,7 +97,7 @@
   })  
 
   // live fb handlers
-  reservas.on('child_added', (data) => {
+  telefonos_utiles.on('child_added', (data) => {
     $('#list').prepend($.templates('#item').render({key:data.key,data:data.val()}, LI.aux)).promise().done(function(){
       $('#list').find('#'+data.key).animateAdded()
     })  
@@ -106,14 +106,14 @@
     })
   })
 
-  reservas.on('child_changed', (data) => {
+  telefonos_utiles.on('child_changed', (data) => {
     var index = $('#'+data.key).index()
     $('#'+data.key).remove()
     $('#list').insertAt(index, $.templates('#item').render({key:data.key,data:data.val()}))
     $('#'+data.key).animateChanged()
   })
 
-  reservas.on('child_removed', (data) => {
+  telefonos_utiles.on('child_removed', (data) => {
     $('#'+data.key).animateRemoved(function(){
       $(this).remove()  
     })    

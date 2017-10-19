@@ -138,13 +138,31 @@ var LI = {
 		head.appendChild(style)
 	}
 	, aux : {
+        getKey : function(){
+            return key;
+        },
+        isURL : function(str){
+            return str.indexOf('http://') > -1 || str.indexOf('https://') > -1;
+        },
+        easyDate : function(date){
+            return moment(date).format('DD/MM HH:MM');
+        },
+        dateDay : function(date){
+            return moment(date).format('DD');
+        },
+        dateMon : function(date){
+            return moment(date).format('MMMM');
+        },
+        dateHour : function(date){
+            return moment(date).format('HH:MM');
+        },
 		humanTime : function(date){
 			return moment(date).fromNow()
 		}
 		, getMimeType : function(url){
 			var extension = url.substr( (url.lastIndexOf('.') +1) )
 			, extension = extension.indexOf('?') > -1 ? extension.split("?")[0] : extension
-			, mimetype = extension
+			, mimetype = extension;
 
 			switch(extension) {
 			        case 'au':
