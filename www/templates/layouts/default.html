@@ -33,17 +33,17 @@
         {% include 'partials/analytics.html' %}
 
         {% block head %}{% endblock %}
-        
+
+        {% if localhost == false %}
+        <link href="/dist/css/bundle.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
+        {% else %}
         <link href="/css/normalize.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
         <link href="/css/webflow.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
         <link href="/css/lifein.webflow.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
         <link href="/css/sweetalert.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">  
         <link href="/css/jquery.minicolors.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">  
-
+        {% endif %}
         <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
-        <script src="/js/vendor/modernizr-latest.js?_={{ rev_parse }}" type="text/javascript"></script>
-        <script src="/js/vendor/jquery.min.js?_={{ rev_parse }}" type="text/javascript"></script>        
-        
         <link href="/images/favicon.png?_={{ rev_parse }}" rel="shortcut icon" type="image/x-icon">
         <link href="/images/Group.png?_={{ rev_parse }}" rel="apple-touch-icon">
         <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
@@ -63,6 +63,11 @@
 
         {% include 'partials/footer.html' %}
 
+        {% if localhost == false %}
+        <script src="/dist/js/vendor.js?_={{ rev_parse }}" type="text/javascript"></script>
+        {% else %}
+        <script src="/js/vendor/modernizr-latest.js?_={{ rev_parse }}" type="text/javascript"></script>
+        <script src="/js/vendor/jquery.min.js?_={{ rev_parse }}" type="text/javascript"></script>        
         <script src="/js/vendor/webflow.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/vendor/moment-with-locales.min.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/vendor/jsrender.min.js?_={{ rev_parse }}" type="text/javascript"></script>
@@ -72,33 +77,8 @@
         <script src="/js/firebase.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/helper.js?_={{ rev_parse }}" type="text/javascript"></script>        
         <script src="/js/main.js?_={{ rev_parse }}" type="text/javascript"></script>
-        <script id="bind_entry" type="text/x-jsrender">
-            <table class="bind-entry-table">
-        [[props #data]]
-            [[if prop.length]]
-                <tr>
-                    <td align="right" width="50%"><strong>[[:key]]</strong>&nbsp;&nbsp;</td>
-                    <td align="left" width="50%">
-                [[if ~isURL(prop)]]
-                    <div class="foto" style="background-image:url([[:prop]])"></div>
-                [[else]]
-                    [[if key == 'email']]
-                        <a href="mailto:[[:prop]]">
-                    [[/if]]
-                    [[if key == 'telefono']]
-                        <a href="tel:[[:prop]]">
-                    [[/if]]
-                    [[:prop]]
-                    [[if key == 'telefono' || key == 'email']]
-                        </a>
-                    [[/if]]
-                    </td>
-                [[/if]]
-                </tr>
-            [[/if]]
-        [[/props]]
-            </table>
-        </script>        
+        {% endif %}
+   
         <script>
             var key = '{{key}}'
             , user = localStorage.getItem("firebaseuser")

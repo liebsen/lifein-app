@@ -4344,4 +4344,4 @@
 Webflow.require('ix').init([
 	{"slug":"showmodal","name":"ShowModal","value":{"style":{},"triggers":[{"type":"click","selector":".modalcontainer","stepsA":[{"display":"block","opacity":0},{"display":"block","opacity":1,"transition":"opacity 500ms ease 0"}],"stepsB":[]}]}},
 	{"slug":"hidemodal","name":"HideModal","value":{"style":{},"triggers":[{"type":"click","selector":".modalcontainer","stepsA":[{"opacity":0,"transition":"opacity 250ms ease 0"},{"display":"none"}],"stepsB":[]}]}}
-])
+]);

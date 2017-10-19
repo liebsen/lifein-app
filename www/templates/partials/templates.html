@@ -1,3 +1,32 @@
+
+  <script id="bind_entry" type="text/x-jsrender">
+      <table class="bind-entry-table">
+  [[props #data]]
+      [[if prop.length]]
+          <tr>
+              <td align="right" width="50%"><strong>[[:key]]</strong>&nbsp;&nbsp;</td>
+              <td align="left" width="50%">
+          [[if ~isURL(prop)]]
+              <div class="foto" style="background-image:url([[:prop]])"></div>
+          [[else]]
+              [[if key == 'email']]
+                  <a href="mailto:[[:prop]]">
+              [[/if]]
+              [[if key == 'telefono']]
+                  <a href="tel:[[:prop]]">
+              [[/if]]
+              [[:prop]]
+              [[if key == 'telefono' || key == 'email']]
+                  </a>
+              [[/if]]
+              </td>
+          [[/if]]
+          </tr>
+      [[/if]]
+  [[/props]]
+      </table>
+  </script>     
+        
   <script id="layout" type="text/x-jsrender">
 
       body, .subnav { 

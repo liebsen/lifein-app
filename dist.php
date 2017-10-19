@@ -5,7 +5,6 @@ require __DIR__ . "/vendor/autoload.php";
 use Patchwork\JSqueeze;
 use MatthiasMullie\Minify;
 
-
 // js
 $jz = new JSqueeze();
 
@@ -17,6 +16,14 @@ $fatJs = [
 	file_get_contents('www/js/vendor/jquery.min.js'),
 	file_get_contents('www/js/vendor/modernizr-latest.js'),
 	file_get_contents('www/js/vendor/webflow.js'),
+	file_get_contents('www/js/vendor/moment-with-locales.min.js'),
+	file_get_contents('www/js/vendor/jsrender.min.js'),
+	file_get_contents('www/js/vendor/jquery.minicolors.js'),
+	file_get_contents('www/js/vendor/jquery.datetimepicker.full.min.js'),
+	file_get_contents('www/js/vendor/sweetalert.min.js'),
+	file_get_contents('www/js/vendor/html2csv.js'),
+	file_get_contents('www/js/firebase.js'),
+	file_get_contents('www/js/helper.js'),
 	file_get_contents('www/js/main.js')
 ];
 
@@ -30,8 +37,8 @@ $minifiedJs = $jz->squeeze(
 file_put_contents("www/dist/js/vendor.js",$minifiedJs);
 
 // individual 
-/*
-$fats = ['auto.js','catalogo.js','banners.js','home.js','actualizar-contrasena.js','geo.js','mapa.js','olvide-mi-contrasena.js','seguros.js','repuestos.js','search.js','wizard.js','un-auto-para-vos.js','perfil-autos.js','perfil-datos.js','perfil-mensajes.js','producto.js','tiendas.js','usuario.js','vendor/jquery-ui.js','vendor/jquery.ui.touch-punch.min.js','vender.js'];
+
+$fats = ['autorizaciones.js','cuentas.js','implementaciones.js','lostandfound.js','menu.js','propuestas.js','publicaciones.js','reservas.js','telefonos_utiles.js'];
 
 foreach($fats as $jsfile){
 	$minified = $jz->squeeze(
@@ -43,7 +50,6 @@ foreach($fats as $jsfile){
 
 	file_put_contents("www/dist/js/" . $jsfile,$minified);	
 }
-*/
 
 // css
 $minifier = new Minify\CSS('www/css/normalize.css');

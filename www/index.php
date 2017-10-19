@@ -28,6 +28,8 @@
         // Instantiate and add Slim specific extension
         $basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
         $view->offsetSet('rev_parse', ( ! empty($_ENV['SOURCE_VERSION']) ? $_ENV['SOURCE_VERSION'] : exec('git rev-parse HEAD')));
+        $view->offsetSet('localhost', ($_SERVER['REMOTE_ADDR'] == "127.0.0.1"));
+        $view->offsetSet('jspath', ($_SERVER['REMOTE_ADDR'] == "127.0.0.1" ? '/js' : '/dist/js'));
         $view->offsetSet('base_path', $basePath);
         $view->offsetSet('app_title', getenv('APP_TITLE'));
         $view->offsetSet('currentyear', date('Y'));

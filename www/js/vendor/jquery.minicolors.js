@@ -1,25 +1,14 @@
-//
-// jQuery MiniColors: A tiny color picker built on jQuery
-//
-// Developed by Cory LaViska for A Beautiful Site, LLC
-//
-// Licensed under the MIT license: http://opensource.org/licenses/MIT
-//
 (function (factory) {
   if(typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
     define(['jquery'], factory);
   } else if(typeof exports === 'object') {
-    // Node/CommonJS
     module.exports = factory(require('jquery'));
   } else {
-    // Browser globals
     factory(jQuery);
   }
 }(function ($) {
   'use strict';
 
-  // Defaults
   $.minicolors = {
     defaults: {
       animationSpeed: 50,
@@ -43,7 +32,6 @@
     }
   };
 
-  // Public methods
   $.extend($.fn, {
     minicolors: function(method, data) {
 

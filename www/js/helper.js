@@ -19,28 +19,26 @@ var LI = {
         }
     }
     , controls : function(){
-        $('body,html').scrollTop(0)
+        $('body,html').scrollTop(0);
     }
     , getLayoutProp : function(name,prop){
-        return prop && prop != "" ? prop : LI.settings.defaults.layout[name]
+        return prop && prop != "" ? prop : LI.settings.defaults.layout[name];
     }
     , initAutocomplete : function (name){
-        var input = document.getElementById(name)
-        var autocomplete = new google.maps.places.Autocomplete(input)
+        var input = document.getElementById(name);
+        var autocomplete = new google.maps.places.Autocomplete(input);
 
         autocomplete.addListener('place_changed', function() {
             var place = autocomplete.getPlace();
             if (!place.geometry) {
-              // User entered the name of a Place that was not suggested and
-              // pressed the Enter key, or the Place Details request failed.
               window.alert("No details available for input: '" + place.name + "'");
               return;
             }
             if (place.geometry.viewport) {
-              var latlng = place.geometry.location.toJSON()
+              var latlng = place.geometry.location.toJSON();
               $('#'+name)
                 .attr('lat',latlng.lat)
-                .attr('lng',latlng.lng)
+                .attr('lng',latlng.lng);
             }
         })
     }
@@ -61,64 +59,63 @@ var LI = {
                         content : $.templates('#'+tpl+'_message').render(data)
                     },
                     success : function(resp){
-                        if(resp.status!='success') swal("Error","Error al enviar notificación","error")
-                        //def.resolve()
+                        if(resp.status!='success') swal("Error","Error al enviar notificación","error");
                     }
                 })
             }, function(error) {
-                swal('Error',error,'error')
+                swal('Error',error,'error');
             });        
         }, function(error) {
             var errorCode = error.code
-            , errorMessage = error.message
+            , errorMessage = error.message;
             if (errorCode == 'auth/weak-password') {
                 swal('Error','La contraseña es demasiado débil.','error');
             } else {
-                swal('Error',error,'error')
+                swal('Error',error,'error');
             }
         })
     }
     , tools : {
         getResource : function(url){
             firebase.database().ref(url).once('value', function(snap) {
-                console.log(snap.val())
-            })
+                console.log(snap.val());
+            });
         }
     }
 	, resetScroll : function(){
-		$('body,html').scrollTop(this.lastscrollpos)
+		$('body,html').scrollTop(this.lastscrollpos);
 	}
 	, resetWebflow : function(){
 		Webflow.require('ix').init([
 		  {"slug":"showmodal","name":"ShowModal","value":{"style":{},"triggers":[{"type":"click","selector":".modalcontainer","stepsA":[{"display":"block","opacity":0},{"display":"block","opacity":1,"transition":"opacity 500ms ease 0"}],"stepsB":[]}]}},
 		  {"slug":"hidemodal","name":"HideModal","value":{"style":{},"triggers":[{"type":"click","selector":".modalcontainer","stepsA":[{"opacity":0,"transition":"opacity 250ms ease 0"},{"display":"none"}],"stepsB":[]}]}}
-		])
+		]);
         $('.minicolors').each(function(){
           if( ! $(this).hasClass('minicolors-theme-default')){
-            $(this).minicolors({format:'rgba'})
+            $(this).minicolors({format:'rgba'});
           }
-        })
-		Webflow.ready()
+        });
+		Webflow.ready();
 	}	
 	, setScroll : function(){
-		var scrollpos = $(window).scrollTop()
-		this.lastscrollpos = scrollpos
+		var scrollpos = $(window).scrollTop();
+		this.lastscrollpos = scrollpos;
 	}
 	, checkUser : function(user){
-		if(!user) return 
+		if(!user) return;
         if(typeof user.scope == 'object' && user.scope[0] != key && location.href != '/' + user.scope + '/menu'){
-            return location.href = '/' + user.scope + '/menu'
+            return location.href = '/' + user.scope + '/menu';
         }
 
-        $('.session-status').html(user.email)
+        $('.session-status').html(user.email);
         
         if(key && user.layouts && user.layouts[key]){
             var layout = user.layouts[key]
-            , title = $(document).prop('title')
-	        $(document).prop('title', title.replace(user.room))
+            , title = $(document).prop('title');
+	        $(document).prop('title', title.replace(user.room));
 
-            this.setStyleSheet($.templates('#layout').render(layout,LI)) 
-            this.setExternalStyleSheet("https://fonts.googleapis.com/css?family=" + layout.font + ":300,400,500,700") 
+            this.setStyleSheet($.templates('#layout').render(layout,LI));
+            this.setExternalStyleSheet("https://fonts.googleapis.com/css?family=" + layout.font + ":300,400,500,700");
         }
 	}
     , setExternalStyleSheet : function(css){
@@ -126,16 +123,16 @@ var LI = {
     }
 	, setStyleSheet : function(css){
 		var head = document.head || document.getElementsByTagName('head')[0]
-		, style = document.createElement('style')
-		style.type = 'text/css'
+		, style = document.createElement('style');
+		style.type = 'text/css';
 
 		if (style.styleSheet){
-		  style.styleSheet.cssText = css
+		  style.styleSheet.cssText = css;
 		} else {
-		  style.appendChild(document.createTextNode(css))
+		  style.appendChild(document.createTextNode(css));
 		}
 
-		head.appendChild(style)
+		head.appendChild(style);
 	}
 	, aux : {
         getKey : function(){
@@ -167,31 +164,31 @@ var LI = {
 			switch(extension) {
 			        case 'au':
 			        case 'snd':
-			        mimetype = "basic"
+			        mimetype = "basic";
 			        break;
 			        case 'rmi':
-			        mimetype = "mid"
+			        mimetype = "mid";
 			        break;
 			        case 'mp3':
-			        mimetype = "mpeg"
+			        mimetype = "mpeg";
 			        break;
 			        case 'mp4':
-			        mimetype = "mp4"
+			        mimetype = "mp4";
 			        break;
 			        case 'aif':
 			        case 'aifc':
 			        case 'aiff':
-			        mimetype = "x-aiff"
+			        mimetype = "x-aiff";
 			        break;
 			}
 
-			return mimetype
+			return mimetype;
 		}
 		, commaList: function(list){
-			return list.join(", ")
+			return list.join(", ");
 		}
 		, formatNumber : function (number){
-			return typeof Intl=='object' ? new Intl.NumberFormat().format(number) : number
+			return typeof Intl=='object' ? new Intl.NumberFormat().format(number) : number;
 		}			
 	}
     , animation : {
@@ -203,51 +200,52 @@ var LI = {
     		, delayed : 250
     	}
 		, delayed : function(sel,delay) {
-			if(delay==undefined) delay = this.transition.delayed
-		  	$($(sel).eq(LI.count)).fadeIn()
-		  	LI.count += 1
-		  	delay = delay - LI.count/$(sel).length*delay
+			if(delay==undefined) delay = this.transition.delayed;
+		  	$($(sel).eq(LI.count)).fadeIn();
+		  	LI.count += 1;
+		  	delay = delay - LI.count/$(sel).length*delay;
 			if (LI.count < LI.child_added_index) {
 				setTimeout(function(){
 					LI.animation.delayed(sel)
-				}, delay)
+				}, delay);
 			}
 		}
     }
 	, randomString : function(a) {
 	  var text = ""
-	  , possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+	  , possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-	  for (var i = 0; i < a; i++)
-	    text += possible.charAt(Math.floor(Math.random() * possible.length))
+	  for (var i = 0; i < a; i++){
+	    text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
 
-	  return text
+	  return text;
 	}    
 	, sameString : function(a,b){
-		return $.trim(a.toUpperCase()) === $.trim(b.toUpperCase())
+		return $.trim(a.toUpperCase()) === $.trim(b.toUpperCase());
 	}
 	, inArray : function(index,arr){
-		return $.inArray(index,arr) > -1
+		return $.inArray(index,arr) > -1;
 	}
 	, toJSON : function(json){
-		return JSON.stringify(json)
+		return JSON.stringify(json);
 	}
 	, setParameterByName : function(name,value,url){
-        if(!url) url = window.location.hash.split('#').join('')
-        if(value == null) value = ''
-        var pattern = new RegExp('\\b('+name+'=).*?(&|$)')
+        if(!url) url = window.location.hash.split('#').join('');
+        if(value == null) value = '';
+        var pattern = new RegExp('\\b('+name+'=).*?(&|$)');
         if(url.search(pattern)>=0){
-            return url.replace(pattern,'$1' + value + '$2')
+            return url.replace(pattern,'$1' + value + '$2');
         }
-        return url + '&' + name + '=' + value 
+        return url + '&' + name + '=' + value;
     }
     , getParameterByName : function(name,url) {
-        if(!url) url = window.location.hash
-        name = name.replace(/[\[\]]/g, "\\$&")
+        if(!url) url = window.location.hash;
+        name = name.replace(/[\[\]]/g, "\\$&");
         var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url)
-        if(!results) return ''
-        if(!results[2]) return ''
-        return decodeURI(results[2].replace(/\+/g, " "))
+        results = regex.exec(url);
+        if(!results) return '';
+        if(!results[2]) return '';
+        return decodeURI(results[2].replace(/\+/g, " "));
     }
 }
