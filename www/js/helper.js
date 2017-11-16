@@ -1,5 +1,6 @@
 var LI = {
 	lastscrollpos : 0
+    , date_format : 'YYYY-MM-DD'
 	, child_added_index : 0
 	, count : 0
 	, delay : 0	
@@ -17,6 +18,9 @@ var LI = {
             },
             room : "LifeIn"
         }
+    }
+    , get_date_format : function(format){
+        return format||LI.date_format;
     }
     , controls : function(){
         $('body,html').scrollTop(0);
@@ -141,19 +145,25 @@ var LI = {
         isURL : function(str){
             return str.indexOf('http://') > -1 || str.indexOf('https://') > -1;
         },
-        easyDate : function(date){
-            return moment(date).format('DD/MM HH:MM');
+        easyDate : function(date,format){
+            return moment(date,LI.get_date_format(format)).format('DD/MM HH:MM');
         },
-        dateDay : function(date){
-            return moment(date).format('DD');
+        dateDay : function(date,format){
+            return moment(date,LI.get_date_format(format)).format('DD');
         },
-        dateMon : function(date){
-            return moment(date).format('MMMM');
+        dateMon : function(date,format){
+            return moment(date,LI.get_date_format(format)).format('MMMM');
         },
-        dateHour : function(date){
-            return moment(date).format('HH:MM');
+        dateWDay : function(date,format){
+            return moment(date,LI.get_date_format(format)).format('ddd');
+        },        
+        dateHour : function(date,format){
+            return moment(date,LI.get_date_format(format)).format('HH:MM');
         },
-		humanTime : function(date){
+        dateDue : function(date,format){
+            return moment().format('x') > moment(date,LI.get_date_format(format)).format('x');
+        },        
+		humanTime : function(date,format){
 			return moment(date).fromNow()
 		}
 		, getMimeType : function(url){

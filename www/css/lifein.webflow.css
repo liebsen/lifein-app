@@ -632,7 +632,7 @@ input.cmn-toggle-round:checked + label:after {
   color: #6fd56f;
 }
 
-.indicador .ban {
+.indicador .fa-ban {
   color: #e86868;
 }
 
@@ -709,27 +709,48 @@ input.cmn-toggle-round:checked + label:after {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 300px 300px;
-  background-image: url(../images/calendar.svg);
   text-align: center;
+  padding-left: 50px;
   height: 300px;
 }
 
+.calendar-big .fa-calendar-o {
+  color:#6b6b98;
+  font-size: 300px;
+  position: absolute;
+  left: 82px;
+  top: -120px;
+}
+
 .calendar-big .day{
-  font-size: 100px;
+  position: relative;  
+  z-index: 1;
+  font-size: 60px;
+  margin-bottom: 12px;
   color: #453c76;
-  padding-top: 120px;
+}
+
+.calendar-big .wday{
+  position: relative;  
+  z-index: 1;
+  font-size: 30px;
+  margin-bottom: 12px;
+  color: #453c76;
 }
 
 .calendar-big .mon{
-  font-size: 50px;
+  position: relative;  
+  z-index: 1;
+  font-size: 32px;
   color: #453c76;
-  padding-top: 20px;
 }
 
 .calendar-big .hour{
+  position: relative;  
+  z-index: 1;
   font-size: 28px;
+  margin-bottom: -3px;
   color: #453c76;
-  padding-top: 8px;
 }
 
 .bind-icon {
@@ -768,6 +789,10 @@ input.cmn-toggle-round:checked + label:after {
   100% { background:#fff; }
 }
 
+.due {
+  background-color: #f9f9f9;
+  color:#cacaca!important;
+}
 .saving {
   animation: flash 1s ease-in-out;
 }

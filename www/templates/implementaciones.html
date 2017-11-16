@@ -54,7 +54,7 @@
       <div class="list-item w-hidden-small w-hidden-tiny">
       [[if admins]]
         [[for admins]]
-        <div class="bind" url="/cuentas" key="email" val="[[:email]]"><span class="[[if estado]]success[[else]]error[[/if]]-text">[[:nombre]]</span></div>
+        <div class="bind" url="/cuentas" key="email" val="[[:email]]"><span class="[[if aprobado]]success[[else]]error[[/if]]-text">[[:nombre]]</span></div>
         [[/for]]
       [[else]]
         <div><span class="warning-text">No tiene</span></div>
@@ -63,7 +63,7 @@
       <div class="list-item w-hidden-small w-hidden-tiny">
       [[if seguridad]]
         [[for seguridad]]
-        <div class="bind" url="/cuentas" key="email" val="[[:email]]"><span class="[[if estado]]success[[else]]error[[/if]]-text">[[:nombre]]</span></div>
+        <div class="bind" url="/cuentas" key="email" val="[[:email]]"><span class="[[if aprobado]]success[[else]]error[[/if]]-text">[[:nombre]]</span></div>
         [[/for]]
       [[else]]
         <div><span class="warning-text">No tiene</span></div>
@@ -88,8 +88,8 @@
 
           <label for="Email-7">Estado</label>
           <div class="switch">
-            <input name="implementacion_estado" id="implementacion_estado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if data && data.aprobado && data.aprobado == 1]] checked[[/if]]>
-            <label for="implementacion_estado"></label>
+            <input name="implementacion_aprobado" id="implementacion_aprobado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if data && data.aprobado && data.aprobado == 1]] checked[[/if]]>
+            <label for="implementacion_aprobado"></label>
           </div>
 
           <label for="Plan-2">Plan</label>
@@ -121,8 +121,8 @@
 
           <label for="Email-7">Estado</label>
           <div class="switch">
-            <input name="administrador_estado" id="administrador_estado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if admin && admin.aprobado && admin.aprobado == 1]] checked[[/if]]>
-            <label for="administrador_estado"></label>
+            <input name="administrador_aprobado" id="administrador_aprobado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if admin && admin.aprobado && admin.aprobado == 1]] checked[[/if]]>
+            <label for="administrador_aprobado"></label>
           </div>
                     
           <label for="titulo">Nombre</label>
@@ -144,8 +144,8 @@
 
           <label for="Email-7">Estado</label>
           <div class="switch">
-            <input name="seguridad_estado" id="seguridad_estado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if seguridad && seguridad.aprobado && seguridad.aprobado == 1]] checked[[/if]]>
-            <label for="seguridad_estado"></label>
+            <input name="seguridad_aprobado" id="seguridad_aprobado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if seguridad && seguridad.aprobado && seguridad.aprobado == 1]] checked[[/if]]>
+            <label for="seguridad_aprobado"></label>
           </div>
 
           <label for="titulo">Nombre</label>

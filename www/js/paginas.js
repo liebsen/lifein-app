@@ -35,7 +35,7 @@ $(document).on('submit','#firebase-form',function(e){
 })
 
 $(document).on('click','.add-pagina',function(e){
-  $('#detail').html($.templates('#form').render({key:null,data:{estado:""},aux:LI.aux.paginas},LI)).promise().done(function(){
+  $('#detail').html($.templates('#form').render({key:null,data:{aprobado:""},aux:LI.aux.paginas},LI)).promise().done(function(){
     $('.lista').fadeOut(anim.fadeOut,function(){
       $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
         $('body,html').scrollTop(0)

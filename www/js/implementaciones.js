@@ -28,7 +28,7 @@
     , newSeguridadKey = undefined 
     , updates = {
       implementacion : {
-        estado : (data.implementacion_estado?1:0),
+        aprobado : (data.implementacion_aprobado?1:0),
         email : $.trim(data.implementacion_email).toLowerCase(),
         plan : data.implementacion_plan,
         direccion : $.trim(data.implementacion_direccion),
@@ -39,7 +39,7 @@
         modificado : moment().format('X')
       }
       , administrador : {
-        estado : (data.administrador_estado?1:0),
+        aprobado : (data.administrador_aprobado?1:0),
         email : $.trim(data.administrador_email).toLowerCase(),
         nombre : $.trim(data.administrador_nombre),
         empresa : $.trim(data.administrador_empresa),
@@ -48,7 +48,7 @@
         rol : 'administrador'
       }
       , seguridad : {
-        estado : (data.seguridad_estado?1:0),
+        aprobado : (data.seguridad_aprobado?1:0),
         email : $.trim(data.seguridad_email).toLowerCase(),
         nombre : $.trim(data.seguridad_nombre),
         empresa : $.trim(data.seguridad_empresa),

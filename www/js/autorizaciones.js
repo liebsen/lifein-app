@@ -20,19 +20,19 @@
 
     var data = $(this).serializeObject()
     , _key = $(this).attr('key')
-    , estado = data.aprobado?1:0;
+    , aprobado = data.aprobado?1:0;
 
     $('.spinner').fadeIn(anim.fadeIn, function(){
       firebase.database().ref(currentnode + '/' + _key).once('value').then(function(item) {
         var autorizacion = item.val();
-        var estado_ref = autorizacion.aprobado;
-        autorizacion.aprobado = estado;
+        var aprobado_ref = autorizacion.aprobado;
+        autorizacion.aprobado = aprobado;
         firebase.database().ref(currentnode + '/' + _key).update(autorizacion, function(error){
           if(error){
             console.log(error);
           }else{
             var noti = false;
-            if(!estado_ref && estado){
+            if(!aprobado_ref && aprobado){
               noti = {
                 fecha: moment().format(),
                 icon : 'success',
@@ -41,7 +41,7 @@
                 titulo : "La autorizacion de " + autorizacion.nombre + " para el " + LI.aux.easyDate(autorizacion.fecha) + " fue aprobada",
                 texto : data.texto
               };
-            } else if(estado_ref && !estado){
+            } else if(aprobado_ref && !aprobado){
               noti = {
                 fecha: moment().format(),
                 icon : 'error',
@@ -72,7 +72,7 @@
   })
 
   $(document).on('click','.add-item',function(e){
-    $('#detail').html($.templates('#form').render({key:null,data:{estado:""},aux:LI.aux.autorizacions,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
+    $('#detail').html($.templates('#form').render({key:null,data:{aprobado:""},aux:LI.aux.autorizacions,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
       $('.lista').fadeOut(anim.fadeOut,function(){
         $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
           $('body,html').scrollTop(0)

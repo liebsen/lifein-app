@@ -44,7 +44,7 @@
   })
 
   $(document).on('click','.add-item',function(e){
-    $('#detail').html($.templates('#form').render({key:null,data:{estado:""},aux:LI.aux,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
+    $('#detail').html($.templates('#form').render({key:null,data:{aprobado:""},aux:LI.aux,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
       $('.lista').fadeOut(anim.fadeOut,function(){
         $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
           $('body,html').scrollTop(0)
