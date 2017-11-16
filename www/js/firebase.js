@@ -22,7 +22,7 @@ firebase.auth().onAuthStateChanged(function(user) {
           ctr++;
           var row = administrador.val();
           if(row.email == user.email){
-            if(row.rol == 'super' || row.estado) {
+            if(row.rol == 'super' || row.aprobado) {
               user.rol = row.rol;
               user.scope = row.scope;
               resolve(user);

@@ -20,13 +20,13 @@
     
     var data = $(this).serializeObject()
     , _key = $(this).attr('key')
-    , estado = data.estado?1:0;
+    , estado = data.aprobado?1:0;
 
     $('.spinner').fadeIn(anim.fadeIn, function(){
       firebase.database().ref(currentnode + '/' + _key).once('value').then(function(item) {
         var reserva = item.val();
-        var estado_ref = reserva.estado;
-        reserva.estado = estado;
+        var estado_ref = reserva.aprobado;
+        reserva.aprobado = estado;
         firebase.database().ref(currentnode + '/' + _key).update(reserva, function(error){
           if(error){
             console.log(error);

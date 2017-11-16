@@ -2,7 +2,6 @@
 
 {% block head %}
   <title>{{app_title}} Implementaciones</title>
-  <link href="/css/jquery.datetimepicker.min.css?_=59a4295c76289e96428584f8" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
@@ -71,7 +70,7 @@
       [[/if]]
       </div>
       <div class="list-item w-hidden-small w-hidden-tiny">
-        <div class="[[if data.estado]]success[[else]]error[[/if]]-text">[[if data.estado]]Habilitado[[else]]Deshabilitado[[/if]]</div>
+        <div class="[[if data.aprobado]]success[[else]]error[[/if]]-text">[[if data.aprobado]]Habilitado[[else]]Deshabilitado[[/if]]</div>
       </div>
       <div class="list-item csv-exclude">
         <a class="action editar text-link" data-key="[[:key]]" href="#">Ver / Editar</a>
@@ -89,7 +88,7 @@
 
           <label for="Email-7">Estado</label>
           <div class="switch">
-            <input name="implementacion_estado" id="implementacion_estado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if data && data.estado && data.estado == 1]] checked[[/if]]>
+            <input name="implementacion_estado" id="implementacion_estado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if data && data.aprobado && data.aprobado == 1]] checked[[/if]]>
             <label for="implementacion_estado"></label>
           </div>
 
@@ -122,7 +121,7 @@
 
           <label for="Email-7">Estado</label>
           <div class="switch">
-            <input name="administrador_estado" id="administrador_estado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if admin && admin.estado && admin.estado == 1]] checked[[/if]]>
+            <input name="administrador_estado" id="administrador_estado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if admin && admin.aprobado && admin.aprobado == 1]] checked[[/if]]>
             <label for="administrador_estado"></label>
           </div>
                     
@@ -138,9 +137,6 @@
           <label for="telefono">Empresa</label>
           <input class="input w-input" maxlength="256" name="administrador_empresa" placeholder="Empresa" type="text" value="[[if admin && admin.empresa]][[:admin.empresa]][[/if]]">
 
-          <label for="telefono">Caduca</label>
-          <input class="input w-input datetimepicker" maxlength="256" name="administrador_caduca" id="administrador_caduca" placeholder="" type="text" value="[[if admin && admin.caduca]][[:admin.caduca]][[/if]]">
-
         </div>
 
         <div class="w-col w-col-4">
@@ -148,7 +144,7 @@
 
           <label for="Email-7">Estado</label>
           <div class="switch">
-            <input name="seguridad_estado" id="seguridad_estado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if seguridad && seguridad.estado && seguridad.estado == 1]] checked[[/if]]>
+            <input name="seguridad_estado" id="seguridad_estado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if seguridad && seguridad.aprobado && seguridad.aprobado == 1]] checked[[/if]]>
             <label for="seguridad_estado"></label>
           </div>
 
@@ -163,9 +159,6 @@
 
           <label for="telefono">Empresa</label>
           <input class="input w-input" maxlength="256" name="seguridad_empresa" placeholder="Empresa" type="text" value="[[if seguridad && seguridad.empresa]][[:seguridad.empresa]][[/if]]">
-
-          <label for="telefono">Caduca</label>
-          <input class="input w-input datetimepicker" maxlength="256" name="seguridad_caduca" id="seguridad_caduca" placeholder="" type="text" value="[[if seguridad && seguridad.caduca]][[:seguridad.caduca]][[/if]]">
         </div>
 
         <div class="w-col w-col-12">

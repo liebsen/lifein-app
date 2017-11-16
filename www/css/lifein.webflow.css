@@ -621,6 +621,21 @@ input.cmn-toggle-round:checked + label:after {
   padding-top: 10px;
 }
 
+.indicador {
+  max-width: 30px;
+  font-size: 30px;
+  line-height: 1px;
+  margin-top: -5px;  
+}
+
+.indicador .fa-check-square-o {
+  color: #6fd56f;
+}
+
+.indicador .ban {
+  color: #e86868;
+}
+
 #detail {
   padding-top: 3em;
   display: none;

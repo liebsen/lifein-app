@@ -17,8 +17,8 @@
 
       <div class="row title">
         <div class="list-item">
-          <div>ID</div>
-        </div>
+          <div>&nbsp;</div>
+        </div>         
         <div class="list-item">
           <div>Quien solicita</div>
         </div>
@@ -40,9 +40,9 @@
 
     <script id="item" type="text/x-jsrender">
       <div class="row" id="[[:key]]">
-        <div class="list-item">
-          <div>[[:key]]</div>
-        </div>
+        <div class="list-item indicador">
+          <div><span class="fa fa-[[if data.aprobado]]check-square-o[[else]]ban[[/if]]"></span></div>
+        </div>      
         <div class="list-item">
           <div>[[:data.autor]]</div>
         </div>
@@ -66,8 +66,8 @@
           <h3>Editar reserva</h3>
 
           <select class="w-select" name="estado">
-            <option value="Publicado"[[if data.estado == 'Publicado']] selected[[/if]]>Publicado</option>
-            <option value="Borrador"[[if data.estado == 'Borrador']] selected[[/if]]>Borrador</option>
+            <option value="Publicado"[[if data.aprobado == 'Publicado']] selected[[/if]]>Publicado</option>
+            <option value="Borrador"[[if data.aprobado == 'Borrador']] selected[[/if]]>Borrador</option>
           </select>
           <label for="Plan-2">Categoría</label>
           <select class="w-select" name="categoria">

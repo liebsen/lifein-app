@@ -188,7 +188,6 @@
                     $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
                       $('body,html').scrollTop(0)
                       LI.initAutocomplete('implementacion_direccion')
-                      $('.datetimepicker').datetimepicker()
                       if(implementacion.geo){
                         $('#implementacion_direccion')
                           .attr('lat',implementacion.geo.lat)
@@ -315,4 +314,3 @@
     })  
   })
 
-  $.datetimepicker.setLocale('es')

@@ -54,6 +54,7 @@ foreach($fats as $jsfile){
 // css
 $minifier = new Minify\CSS('www/css/normalize.css');
 $minifier->add('www/css/webflow.css');
+$minifier->add('www/css/font-awesome.css');
 $minifier->add('www/css/lifein.webflow.css');
 $minifier->add('www/css/sweetalert.css');
 $minifier->add('www/css/slick.css');

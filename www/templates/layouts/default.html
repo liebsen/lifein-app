@@ -39,6 +39,7 @@
         {% else %}
         <link href="/css/normalize.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
         <link href="/css/webflow.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
+        <link href="/css/font-awesome.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
         <link href="/css/lifein.webflow.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
         <link href="/css/sweetalert.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">  
         <link href="/css/jquery.minicolors.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">  
@@ -82,11 +83,10 @@
         <script>
             var key = '{{key}}'
             , user = localStorage.getItem("firebaseuser")
-            , user = $.parseJSON(user)
-            , segments = 
+            , user = $.parseJSON(user);
 
-            $('body').addClass(location.pathname.split('/').reverse()[0])
-            LI.checkUser(user)
+            $('body').addClass(location.pathname.split('/').reverse()[0]);
+            LI.checkUser(user);
 
         </script>
 

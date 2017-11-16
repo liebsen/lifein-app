@@ -22,7 +22,7 @@
     , updates = {}
     , key = $(this).attr('key')
     
-    data.estado = data.estado?1:0;
+    data.aprobado = data.aprobado?1:0;
     updates[currentnode +'/' + key] = data
 
     $('.spinner').fadeIn(anim.fadeIn, function(){

@@ -24,7 +24,7 @@
     , lat = $('#direccion').attr('lat')
     , lng = $('#direccion').attr('lng');
     
-    data.estado = data.estado?1:0;
+    data.aprobado = data.aprobado?1:0;
     if(lat && lng){
       data.geo = { lat:lat, lng:lng};
     }

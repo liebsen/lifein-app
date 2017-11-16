@@ -28,7 +28,7 @@
         child.on('child_added', (data) => {
           if(!snap.count) snap.count = 0;
           if($.inArray(slug,["reservas","pubicaciones","lostandfound"]) > -1){
-            if(data.val().estado === undefined) snap.count++;
+            if(data.val().aprobado === undefined) snap.count++;
           } else {
             snap.count++;
           }
