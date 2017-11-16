@@ -622,10 +622,11 @@ input.cmn-toggle-round:checked + label:after {
 }
 
 .indicador {
-  max-width: 30px;
+  max-width: 50px;
   font-size: 30px;
   line-height: 1px;
   margin-top: -5px;  
+  text-align: center;
 }
 
 .indicador .fa-check-square-o {
@@ -793,6 +794,18 @@ input.cmn-toggle-round:checked + label:after {
   background-color: #f9f9f9;
   color:#cacaca!important;
 }
+
+.due .bind-icon {
+  fill: #e47171;
+}
+.due .success-text {
+  background-color: #c7ffc7;
+}
+
+.due .error-text {
+  background-color: #e47171;
+}
+
 .saving {
   animation: flash 1s ease-in-out;
 }
