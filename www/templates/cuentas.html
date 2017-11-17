@@ -15,11 +15,14 @@
       <input type="text" class="input w-input filtro" maxlength="256" name="search" placeholder="Buscar..." autocomplete="off" />
     </div>    
     <div class="row title">
-      <div class="list-item">
-        <div>&nbsp;</div>
+      <div class="list-item indicador">
+        <div><small>Aprobado</small></div>
+      </div>
+      <div class="list-item indicador">
+        <div><small>Rol</small></div>
       </div>
       <div class="list-item w-hidden-small w-hidden-tiny">
-        <div>Email</div>
+        <div>Usuario</div>
       </div>
       <div class="list-item w-hidden-small w-hidden-tiny">
         <div>Nombre</div>
@@ -36,13 +39,16 @@
       <div class="list-item indicador">
         <div><span class="fa fa-[[if data.aprobado]]check-square-o[[else]]ban[[/if]]"></span></div>
       </div>
+      <div class="list-item indicador">
+        <div><span class="fa fa-[[if data.administrador]]user-circle[[else data.seguridad]]group[[else]]user[[/if]]" title="[[if data.administrador]]Admin[[else data.seguridad]]Seguridad[[else]]Usuario[[/if]]"></span></div>
+      </div>
       <div class="list-item w-hidden-small w-hidden-tiny">
         <div class="bind-entry bind-icon" url="/cuentas/[[:~getKey()]]/[[:key]]">[[:data.email]]</div>
       </div>
       <div class="list-item w-hidden-small w-hidden-tiny">
         <div>[[:data.nombre]] [[:data.apellido]]</div>
       </div>
-      <div class="list-item csv-exclude"><a class="action ver text-link" data-key="[[:key]]" href="#">Ver / Editar</a><a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
+      <div class="list-item csv-exclude"><a class="action ver text-link" data-key="[[:key]]" href="#">Editar</a><a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
       </div>
     </div>
   </script>
@@ -72,32 +78,24 @@
             </figcaption>
           </div>
           <div class="w-col w-col-8">
-            <label for="nombre">Nombre</label>
-            <input class="input w-input" maxlength="256" name="nombre" placeholder="Alejandro" type="text" value="[[if data && data.nombre]][[:data.nombre]][[/if]]" required>
+            <label for="Nombre">Nombre</label>
+            <input id="Nombre" class="input w-input" maxlength="256" name="nombre" placeholder="Alejandro" type="text" value="[[if data && data.nombre]][[:data.nombre]][[/if]]" required>
 
             <label for="Apellido">Apellido</label>
-            <input class="input w-input" maxlength="256" name="apellido" placeholder="Ramirez" type="text" value="[[if data && data.apellido]][[:data.apellido]][[/if]]" required>
+            <input id="Apellido" class="input w-input" maxlength="256" name="apellido" placeholder="Ramirez" type="text" value="[[if data && data.apellido]][[:data.apellido]][[/if]]" required>
           </div>
           <div class="w-col w-col-12">
-            <label for="Plan-2">Plan</label>
-            <select class="w-select" name="plan">
-              <option value="">Seleccioná ...</option>
-            [[for datosdeapoyo.planes]]
-              <option value="[[>#data]]"[[if ~root.data && ~root.data.planes == #data]] selected[[/if]]>[[>#data]]</option>
-            [[/for]]
-            </select>
-
             <label for="Apellido">Dirección</label>
             <input class="input w-input" maxlength="256" id="direccion" name="direccion" placeholder="Av. Rivadavia 1234" type="text" value="[[if data && data.direccion]][[:data.direccion]][[/if]]" required>
 
-            <label for="Apellido">unidad funcinal</label>
-            <input class="input w-input" maxlength="256" name="unidad_funcional" placeholder="A" type="text" value="[[if data && data.unidad_funcional]][[:data.unidad_funcional]][[/if]]" required>
+            <label for="Unidad">Unidad</label>
+            <input id="Unidad" class="input w-input" maxlength="256" name="unidad_funcional" placeholder="A" type="text" value="[[if data && data.unidad_funcional]][[:data.unidad_funcional]][[/if]]" required>
 
-            <label for="Apellido">manzana ufuncinal</label>
-            <input class="input w-input" maxlength="256" name="manzana_ufuncinal" placeholder="2A" type="text" value="[[if data && data.manzana_ufuncinal]][[:data.manzana_ufuncinal]][[/if]]" required>
+            <label for="Manzana">Manzana</label>
+            <input id="Manzana" class="input w-input" maxlength="256" name="manzana_ufuncinal" placeholder="2A" type="text" value="[[if data && data.manzana_ufuncinal]][[:data.manzana_ufuncinal]][[/if]]" required>
 
-            <label for="Apellido">piso_manzana</label>
-            <input class="input w-input" maxlength="256" name="piso_manzana" placeholder="2" type="text" value="[[if data && data.piso_manzana]][[:data.piso_manzana]][[/if]]" required>
+            <label for="Piso">Piso</label>
+            <input id="Piso" class="input w-input" maxlength="256" name="piso_manzana" placeholder="2" type="text" value="[[if data && data.piso_manzana]][[:data.piso_manzana]][[/if]]" required>
           </div>
         </div>
         <div class="w-col w-col-12">

@@ -633,6 +633,23 @@ input.cmn-toggle-round:checked + label:after {
   text-align: center;
 }
 
+.indicador small {
+  font-size: 14px;
+}
+
+.indicador .fa-user {
+  color: #a9e4a8;
+}
+
+.indicador .fa-user-circle {
+  color: #e02dd9;
+}
+
+.indicador .fa-group {
+  color: #3c52f4;
+}
+
+
 .indicador .fa-check-square-o {
   color: #6fd56f;
 }

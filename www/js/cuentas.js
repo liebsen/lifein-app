@@ -69,7 +69,7 @@
   });
 
   $(document).on('click','.add-item',function(e){
-    $('#detail').html($.templates('#form').render({key:null,data:{plan:""},datosdeapoyo:datosdeapoyo},LI.aux)).promise().done(function(){
+    $('#detail').html($.templates('#form').render({key:null,datosdeapoyo:datosdeapoyo},LI.aux)).promise().done(function(){
       $('.lista').fadeOut(anim.fadeOut,function(){
         $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
           $('body,html').scrollTop(0);
