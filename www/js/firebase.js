@@ -24,41 +24,41 @@ firebase.auth().onAuthStateChanged(function(fbuser) {
     return;    
   }
 
-  return new Promise(function(resolve, reject) {
-    return firebase.database().ref('/administradores').once('value').then(function(administradores) {
-      administradores.forEach(function(snap){
-        var user = snap.val();
-        if(user.email == fbuser.email && user.aprobado){
-          user.rol = "super";
-          user.scope = [];
-          resolve(user);
-        }
-      });
-      resolve(false);
+  return firebase.database().ref('/administradores').once('value').then(function(administradores) {
+    administradores.forEach(function(snap){
+      var user = snap.val();
+      if(user.email == fbuser.email && user.aprobado){
+        user.rol = "super";
+        user.scope = [];
+        return user;
+      }
     });
+    return false;
   }).then(function(user){
-    return new Promise(function(resolve, reject) {
+    return new Promise(function(resolve, reject){ 
       if(!user){
-        return firebase.database().ref('/cuentas').once('value').then(function(grupo) {
-          return firebase.database().ref('/cuentas/' + grupo.key).once('value').then(function(cuentas) {
-            cuentas.forEach(function(snap){
-              var user = snap.val();
-              if(user.email == user.email && user.aprobado){
-                if(user.administrador || user.seguridad){
-                  user.rol = null;
-                  if(user.administrador){
-                    user.rol = "administrador";
-                  } else if(user.seguridad){
-                    user.rol = "seguridad";
+        return firebase.database().ref('/cuentas').once('value').then(function(grupos) {
+          grupos.forEach(function(grupo){
+            return firebase.database().ref('/cuentas/' + grupo.key).once('value').then(function(cuentas) {
+              cuentas.forEach(function(cuenta){
+                var user = cuenta.val();
+                if(user.email == fbuser.email && user.aprobado){
+                  if(user.administrador || user.seguridad){
+                    user.rol = null;
+                    if(user.administrador){
+                      user.rol = "administrador";
+                    } else if(user.seguridad){
+                      user.rol = "seguridad";
+                    }
+                    user.scope = [grupo.key];
+                    resolve(user);
                   }
-                  user.scope = [grupo.key];
-                  resolve(user);
                 }
-              }
-            })
-          });
-        })
-        resolve(false);
+              })
+            }); 
+          });       
+        });
+        resolve(false);      
       } else {
         resolve(user);
       }
