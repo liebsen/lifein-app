@@ -69,7 +69,7 @@
   });
 
   $(document).on('click','.add-item',function(e){
-    $('#detail').html($.templates('#form').render({key:null,data:{plan:""},datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
+    $('#detail').html($.templates('#form').render({key:null,data:{plan:""},datosdeapoyo:datosdeapoyo},LI.aux)).promise().done(function(){
       $('.lista').fadeOut(anim.fadeOut,function(){
         $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
           $('body,html').scrollTop(0);
@@ -86,7 +86,7 @@
     $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){
       firebase.database().ref(currentnode+'/'+key).once('value').then(function(cuenta) {
         var data = cuenta.val()
-        $('#detail').html($.templates('#form').render({key:cuenta.key,data:data,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
+        $('#detail').html($.templates('#form').render({key:cuenta.key,data:data,datosdeapoyo:datosdeapoyo},LI.aux)).promise().done(function(){
           $('.lista').fadeOut(anim.fadeOut,function(){
             $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){
               $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
@@ -131,7 +131,7 @@
 
   // live fb handlers
   cuentas.on('child_added', (data) => {
-    $('#list').prepend($.templates('#item').render({key:data.key,data:data.val()}, LI)).promise().done(function(){
+    $('#list').prepend($.templates('#item').render({key:data.key,data:data.val()}, LI.aux)).promise().done(function(){
       $('#list').find('#'+data.key).animateAdded()
     })  
     $('.spinner').fadeOut(anim.fadeOut*anim.factor, function(){
@@ -142,7 +142,7 @@
   cuentas.on('child_changed', (data) => {
     var index = $('#'+data.key).index()
     $('#'+data.key).remove()
-    $('#list').insertAt(index, $.templates('#item').render({key:data.key,data:data.val()}))
+    $('#list').insertAt(index, $.templates('#item').render({key:data.key,data:data.val()}, LI.aux))
     $('#'+data.key).animateChanged()
   })
 

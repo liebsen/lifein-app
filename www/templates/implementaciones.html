@@ -15,23 +15,17 @@
       <input type="text" class="input w-input filtro" maxlength="256" name="search" placeholder="Buscar..." autocomplete="off" />
     </div>    
     <div class="row title">
-      <div class="list-item w-hidden-small w-hidden-tiny">
-        <div>Nombre</div>
+      <div class="list-item">
+        <div>&nbsp;</div>
+      </div>
+      <div class="list-item">
+        <div>Implementación</div>
       </div>
       <div class="list-item w-hidden-small w-hidden-tiny">
         <div>Email</div>
       </div>
       <div class="list-item w-hidden-small w-hidden-tiny">
         <div>Tel</div>
-      </div>
-      <div class="list-item w-hidden-small w-hidden-tiny">
-        <div>Administrador</div>
-      </div>
-      <div class="list-item w-hidden-small w-hidden-tiny">
-        <div>Seguridad</div>
-      </div>
-      <div class="list-item w-hidden-small w-hidden-tiny">
-        <div>Aprobado</div>
       </div>
       <div class="list-item csv-exclude">
         <div>Acción</div>
@@ -42,6 +36,9 @@
 
   <script id="item" type="text/x-jsrender">
     <div class="row" id="[[:key]]">
+      <div class="list-item indicador">
+        <div><span class="fa fa-[[if data.aprobado]]check-square-o[[else]]ban[[/if]]"></span></div>
+      </div>    
       <div class="list-item w-hidden-small w-hidden-tiny">
         <div>[[:data.titulo]]</div>
       </div>
@@ -51,29 +48,8 @@
       <div class="list-item w-hidden-small w-hidden-tiny">
         <div><a href="call:[[:data.telefono]]">[[:data.telefono]]</a></div>
       </div>
-      <div class="list-item w-hidden-small w-hidden-tiny">
-      [[if admins]]
-        [[for admins]]
-        <div class="bind" url="/cuentas" key="email" val="[[:email]]"><span class="[[if aprobado]]success[[else]]error[[/if]]-text">[[:nombre]]</span></div>
-        [[/for]]
-      [[else]]
-        <div><span class="warning-text">No tiene</span></div>
-      [[/if]]
-      </div>
-      <div class="list-item w-hidden-small w-hidden-tiny">
-      [[if seguridad]]
-        [[for seguridad]]
-        <div class="bind" url="/cuentas" key="email" val="[[:email]]"><span class="[[if aprobado]]success[[else]]error[[/if]]-text">[[:nombre]]</span></div>
-        [[/for]]
-      [[else]]
-        <div><span class="warning-text">No tiene</span></div>
-      [[/if]]
-      </div>
-      <div class="list-item w-hidden-small w-hidden-tiny">
-        <div class="[[if data.aprobado]]success[[else]]error[[/if]]-text">[[if data.aprobado]]Habilitado[[else]]Deshabilitado[[/if]]</div>
-      </div>
       <div class="list-item csv-exclude">
-        <a class="action editar text-link" data-key="[[:key]]" href="#">Ver / Editar</a>
+        <a class="action editar text-link" data-key="[[:key]]" href="#">Editar</a>
         <a class="action text-link" href="/[[:key]]/menu" target="_blank">Administrar</a>
         <a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
       </div>
@@ -92,14 +68,6 @@
             <label for="implementacion_aprobado"></label>
           </div>
 
-          <label for="Plan-2">Plan</label>
-          <select class="w-select" name="implementacion_plan">
-            <option value="">Seleccioná ...</option>
-          [[for datosdeapoyo.planes]]
-            <option value="[[>#data]]"[[if ~root.data && ~root.data.plan == #data || ~root.data && ~root.data.plan != #data && #data == 'Inicial']] selected[[/if]]>[[>#data]]</option>
-          [[/for]]
-          </select>
-
           <label for="titulo">Nombre</label>
           <input class="input w-input" maxlength="256" name="implementacion_titulo" placeholder="Nombre de la implementación" type="text" value="[[if data && data.titulo]][[:data.titulo]][[/if]]" required>
 
@@ -116,7 +84,7 @@
           <input class="input w-input" maxlength="256" name="implementacion_telefono" placeholder="4333-5555" type="text" value="[[if data && data.telefono]][[:data.telefono]][[/if]]">
 
         </div>
-        <div class="w-col w-col-4">
+        <div class="w-col w-col-4 administrador">
           <h3>Administrador</h3>
 
           <label for="Email-7">Aprobado</label>
@@ -126,22 +94,29 @@
           </div>
                     
           <label for="titulo">Nombre</label>
-          <input class="input w-input" maxlength="256" name="administrador_nombre" placeholder="Nombre completo" type="text" value="[[if admin && admin.nombre]][[:admin.nombre]][[/if]]" required>
+          <input class="input w-input nombre" maxlength="256" name="administrador_nombre" placeholder="Nombre" type="text" value="[[if admin && admin.nombre]][[:admin.nombre]][[/if]]" required>
+
+          <label for="titulo">Apellido</label>
+          <input class="input w-input apellido" maxlength="256" name="administrador_apellido" placeholder="Apellido" type="text" value="[[if admin && admin.apellido]][[:admin.apellido]][[/if]]" required>
 
           <label for="Email-7">Email</label>
-          <input class="input w-input" maxlength="256" name="administrador_email" placeholder="ale@gmail.com" type="email" value="[[if admin && admin.email]][[:admin.email]][[/if]]" required>
+          <input class="input w-input email" maxlength="256" name="administrador_email" placeholder="ale@gmail.com" type="email" value="[[if admin && admin.email]][[:admin.email]][[/if]]" required>
           
           <label for="telefono">Teléfono</label>
-          <input class="input w-input" maxlength="256" name="administrador_telefono" placeholder="4333-5555" type="text" value="[[if admin && admin.telefono]][[:admin.telefono]][[/if]]">
+          <input class="input w-input telefono" maxlength="256" name="administrador_telefono" placeholder="4333-5555" type="text" value="[[if admin && admin.telefono]][[:admin.telefono]][[/if]]">
 
-          <label for="telefono">Empresa</label>
-          <input class="input w-input" maxlength="256" name="administrador_empresa" placeholder="Empresa" type="text" value="[[if admin && admin.empresa]][[:admin.empresa]][[/if]]">
+          [[if key]]
+          <a href="#" class="select-user" data-target="administrador">Seleccionar usuario existente</a>
+          <div class="list-users-container">
+            <div class="list-users"></div>            
+          </div>
+          [[/if]]
 
         </div>
 
-        <div class="w-col w-col-4">
+        <div class="w-col w-col-4 seguridad">
           <h3>Seguridad</h3>
-
+          
           <label for="Email-7">Aprobado</label>
           <div class="switch">
             <input name="seguridad_aprobado" id="seguridad_aprobado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if seguridad && seguridad.aprobado && seguridad.aprobado == 1]] checked[[/if]]>
@@ -149,16 +124,25 @@
           </div>
 
           <label for="titulo">Nombre</label>
-          <input class="input w-input" maxlength="256" name="seguridad_nombre" placeholder="Nombre copleto" type="text" value="[[if seguridad && seguridad.nombre]][[:seguridad.nombre]][[/if]]">
+          <input class="input w-input nombre" maxlength="256" name="seguridad_nombre" placeholder="Nombre" type="text" value="[[if seguridad && seguridad.nombre]][[:seguridad.nombre]][[/if]]">
+
+          <label for="titulo">Apellido</label>
+          <input class="input w-input apellido" maxlength="256" name="seguridad_apellido" placeholder="Apellido" type="text" value="[[if seguridad && seguridad.apellido]][[:seguridad.apellido]][[/if]]">
 
           <label for="Email-7">Email</label>
-          <input class="input w-input" maxlength="256" name="seguridad_email" placeholder="ale@gmail.com" type="email" value="[[if seguridad && seguridad.email]][[:seguridad.email]][[/if]]">
+          <input class="input w-input email" maxlength="256" name="seguridad_email" placeholder="ale@gmail.com" type="email" value="[[if seguridad && seguridad.email]][[:seguridad.email]][[/if]]">
           
           <label for="telefono">Teléfono</label>
-          <input class="input w-input" maxlength="256" name="seguridad_telefono" placeholder="4333-5555" type="text" value="[[if seguridad && seguridad.telefono]][[:seguridad.telefono]][[/if]]">
+          <input class="input w-input telefono" maxlength="256" name="seguridad_telefono" placeholder="4333-5555" type="text" value="[[if seguridad && seguridad.telefono]][[:seguridad.telefono]][[/if]]">
 
-          <label for="telefono">Empresa</label>
-          <input class="input w-input" maxlength="256" name="seguridad_empresa" placeholder="Empresa" type="text" value="[[if seguridad && seguridad.empresa]][[:seguridad.empresa]][[/if]]">
+          [[if key]]
+          <a href="#" class="select-user" data-target="seguridad">Seleccionar usuario existente</a>
+          <div class="list-users-container">
+            <div class="list-users"></div>
+          </div>
+
+          [[/if]]
+
         </div>
 
         <div class="w-col w-col-12">
@@ -167,6 +151,17 @@
         </div>
       </div>  
     </form>
+  </script>
+
+  <script id="list_users" type="text/x-jsrender">
+    <a href="#" class="users-close">Cerrar</a>
+  [[props #data]]
+    <div class="selected-user" data-prop='[[:~toJSON(prop)]]'>
+      <figcaption class="foto" style="background-image:url([[>prop.foto]]);"></figcaption>
+      <h5>[[>prop.nombre]] [[>prop.apellido]]</h5>
+      <p>[[>prop.email]]</p>
+    </div>
+  [[/props]]
   </script>
 
   <script id="email_admin_subject" type="text/x-jsrender">

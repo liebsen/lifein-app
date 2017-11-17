@@ -64,10 +64,12 @@ var LI = {
                     },
                     success : function(resp){
                         if(resp.status!='success') swal("Error","Error al enviar notificación","error");
+                        return resp;
                     }
                 })
             }, function(error) {
                 swal('Error',error,'error');
+                return error;
             });        
         }, function(error) {
             var errorCode = error.code
@@ -77,6 +79,7 @@ var LI = {
             } else {
                 swal('Error',error,'error');
             }
+            return error;
         })
     }
     , tools : {
@@ -107,7 +110,7 @@ var LI = {
 	}
 	, checkUser : function(user){
 		if(!user) return;
-        if(typeof user.scope == 'object' && user.scope[0] != key && location.href != '/' + user.scope + '/menu'){
+        if(user.rol != 'super' && typeof user.scope == 'object' && user.scope[0] != key && location.href != '/' + user.scope + '/menu'){
             return location.href = '/' + user.scope + '/menu';
         }
 
@@ -139,6 +142,9 @@ var LI = {
 		head.appendChild(style);
 	}
 	, aux : {
+        toJSON : function(obj){
+            return JSON.stringify(obj);
+        },
         getKey : function(){
             return key;
         },

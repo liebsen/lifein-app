@@ -2,7 +2,7 @@
   var currentnode = '/implementaciones'
   , implementaciones = firebase.database().ref(currentnode)
   , datosdeapoyo = {}
-  , anim = LI.animation.transition
+  , anim = LI.animation.transition;
 
   implementaciones.once('value').then(function(datos) {
     if(!datos.val()){
@@ -10,11 +10,11 @@
         $('.lista').delay(anim.delay).fadeIn()
       })    
     }
-  })
+  });
 
   firebase.database().ref('/datosdeapoyo').once('value').then(function(datos) {
     datosdeapoyo = datos.val()
-  })
+  });
 
   $(document).on('submit','#firebase-form',function(e){
     e.preventDefault()
@@ -23,14 +23,13 @@
     , key = $(this).attr('key')    
     , adminKey = $(this).attr('admin-key')    
     , seguridadKey = $(this).attr('seguridad-key')    
-    , newKey = undefined 
-    , newAdminKey = undefined 
-    , newSeguridadKey = undefined 
+    , newKey = null 
+    , newAdminKey = null 
+    , newSeguridadKey = null 
     , updates = {
       implementacion : {
         aprobado : (data.implementacion_aprobado?1:0),
         email : $.trim(data.implementacion_email).toLowerCase(),
-        plan : data.implementacion_plan,
         direccion : $.trim(data.implementacion_direccion),
         geo : { lat: $('#implementacion_direccion').attr('lat'), lng : $('#implementacion_direccion').attr('lng') },
         sitioweb : $.trim(data.implementacion_web),
@@ -42,19 +41,19 @@
         aprobado : (data.administrador_aprobado?1:0),
         email : $.trim(data.administrador_email).toLowerCase(),
         nombre : $.trim(data.administrador_nombre),
-        empresa : $.trim(data.administrador_empresa),
-        caduca : $.trim(data.administrador_caduca),
+        apellido : $.trim(data.administrador_apellido),
         telefono : $.trim(data.administrador_telefono),
-        rol : 'administrador'
+        modificado : moment().format('X'),
+        administrador : 1
       }
       , seguridad : {
         aprobado : (data.seguridad_aprobado?1:0),
         email : $.trim(data.seguridad_email).toLowerCase(),
         nombre : $.trim(data.seguridad_nombre),
-        empresa : $.trim(data.seguridad_empresa),
-        caduca : $.trim(data.seguridad_caduca),
+        apellido : $.trim(data.seguridad_apellido),
         telefono : $.trim(data.seguridad_telefono),
-        rol : 'seguridad'
+        modificado : moment().format('X'),
+        seguridad : 1
       }      
     };
 
@@ -62,50 +61,84 @@
       key = implementaciones.push().key;
     }
 
-    updates.administrador.scope = [key];
-    updates.seguridad.scope = [key];
-
-    if(!adminKey){
-      adminKey = firebase.database().ref('/administradores').push().key;
-      newAdminKey = adminKey;
-    }
-
-    if(!seguridadKey){
-      seguridadKey = firebase.database().ref('/administradores').push().key;
-      newSeguridadKey = seguridadKey;
-    }
-
     $('.spinner').fadeIn(anim.fadeIn, function(){
       return new Promise(function(resolve, reject){
-        return firebase.database().ref('/administradores/' + adminKey).set(updates.administrador).then(function(){
+        return firebase.database().ref('/cuentas/' + key).once('value', function(entries) {
+          var reset_flags = {};
+          entries.forEach(function(entry){
+            reset_flags['/cuentas/' + key + '/' + entry.key + '/administrador'] = 0;
+            reset_flags['/cuentas/' + key + '/' + entry.key + '/seguridad'] = 0;
+          });
+          return firebase.database().ref().update(reset_flags, function(error){
+            resolve();
+          });
+        });
+      }).then(function(){
+        return firebase.database().ref('/cuentas/' + key).orderByChild('email').equalTo(updates.administrador.email).once('value', function(snap) {
+          var item = snap.val();
+          if(item){
+            var entryKey = Object.keys(item)[0];
+            var entry = item[entryKey];
+            for( var i in updates.administrador){
+              entry[i] = updates.administrador[i];
+            }            
+          } else {
+            var entry = updates.administrador;
+            entryKey = firebase.database().ref('/cuentas/' + key).push().key;
+            newAdminKey = true;
+          }
+          return firebase.database().ref('/cuentas/' + key + '/' + entryKey).set(entry).then(function(){
+            return true;
+          });
+        });
+      }).then(function(){
+        return new Promise(function(resolve, reject){
           if(newAdminKey){
             var emailData = updates.administrador;
             emailData.implementacion = updates.implementacion.titulo;
             emailData.password = LI.randomString(12);
 
-            return LI.createAccount('email_admin',emailData).then(function(){
+            return LI.createAccount('email_admin',emailData).then(function(result){
               resolve();
-            })
+            });
 
           } else {
             resolve();
           }
-        })
+        });
+      }).then(function(){ // seguridad
+        return firebase.database().ref('/cuentas/' + key).orderByChild('email').equalTo(updates.seguridad.email).once('value', function(snap) {
+          var item = snap.val();
+          if(item){
+            var entryKey = Object.keys(item)[0];
+            var entry = item[entryKey];
+            for( var i in updates.seguridad){
+              entry[i] = updates.seguridad[i];
+            }            
+          } else {
+            var entry = updates.seguridad;
+            entryKey = firebase.database().ref('/cuentas/' + key).push().key;
+            newSeguridadKey = null;
+          }
+          return firebase.database().ref('/cuentas/' + key + '/' + entryKey).set(entry).then(function(){
+            return true;
+          });
+        });
       }).then(function(){
-        return firebase.database().ref('/administradores/' + seguridadKey).update(updates.seguridad).then(function(){
+        return new Promise(function(resolve, reject){   
           if(newSeguridadKey){
             var emailData = updates.seguridad;
             emailData.implementacion = updates.implementacion.titulo;
             emailData.password = LI.randomString(12);
 
             return LI.createAccount('email_seguridad',emailData).then(function(){
-              return true;
+              resolve();
             });
 
           } else {
-            return true;
+            resolve();
           }
-        })
+        });
       }).then(function(){
         return firebase.database().ref(currentnode + '/' + key).update(updates.implementacion, function(error){
           if(error){
@@ -131,13 +164,39 @@
           }
         })
       })
-    })
+    });
 
-    return false  
-  })
+    return false;
+  });
+
+  $(document).on('click','.users-close',function(e){
+    $('.list-users-container').fadeOut();
+  });
+
+  $(document).on('click','.selected-user',function(e){
+    $(this).siblings().removeClass('selected');
+    $(this).addClass('selected');
+    var target = $(this).parent().parent().parent().find('.select-user').data('target');
+    var prop = $(this).data('prop');
+    $('.'+target).find('.nombre').val(prop.nombre);
+    $('.'+target).find('.apellido').val(prop.apellido);
+    $('.'+target).find('.email').val(prop.email);
+    $('.'+target).find('.telefono').val(prop.telefono);
+    $('.list-users-container').fadeOut();
+  });
+
+  $(document).on('click','.select-user',function(e){
+    var that = this;
+    var key = $('#firebase-form').attr('key');
+    firebase.database().ref('/cuentas/' + key).once('value', function(entries) {
+      $(that).next().find('.list-users').html($.templates('#list_users').render(entries.val(),LI.aux)).promise().done(function(){  
+        $(that).next().fadeIn();
+      });
+    });
+  });
 
   $(document).on('click','.add-item',function(e){
-    $('#detail').html($.templates('#form').render({key:null,data:{plan:""},datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
+    $('#detail').html($.templates('#form').render({key:null,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
       $('.lista').fadeOut(anim.fadeOut,function(){
         $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
           $('body,html').scrollTop(0)
@@ -157,47 +216,40 @@
 
         var implementacion = data.val()
 
-        firebase.database().ref('/administradores/').once('value', function(snap) {
+        firebase.database().ref('/cuentas/' + key).once('value', function(snap) {
           var admins = snap.val()
           , adminsLength = Object.keys(admins).length
           , adminsData = []
           , seguridadData = []
           , adminKey = undefined
-          , seguridadKey = undefined
-          , ctr = 0
+          , seguridadKey = undefined;
 
-          snap.forEach(function(admin){
-            ctr++
+          snap.forEach(function(cuenta){
+             var row = cuenta.val()
 
-            var row = admin.val()
-
-            if($.inArray(key,row.scope) > -1){
-              if(row.rol == 'administrador'){
-                adminsData.push(row)
-                adminKey = admin.key
-              } else if (row.rol == 'seguridad'){
-                seguridadData.push(row)
-                seguridadKey = admin.key
-              }
+            if(row.administrador){
+              adminsData.push(row)
+              adminKey = cuenta.key
+            } else if (row.seguridad){
+              seguridadData.push(row)
+              seguridadKey = cuenta.key
             }
 
-            if(ctr === adminsLength){
-              $('#detail').html($.templates('#form').render({key:data.key,data:implementacion,adminKey:adminKey,admin:adminsData[0],seguridad:seguridadData[0],seguridadKey:seguridadKey,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
-                $('.lista').fadeOut(anim.fadeOut,function(){
-                  $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){
-                    $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
-                      $('body,html').scrollTop(0)
-                      LI.initAutocomplete('implementacion_direccion')
-                      if(implementacion.geo){
-                        $('#implementacion_direccion')
-                          .attr('lat',implementacion.geo.lat)
-                          .attr('lng',implementacion.geo.lng)
-                      }                  
-                    })
+            $('#detail').html($.templates('#form').render({key:data.key,data:implementacion,adminKey:adminKey,admin:adminsData[0],seguridad:seguridadData[0],seguridadKey:seguridadKey,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
+              $('.lista').fadeOut(anim.fadeOut,function(){
+                $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){
+                  $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
+                    $('body,html').scrollTop(0)
+                    LI.initAutocomplete('implementacion_direccion')
+                    if(implementacion.geo){
+                      $('#implementacion_direccion')
+                        .attr('lat',implementacion.geo.lat)
+                        .attr('lng',implementacion.geo.lng)
+                    }                  
                   })
                 })
               })
-            }
+            })
           })
         })
       })
@@ -248,64 +300,19 @@
 
   // live fb handlers
   implementaciones.on('child_added', (data) => {
-    firebase.database().ref('/administradores/').once('value', function(admins) {
-      var adminsLength = Object.keys(admins.val()).length
-      , adminsData = []
-      , seguridadData = []
-      , ctr = 0
-
-      admins.forEach(function(admin){
-        ctr++
-        var row = admin.val()
-
-        if(typeof row.scope == 'object' && $.inArray(data.key,row.scope) > -1){
-          if(row.rol == 'administrador'){          
-            adminsData.push(row)
-          } else if(row.rol == 'seguridad'){          
-            seguridadData.push(row)
-          }
-        }
-
-        if(ctr === adminsLength){
-          $('#list').prepend($.templates('#item').render({key:data.key,data:data.val(),admins:adminsData,seguridad:seguridadData}, LI)).promise().done(function(){
-            $('#list').find('#'+data.key).animateAdded()
-          })  
-          $('.spinner').fadeOut(anim.fadeOut*anim.factor, function(){
-            $('.lista').delay(anim.delay).fadeIn()
-          })  
-        }
-      })
-    })
+    $('#list').prepend($.templates('#item').render({key:data.key,data:data.val()}, LI.aux)).promise().done(function(){
+      $('#list').find('#'+data.key).animateAdded()
+    })  
+    $('.spinner').fadeOut(anim.fadeOut*anim.factor, function(){
+      $('.lista').delay(anim.delay).fadeIn()
+    })  
   })
 
   implementaciones.on('child_changed', (data) => {
-    firebase.database().ref('/administradores/').once('value', function(admins) {
-      var adminsLength = Object.keys(admins.val()).length
-      , adminsData = []
-      , seguridadData = []
-      , ctr = 0
-
-      admins.forEach(function(admin){
-        ctr++
-        var row = admin.val()
-
-        if(typeof row.scope == 'object' && $.inArray(data.key,row.scope) > -1){
-          if(row.rol == 'administrador'){          
-            adminsData.push(row)
-          } else if(row.rol == 'seguridad'){          
-            seguridadData.push(row)
-          }
-        }
-
-        if(ctr === adminsLength){
-          var index = $('#'+data.key).index();
-          $('#'+data.key).remove();
-          console.log(index)
-          $('#list').insertAt(index, $.templates('#item').render({key:data.key,data:data.val(),admins:adminsData,seguridad:seguridadData}, LI));
-          $('#'+data.key).animateChanged();
-        }
-      })
-    })
+    var index = $('#'+data.key).index();
+    $('#'+data.key).remove();
+    $('#list').insertAt(index, $.templates('#item').render({key:data.key,data:data.val()}, LI.aux));
+    $('#'+data.key).animateChanged();
   })
 
   implementaciones.on('child_removed', (data) => {
