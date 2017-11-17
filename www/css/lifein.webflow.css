@@ -649,8 +649,10 @@ input.cmn-toggle-round:checked + label:after {
   color: #3c52f4;
 }
 
-
 .indicador .fa-check-square-o {
+  color: #ccf1ca;
+}
+.indicador .fa-check-square-o.aprobado {
   color: #6fd56f;
 }
 
@@ -776,16 +778,17 @@ input.cmn-toggle-round:checked + label:after {
   color: #453c76;
 }
 
-.bind-icon {
-  padding-left: 40px;
-  background-position: left center;
-  background-size: 32px 32px;
-  background-repeat: no-repeat;
-  background-image: url('/images/binoculars.svg');
+.bind-entry {
   cursor: pointer;
 }
 
-.bind-icon:hover {
+.bind-entry .fa {
+  position: relative;
+  top: 2px;
+  color: #d1d1d1;
+}
+
+.bind-entry:hover {
   color: orange;
 }
 
@@ -806,10 +809,10 @@ input.cmn-toggle-round:checked + label:after {
   margin-bottom: 0;
 }
 
-@keyframes flash {
-  0% { background:#fff; }
-  50% { background:#feffd4; }
-  100% { background:#fff; }
+@keyframes fade {
+  0% { opacity:0; }
+  50% { opacity:0.75; }
+  100% { opacity:1; }
 }
 
 .due {
@@ -829,11 +832,11 @@ input.cmn-toggle-round:checked + label:after {
 }
 
 .saving {
-  animation: flash 1s ease-in-out;
+  animation: fade 1s ease-in-out;
 }
 
 .saved {
-  background:#feffd4;
+  background-color:#feffd4;
 }
 
 .unsaved {

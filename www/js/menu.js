@@ -6,7 +6,7 @@
     {"slug":"propuestas","title":"Propuestas","roles":["administrador"]},
     {"slug":"reservas","title":"Reservas","roles":["administrador","seguridad"]},
     {"slug":"autorizaciones","title":"Autorizaciones","roles":["administrador","seguridad"]},
-    {"slug":"lostandfound","title":"Perdido & Encontrado","roles":["administrador"]},
+    {"slug":"lostandfound","title":"Lost & Found","roles":["administrador"]},
     {"slug":"telefonos_utiles","title":"Teléfonos Útiles","roles":["administrador","seguridad"]}
   ];
 
@@ -27,25 +27,25 @@
 
         child.on('child_added', (data) => {
           if(!snap.count) snap.count = 0;
-          if($.inArray(slug,["reservas","pubicaciones","lostandfound"]) > -1){
+          if($.inArray(slug,["reservas","publicaciones","lostandfound"]) > -1){
             if(data.val().aprobado === undefined) snap.count++;
           } else {
             snap.count++;
           }
           $('a[href='+slug+']').find('.badge').text(snap.count).fadeIn();
           $('a[href='+slug+']').animateAdded();
-        })  
+        });
 
         child.on('child_changed', (data) => {
            $('a[href='+slug+']').animateAdded();
-        })
+        });
 
         child.on('child_removed', (data) => {
           snap.count--;
           $('a[href='+slug+']').find('.badge').text(snap.count);
           $('a[href='+slug+']').animateAdded();
-        })
-      })
+        });
+      });
     }
 
     $('.sections-conteiner').fadeIn();

@@ -16,6 +16,9 @@
       </div>       
 
       <div class="row title">
+        <div class="list-item indicador">
+          <div><small>Aprobado</small></div>
+        </div>        
         <div class="list-item">
           <div>Nombre</div>
         </div>
@@ -31,6 +34,9 @@
 
     <script id="item" type="text/x-jsrender">
       <div class="row" id="[[:key]]">
+        <div class="list-item indicador">
+          <div><span class="fa fa-[[if data.aprobado]]check-square-o[[else]]ban[[/if]]"></span></div>
+        </div>
         <div class="list-item">
           <div>[[:data.nombre]]</div>
         </div>
