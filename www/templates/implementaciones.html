@@ -15,9 +15,9 @@
       <input type="text" class="input w-input filtro" maxlength="256" name="search" placeholder="Buscar..." autocomplete="off" />
     </div>    
     <div class="row title">
-      <div class="list-item">
-        <div>&nbsp;</div>
-      </div>
+      <div class="list-item indicador">
+        <div><small>Aprobado</small></div>
+      </div> 
       <div class="list-item">
         <div>Implementación</div>
       </div>
@@ -37,7 +37,7 @@
   <script id="item" type="text/x-jsrender">
     <div class="row" id="[[:key]]">
       <div class="list-item indicador">
-        <div><span class="fa fa-[[if data.aprobado]]check-square-o[[else]]ban[[/if]]"></span></div>
+        <div><span class="fa fa-check-square-o [[if data.aprobado]]aprobado[[/if]]"></span></div>
       </div>    
       <div class="list-item w-hidden-small w-hidden-tiny">
         <div>[[:data.titulo]]</div>

@@ -31,7 +31,7 @@
         aprobado : (data.implementacion_aprobado?1:0),
         email : $.trim(data.implementacion_email).toLowerCase(),
         direccion : $.trim(data.implementacion_direccion),
-        geo : { lat: $('#implementacion_direccion').attr('lat'), lng : $('#implementacion_direccion').attr('lng') },
+        geo : { lat: $('#implementacion_direccion').attr('lat')||0, lng : $('#implementacion_direccion').attr('lng')||0 },
         sitioweb : $.trim(data.implementacion_web),
         telefono : $.trim(data.implementacion_telefono),
         titulo : $.trim(data.implementacion_titulo),

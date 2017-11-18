@@ -44,7 +44,7 @@
     <script id="item" type="text/x-jsrender">
       <div class="row[[if ~dateDue(data.fecha)]] due[[/if]]" id="[[:key]]">
         <div class="list-item indicador">
-          <div><span class="fa fa-[[if data.aprobado]]check-square-o[[else]]ban[[/if]]"></span></div>
+          <div><span class="fa fa-check-square-o [[if data.aprobado]]aprobado[[/if]]"></span></div>
         </div>       
         <div class="list-item">
           <div class="bind-entry" url="/cuentas/[[:~getKey()]]/[[:data.usuario_id]]"><span class="fa fa-external-link"></span> [[:data.nombre]]</div>
