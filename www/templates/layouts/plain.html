@@ -11,25 +11,21 @@
         {% include 'partials/analytics.html' %}
 
         {% block head %}{% endblock %}
+        
+        {% if localhost == false %}
+        <link href="/dist/css/bundle.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
+        {% else %}
 
         <link href="/css/normalize.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
         <link href="/css/webflow.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
         <link href="/css/lifein.webflow.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">
         <link href="/css/sweetalert.css?_={{ rev_parse }}" rel="stylesheet" type="text/css">  
-        <!--script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js?_={{ rev_parse }}"></script>
-        <script type="text/javascript">
-          WebFont.load({
-            google: {
-              families: ["Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic"]
-            }
-          });
-        </script-->
+        {% endif %}
         <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
-        <script src="/js/vendor/modernizr.js?_={{ rev_parse }}" type="text/javascript"></script>
         <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
         <link href="/images/Group.png" rel="apple-touch-icon">
         <script>
-            var id = null
+            var key = null;
         </script>
     </head>
     <body class="homepage-bg layout-plain">
@@ -41,6 +37,10 @@
 
         {% include 'partials/footer.html' %}
 
+        {% if localhost == false %}
+        <script src="/dist/js/vendor.js?_={{ rev_parse }}" type="text/javascript"></script>
+        {% else %}
+        <script src="/js/vendor/modernizr.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/vendor/jquery.min.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/vendor/webflow.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/vendor/moment-with-locales.min.js?_={{ rev_parse }}" type="text/javascript"></script>
@@ -49,6 +49,7 @@
         <script src="/js/firebase.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/helper.js?_={{ rev_parse }}" type="text/javascript"></script>
         <script src="/js/main.js?_={{ rev_parse }}" type="text/javascript"></script>
+        {% endif %}
 
         {% block assets %}{% endblock %}
   

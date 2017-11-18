@@ -24,16 +24,18 @@ firebase.auth().onAuthStateChanged(function(fbuser) {
     return;    
   }
 
-  return firebase.database().ref('/administradores').once('value').then(function(administradores) {
-    administradores.forEach(function(snap){
-      var user = snap.val();
-      if(user.email == fbuser.email && user.aprobado){
-        user.rol = "super";
-        user.scope = [];
-        return user;
-      }
+  return new Promise(function(resolve, reject){ 
+    return firebase.database().ref('/administradores').once('value').then(function(administradores) {
+      administradores.forEach(function(snap){
+        var user = snap.val();
+        if(user.email == fbuser.email && user.aprobado){
+          user.rol = "super";
+          user.scope = [];
+          resolve(user);
+        }
+      });
+      resolve(false);
     });
-    return false;
   }).then(function(user){
     return new Promise(function(resolve, reject){ 
       if(!user){
@@ -51,6 +53,7 @@ firebase.auth().onAuthStateChanged(function(fbuser) {
                       user.rol = "seguridad";
                     }
                     user.scope = [grupo.key];
+                    console.log("h");
                     resolve(user);
                   }
                 }
