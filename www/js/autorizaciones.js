@@ -24,38 +24,21 @@
 
     $('.spinner').fadeIn(anim.fadeIn, function(){
       firebase.database().ref(currentnode + '/' + _key).once('value').then(function(item) {
-        var autorizacion = item.val();
-        var aprobado_ref = autorizacion.aprobado;
-        autorizacion.aprobado = aprobado;
-        firebase.database().ref(currentnode + '/' + _key).update(autorizacion, function(error){
+        var entry = item.val();
+        var aprobado_ref = entry.aprobado;
+        entry.aprobado = aprobado;
+        firebase.database().ref(currentnode + '/' + _key).update(entry, function(error){
           if(error){
             console.log(error);
           }else{
-            var noti = false;
-            if(!aprobado_ref && aprobado){
-              noti = {
-                fecha: moment().format(),
-                icon : 'success',
-                tipo : 'particular',
-                destino : autorizacion.usuario_id,
-                titulo : "La autorizacion de " + autorizacion.nombre + " para el " + LI.aux.easyDate(autorizacion.fecha) + " fue aprobada",
-                texto : data.texto
-              };
-            } else if(aprobado_ref && !aprobado){
-              noti = {
-                fecha: moment().format(),
-                icon : 'error',
-                tipo : 'particular',
-                destino : autorizacion.usuario_id,
-                titulo : "La autorizacion de " + autorizacion.nombre + " para el " + LI.aux.easyDate(autorizacion.fecha) + " no fue aprobada",
-                texto : data.texto
-              };
-            }
-
-            if(noti){
-              var notificaciones = firebase.database().ref('/notificaciones/' + key);
-              notificaciones.child(notificaciones.push().key).set(noti);
-            }
+            LI.notify({
+              status_ref:aprobado_ref,
+              status:aprobado,
+              type:'notificacion',
+              user_id:entry.usuario_id,
+              title:"Autorización",
+              text:data.texto
+            });
 
             $('#detail').fadeOut(anim.fadeOut,function(){
               $('.lista').fadeIn(anim.fadeIn,function(){
@@ -64,12 +47,12 @@
               })
             }) 
           }
-        })
-      })
-    })
+        });
+      });
+    });
 
-    return false  
-  })
+    return false;
+  });
 
   $(document).on('click','.add-item',function(e){
     $('#detail').html($.templates('#form').render({key:null,data:{aprobado:""},aux:LI.aux.autorizacions,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){

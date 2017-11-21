@@ -46,6 +46,24 @@ var LI = {
             }
         })
     }
+    , notify : function(data){
+        var noti =  {
+            fecha: moment().format(),
+            tipo : data.type,
+            destino : data.user_id,
+            titulo : data.title,
+            texto : data.text
+          };
+
+        if(!status_ref && status){
+          noti.icon : 'success';
+        } else if(status_ref && !status){
+          noti.icon : 'error';
+        }
+
+        var notificaciones = firebase.database().ref('/notificaciones/' + key);
+        return notificaciones.child(notificaciones.push().key).set(noti);
+    }
     , createAccount : function(tpl, data){
         return secondaryApp.auth().createUserWithEmailAndPassword(data.email, data.password).then(function(user) {
             user.updateProfile({

@@ -21,8 +21,8 @@
     
     var data = $(this).serializeObject()
     , key = $(this).attr('key')    
-    , adminKey = $(this).attr('admin-key')    
-    , seguridadKey = $(this).attr('seguridad-key')    
+    , admKey = $(this).attr('administrador-key')    
+    , secKey = $(this).attr('seguridad-key')    
     , newKey = null 
     , newAdminKey = null 
     , newSeguridadKey = null 
@@ -158,12 +158,12 @@
                       html: true
                     });
                   }
-                })
-              })
-            }) 
+                });
+              });
+            });
           }
-        })
-      })
+        });
+      });
     });
 
     return false;
@@ -189,7 +189,7 @@
     var that = this;
     var key = $('#firebase-form').attr('key');
     firebase.database().ref('/cuentas/' + key).once('value', function(entries) {
-      $(that).next().find('.list-users').html($.templates('#list_users').render(entries.val(),LI.aux)).promise().done(function(){  
+      $(that).next().find('.list-users').html($.templates('#list_users').render({data:entries.val(),selected:$('#firebase-form').attr($(that).data('target') + '-key')},LI.aux)).promise().done(function(){  
         $(that).next().fadeIn();
       });
     });
@@ -199,62 +199,62 @@
     $('#detail').html($.templates('#form').render({key:null,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
       $('.lista').fadeOut(anim.fadeOut,function(){
         $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
-          $('body,html').scrollTop(0)
-          LI.initAutocomplete('implementacion_direccion')
-          $('.datetimepicker').datetimepicker()
-        })
-      })    
-    })  
-  })
+          $('body,html').scrollTop(0);
+          LI.initAutocomplete('implementacion_direccion');
+          $('.datetimepicker').datetimepicker();
+        });
+      });
+    });
+  });
 
   $(document).on('click','.action.editar',function(){
-    var key = $(this).data('key')
-    $('body').attr('key',key)
-    LI.setScroll()
+    var key = $(this).data('key');
+    $('body').attr('key',key);
+    LI.setScroll();
     $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){
       firebase.database().ref(currentnode+'/'+key).once('value').then(function(data) {
 
-        var implementacion = data.val()
+        var implementacion = data.val();
 
         firebase.database().ref('/cuentas/' + key).once('value', function(snap) {
           var admins = snap.val()
           , adminsLength = Object.keys(admins).length
-          , adminsData = []
-          , seguridadData = []
-          , adminKey = undefined
-          , seguridadKey = undefined;
+          , admData = []
+          , secData = []
+          , admKey = undefined
+          , secKey = undefined;
 
           snap.forEach(function(cuenta){
-             var row = cuenta.val()
+            var row = cuenta.val();
 
             if(row.administrador){
-              adminsData.push(row)
-              adminKey = cuenta.key
+              admData.push(row);
+              admKey = cuenta.key;
             } else if (row.seguridad){
-              seguridadData.push(row)
-              seguridadKey = cuenta.key
+              secData.push(row);
+              secKey = cuenta.key;
             }
 
-            $('#detail').html($.templates('#form').render({key:data.key,data:implementacion,adminKey:adminKey,admin:adminsData[0],seguridad:seguridadData[0],seguridadKey:seguridadKey,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
+            $('#detail').html($.templates('#form').render({key:data.key,data:implementacion,admKey:admKey,admin:admData[0],seguridad:secData[0],secKey:secKey,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
               $('.lista').fadeOut(anim.fadeOut,function(){
                 $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){
                   $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
-                    $('body,html').scrollTop(0)
-                    LI.initAutocomplete('implementacion_direccion')
+                    $('body,html').scrollTop(0);
+                    LI.initAutocomplete('implementacion_direccion');
                     if(implementacion.geo){
                       $('#implementacion_direccion')
                         .attr('lat',implementacion.geo.lat)
                         .attr('lng',implementacion.geo.lng)
                     }                  
-                  })
-                })
-              })
-            })
-          })
-        })
-      })
-    })
-  })
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
 
   $(document).on('click','.action.eliminar',function(){
     var key = $(this).data('key')
@@ -266,37 +266,19 @@
       closeOnConfirm: false,   
       showLoaderOnConfirm: true,
     }, function(){    
-      var adminsRef = firebase.database().ref('/administradores/')
-      adminsRef.once('value', function(admins) {
-        var adminsLength = Object.keys(admins.val()).length
-        , adminKeys = []
-        , ctr = 0
-
-        admins.forEach(function(administrador){
-          ctr++
-          var admin = administrador.val()
-
-          if($.inArray(key,admin.scope) > -1){
-            firebase.database().ref('/administradores/' + admin.key).remove()
-          } 
-
-          if(ctr === adminsLength){
-            firebase.database().ref('implementaciones/' + key).remove().then(function(){
-              swal.close()
-            })
-          }
-        })
-      })
-    })
-  })  
+      firebase.database().ref('implementaciones/' + key).remove().then(function(){
+        swal.close();
+      });
+    });
+  });
 
   $(document).on('click','.cerrar',function(){
     $('#detail').fadeOut(anim.fadeOut,function(){
       $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){
-        LI.resetScroll()
-      })
-    })
-  })  
+        LI.resetScroll();
+      });
+    });
+  });
 
   // live fb handlers
   implementaciones.on('child_added', (data) => {

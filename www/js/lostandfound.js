@@ -20,28 +20,43 @@
     
     var data = $(this).serializeObject()
     , updates = {}
-    , key = $(this).attr('key')
+    , _key = $(this).attr('key')
 
     data.aprobado = data.aprobado?1:0;
-    updates[currentnode +'/' + key] = data
+
+    for(var i in data){
+      updates[currentnode +'/' + _key + '/' + i] = data[i];
+    }
 
     $('.spinner').fadeIn(anim.fadeIn, function(){
-      firebase.database().ref().update(updates, function(error){
-        if(error){
-          console.log(error)
-        }else{
-          $('#detail').fadeOut(anim.fadeOut,function(){
-            $('.lista').fadeIn(anim.fadeIn,function(){
-              //LI.resetScroll()
-              $('.spinner').fadeOut(anim.fadeOut*anim.factor)
-            })
-          }) 
-        }
-      })
-    })
+      firebase.database().ref(currentnode + '/' + _key).once('value').then(function(item) {
+        var entry = item.val();
+        var aprobado_ref = entry.aprobado;
+        firebase.database().ref().update(updates, function(error){
+          if(error){
+            console.log(error)
+          }else{
+            LI.notify({
+              status_ref:aprobado_ref,
+              status:data.aprobado,
+              type:'notificacion',
+              user_id:entry.usuario_id,
+              title:"Lost&Found",
+              text:data.texto
+            });              
+            $('#detail').fadeOut(anim.fadeOut,function(){
+              $('.lista').fadeIn(anim.fadeIn,function(){
+                //LI.resetScroll()
+                $('.spinner').fadeOut(anim.fadeOut*anim.factor)
+              })
+            }) 
+          }
+        });
+      });
+    });
 
-    return false  
-  })
+    return false;
+  });
 
   $(document).on('click','.add-item',function(e){
     $('#detail').html($.templates('#form').render({key:null,data:{aprobado:""},aux:LI.aux,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){

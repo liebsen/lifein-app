@@ -24,54 +24,35 @@
 
     $('.spinner').fadeIn(anim.fadeIn, function(){
       firebase.database().ref(currentnode + '/' + _key).once('value').then(function(item) {
-        var reserva = item.val();
-        var aprobado_ref = reserva.aprobado;
-        reserva.aprobado = aprobado;
-        firebase.database().ref(currentnode + '/' + _key).update(reserva, function(error){
+        var entry = item.val();
+        var aprobado_ref = entry.aprobado;
+        entry.aprobado = aprobado;
+        firebase.database().ref(currentnode + '/' + _key).update(entry, function(error){
           if(error){
             console.log(error);
           }else{
-            var noti = false;
-            if(!aprobado_ref && aprobado){
-              noti = {
-                fecha: moment().format(),
-                icon : 'success',
-                tipo : 'particular',
-                destino : reserva.usuario_id,
-                titulo : "La reserva de " + reserva.espacio + " para el " + LI.aux.easyDate(reserva.fecha) + " fue aprobada",
-                texto : data.texto
-              };
-            } else if(aprobado_ref && !aprobado){
-              noti = {
-                fecha: moment().format(),
-                icon : 'error',
-                tipo : 'particular',
-                destino : reserva.usuario_id,
-                titulo : "La reserva de " + reserva.espacio + " para el " + LI.aux.easyDate(reserva.fecha) + " no fue aprobada",
-                texto : data.texto
-              };
-            }
-
-            console.log(noti);
-
-            if(noti){
-              var notificaciones = firebase.database().ref('/notificaciones/' + key);
-              notificaciones.child(notificaciones.push().key).set(noti);
-            }
+            LI.notify({
+              status_ref:aprobado_ref,
+              status:aprobado,
+              type:'notificacion',
+              user_id:entry.usuario_id,
+              title:"Reserva",
+              text:data.texto
+            });            
 
             $('#detail').fadeOut(anim.fadeOut,function(){
               $('.lista').fadeIn(anim.fadeIn,function(){
                 //LI.resetScroll()
                 $('.spinner').fadeOut(anim.fadeOut*anim.factor);
-              })
-            }) 
+              });
+            });
           }
-        })
-      })
-    })
+        });
+      });
+    });
 
     return false;
-  })
+  });
 
   $(document).on('click','.add-item',function(e){
     $('#detail').html($.templates('#form').render({key:null,data:{aprobado:""},datosdeapoyo:datosdeapoyo},LI.aux)).promise().done(function(){

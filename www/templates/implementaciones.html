@@ -57,7 +57,7 @@
   </script>
 
   <script id="form" type="text/x-jsrender">
-    <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]" admin-key="[[:adminKey]]" seguridad-key="[[:seguridadKey]]">
+    <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]" administrador-key="[[:admKey]]" seguridad-key="[[:secKey]]">
       <div class="form-wrapper">
         <div class="w-col w-col-4">
           <h3>Implementación</h3>
@@ -140,7 +140,6 @@
           <div class="list-users-container">
             <div class="list-users"></div>
           </div>
-
           [[/if]]
 
         </div>
@@ -155,10 +154,10 @@
 
   <script id="list_users" type="text/x-jsrender">
     <a href="#" class="users-close">Cerrar</a>
-  [[props #data]]
-    <div class="selected-user" data-prop='[[:~toJSON(prop)]]'>
+  [[props data]]
+    <div class="selected-user [[if ~root.selected == key]] active[[/if]]" data-prop='[[:~toJSON(prop)]]'>
       <figcaption class="foto" style="background-image:url([[>prop.foto]]);"></figcaption>
-      <h5>[[>prop.nombre]] [[>prop.apellido]]</h5>
+      <h5>[[>prop.nombre]] [[>prop.apellido]][[if ~root.selected == key]] <span class="fa fa-check"></span>[[/if]]</h5>
       <p>[[>prop.email]]</p>
     </div>
   [[/props]]

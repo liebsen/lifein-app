@@ -948,6 +948,19 @@ input.cmn-toggle-round:checked + label:after {
   margin-top: 10px;
 }
 
+.slider {
+  height: 300px;
+  width: 100%;
+}
+
+.slide {
+  height: 300px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;  
+}
+
 .selected-user {
   display: inline-block;
   width: 100%;
@@ -955,6 +968,9 @@ input.cmn-toggle-round:checked + label:after {
   border-bottom: 1px solid #f8f8f8;
   background-color: #fff;
   cursor: pointer;
+}
+.selected-user.active * {
+  color: green;
 }
 
 .list-users-container {
