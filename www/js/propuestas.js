@@ -1,26 +1,26 @@
   var currentnode = '/propuestas/'+key
   , reservas = firebase.database().ref(currentnode)
   , datosdeapoyo = {}  
-  , anim = LI.animation.transition
+  , anim = LI.animation.transition;
 
   reservas.once('value').then(function(datos) {
     if(!datos.val()){
       $('.spinner').fadeOut(anim.fadeOut, function(){
-        $('.lista').delay(anim.delay).fadeIn()
-      })    
+        $('.lista').delay(anim.delay).fadeIn();
+      });
     }
-  })
+  });
 
   firebase.database().ref('/datosdeapoyo').once('value').then(function(datos) {
     datosdeapoyo = datos.val()
-  })
+  });
 
   $(document).on('submit','#firebase-form',function(e){
     e.preventDefault()
     
     var data = $(this).serializeObject()
     , updates = {}
-    , _key = $(this).attr('key')
+    , _key = $(this).attr('key');
     
     data.aprobado = data.aprobado?1:0;
 
