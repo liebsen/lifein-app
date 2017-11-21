@@ -53,12 +53,12 @@ var LI = {
             destino : data.user_id,
             titulo : data.title,
             texto : data.text
-          };
+        };
 
-        if(!status_ref && status){
-          noti.icon : 'success';
-        } else if(status_ref && !status){
-          noti.icon : 'error';
+        if(!data.status_ref && data.status){
+          noti.icon = 'success';
+        } else if(data.status_ref && !data.status){
+          noti.icon = 'error';
         }
 
         var notificaciones = firebase.database().ref('/notificaciones/' + key);

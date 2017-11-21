@@ -39,7 +39,7 @@
             console.log(error);
           }else{
             LI.notify({
-              status_ref:aprobado_ref,
+              status_ref:aprobado_ref||0,
               status:data.aprobado,
               type:'notificacion',
               user_id:entry.usuario_id,
