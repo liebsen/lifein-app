@@ -37,7 +37,7 @@
               type:'notificacion',
               user_id:entry.usuario_id,
               title:"Reserva",
-              text:data.texto
+              text:data.comment
             });            
 
             $('#detail').fadeOut(anim.fadeOut,function(){

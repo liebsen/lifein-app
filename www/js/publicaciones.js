@@ -21,7 +21,9 @@
     var data = $(this).serializeObject()
     , updates = {}
     , _key = $(this).attr('key');
+    , comment = data.comment;
 
+    delete data.comment;
     data.aprobado = data.aprobado?1:0;
 
     for(var i in data){
@@ -44,7 +46,7 @@
               type:'notificacion',
               user_id:entry.usuario_id,
               title:"Publicación",
-              text:data.texto
+              text:comment
             });  
 
             $('#detail').fadeOut(anim.fadeOut,function(){
