@@ -509,6 +509,11 @@ input.cmn-toggle-round:checked + label:after {
   color: #3c52f4;
 }
 
+.session-status-mute {
+  display: inline-block;
+  min-width: 150px;
+}
+
 .navbar {
   background-color: #f8f8f8;
   background-position: center center;
@@ -518,10 +523,7 @@ input.cmn-toggle-round:checked + label:after {
 
 .navbar .foto-sm {
   float: right;
-  position: relative;
   border: 2px solid #fff;
-  top: -10px;
-  left: 10px;
 }
 
 .menu .navbar {

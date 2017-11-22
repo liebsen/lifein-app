@@ -128,12 +128,27 @@ var LI = {
 	}
 	, checkUser : function(user){
 		if(!user) return;
+        
+        var rol = "";
+        if(user.rol=='super'){
+            rol ='diamond';
+        } else if(user.rol=='administrador'){
+            rol ='user-circle';
+        } else if(user.rol=='seguridad'){
+            rol ='group';
+        }
+        if(user.foto){
+            $('.navbar').find('.foto-sm').css({'background-image':'url('+user.foto+')'});
+        }
+
+        $('.header-login-status').addClass('fa-'+rol);
+
         if(user.rol != 'super' && typeof user.scope == 'object' && user.scope[0] != key && location.href != '/' + user.scope + '/menu'){
             return location.href = '/' + user.scope + '/menu';
         }
 
         $('.session-status').html(user.email);
-        
+
         if(key && user.layouts && user.layouts[key]){
             var layout = user.layouts[key]
             , title = $(document).prop('title');
