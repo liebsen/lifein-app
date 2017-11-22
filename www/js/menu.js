@@ -33,11 +33,11 @@
             snap.count++;
           }
           $('a[href='+slug+']').find('.badge').text(snap.count).fadeIn();
-          $('a[href='+slug+']').animateAdded();
+          //$('a[href='+slug+']').animateAdded();
         });
 
         child.on('child_changed', (data) => {
-           $('a[href='+slug+']').animateAdded();
+          //$('a[href='+slug+']').animateAdded();
         });
 
         child.on('child_removed', (data) => {

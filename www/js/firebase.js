@@ -53,7 +53,6 @@ firebase.auth().onAuthStateChanged(function(fbuser) {
                       user.rol = "seguridad";
                     }
                     user.scope = [grupo.key];
-                    console.log("h");
                     resolve(user);
                   }
                 }
@@ -98,6 +97,7 @@ firebase.auth().onAuthStateChanged(function(fbuser) {
           displayName : user.displayName,
           email : user.email,
           scope : user.scope,
+          foto : user.foto,
           rol : user.rol,
           layouts : layouts,
           emailVerified : user.emailVerified,

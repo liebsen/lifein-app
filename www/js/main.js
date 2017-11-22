@@ -86,8 +86,24 @@ $(function(){
       return false;
     });
     $('.show-profile-dropdown').click(function(){
-        $('.profile-dropdown').toggle();
+      $('.profile-dropdown').toggle();
     });
+
+    if(user){
+      var rol = "";
+      if(user.rol=='super'){
+        rol ='diamond';
+      } else if(user.rol=='administrador'){
+        rol ='user-circle';
+      } else if(user.rol=='seguridad'){
+        rol ='group';
+      }
+      if(user.foto){
+        $('.navbar').find('.foto-sm').css({'background-image':'url('+user.foto+')'});
+      }
+      $('.header-login-status').addClass('fa-'+rol);
+    }
+
 });
 
 $(document).on('click','.preferencias',function(){
