@@ -496,12 +496,16 @@ input.cmn-toggle-round:checked + label:after {
   left: -8px;
   top: -4px;
 }
+.header-login-status.fa {
+  text-align: center;
+  width: 20px;
+}
 
 .header-login-status.fa-user-circle {
   color: #e02dd9;  
 }
 
-.header-login-status.fa-group {
+.header-login-status.fa-user {
   color: #3c52f4;
 }
 
@@ -666,18 +670,6 @@ input.cmn-toggle-round:checked + label:after {
   font-size: 14px;
 }
 
-.indicador .fa-user {
-  color: #a9e4a8;
-}
-
-.indicador .fa-user-circle {
-  color: #e02dd9;
-}
-
-.indicador .fa-group {
-  color: #3c52f4;
-}
-
 .indicador .fa-check-square-o {
   color: #ccf1ca;
 }
@@ -687,6 +679,32 @@ input.cmn-toggle-round:checked + label:after {
 
 .indicador .fa-ban {
   color: #e86868;
+}
+
+.foto-container {
+  font-size: 20px;
+  max-width: 60px;
+}
+
+.foto-container .fa {
+  text-align: center;
+  width: 20px;  
+  position: relative;
+  left: -7px;
+  top: -3px;
+}
+
+.foto-container .foto-sm {
+  position: relative;
+  top: -5px;
+}
+
+.foto-container .fa-user {
+  color: #3c52f4;
+}
+
+.foto-container .fa-user-circle {
+  color: #e02dd9;
 }
 
 #detail {

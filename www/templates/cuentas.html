@@ -18,11 +18,11 @@
       <div class="list-item indicador">
         <div><small>Aprobado</small></div>
       </div>
-      <div class="list-item indicador">
-        <div><small>Rol</small></div>
+      <div class="list-item foto-container">
+        <div>Usuario</div>
       </div>
       <div class="list-item w-hidden-small w-hidden-tiny">
-        <div>Usuario</div>
+        <div>Email</div>
       </div>
       <div class="list-item w-hidden-small w-hidden-tiny">
         <div>Nombre</div>
@@ -39,8 +39,8 @@
       <div class="list-item indicador">
         <div><span class="fa fa-check-square-o [[if data.aprobado]]aprobado[[/if]]"></span></div>
       </div>
-      <div class="list-item indicador">
-        <div><span class="fa fa-[[if data.administrador]]user-circle[[else data.seguridad]]group[[else]]user[[/if]]" title="[[if data.administrador]]Admin[[else data.seguridad]]Seguridad[[else]]Usuario[[/if]]"></span></div>
+      <div class="list-item foto-container">
+        <div><div class="foto-sm"[[if data.foto]] style="background-image:url([[:data.foto]]);"[[/if]]><span class="fa fa-[[if data.administrador]]user-circle[[else data.seguridad]]user[[else]][[/if]]" title="[[if data.administrador]]Admin[[else data.seguridad]]Seguridad[[else]]Usuario[[/if]]"></span></div></div>
       </div>
       <div class="list-item w-hidden-small w-hidden-tiny">
         <div class="bind-entry" url="/cuentas/[[:~getKey()]]/[[:key]]"><span class="fa fa-external-link"></span> [[:data.email]]</div>
