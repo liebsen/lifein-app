@@ -92,10 +92,8 @@
               $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
                 LI.initAutocomplete('direccion');
                 if(data.geo){
-                  $('#direccion')
-                    .attr('lat',data.geo.lat)
-                    .attr('lng',data.geo.lng);
-                LI.controls();
+                  $('#direccion').attr('lat',data.geo.lat).attr('lng',data.geo.lng);
+                  LI.controls();
                 }
               });
             });

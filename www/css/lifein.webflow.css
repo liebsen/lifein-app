@@ -496,6 +496,7 @@ input.cmn-toggle-round:checked + label:after {
   left: -8px;
   top: -4px;
 }
+
 .header-login-status.fa {
   text-align: center;
   width: 20px;
@@ -682,11 +683,11 @@ input.cmn-toggle-round:checked + label:after {
 }
 
 .foto-container {
-  font-size: 20px;
   max-width: 60px;
 }
 
 .foto-container .fa {
+  font-size: 20px;
   text-align: center;
   width: 20px;  
   position: relative;
@@ -752,7 +753,7 @@ input.cmn-toggle-round:checked + label:after {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;  
-  background-image: url('../images/LifeIn-White.png');
+  background-image: url('../images/default-avatar.png');
   border: 1px solid #fff;
   width:40px;
   height:40px;
@@ -764,7 +765,7 @@ input.cmn-toggle-round:checked + label:after {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;  
-  background-image: url('../images/LifeIn-White.png');
+  background-image: url('../images/default-avatar.png');
   border: 1px solid #fff;
   width:80px;
   height:80px;

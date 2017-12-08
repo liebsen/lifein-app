@@ -57,31 +57,31 @@
   </script>
 
   <script id="form" type="text/x-jsrender">
-    <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]" administrador-key="[[:admKey]]" seguridad-key="[[:secKey]]">
+    <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]" administrador-key="[[if admin]][[:admin.key]][[/if]]" seguridad-key="[[if seguridad]][[:seguridad.key]][[/if]]">
       <div class="form-wrapper">
         <div class="w-col w-col-4">
-          <h3>Implementación</h3>
+          <h3>Implementación </h3>
 
           <label for="Email-7">Aprobado</label>
           <div class="switch">
-            <input name="implementacion_aprobado" id="implementacion_aprobado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if data && data.aprobado && data.aprobado == 1]] checked[[/if]]>
+            <input name="implementacion_aprobado" id="implementacion_aprobado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if implementacion && implementacion.aprobado && implementacion.aprobado == 1]] checked[[/if]]>
             <label for="implementacion_aprobado"></label>
           </div>
 
           <label for="titulo">Nombre</label>
-          <input class="input w-input" maxlength="256" name="implementacion_titulo" placeholder="Nombre de la implementación" type="text" value="[[if data && data.titulo]][[:data.titulo]][[/if]]" required>
+          <input class="input w-input" maxlength="256" name="implementacion_titulo" placeholder="Nombre de la implementación" type="text" value="[[if implementacion && implementacion.titulo]][[:implementacion.titulo]][[/if]]" required>
 
           <label for="Email-7">Dirección</label>
-          <input class="input w-input" maxlength="256" name="implementacion_direccion" id="implementacion_direccion" placeholder="Ruta 8 km10, Moreno, Buenos Aires" type="text" value="[[if data && data.direccion]][[:data.direccion]][[/if]]" required>
+          <input class="input w-input" maxlength="256" name="implementacion_direccion" id="implementacion_direccion" placeholder="Ruta 8 km10, Moreno, Buenos Aires" type="text" value="[[if implementacion && implementacion.direccion]][[:implementacion.direccion]][[/if]]" required>
 
           <label for="Email-7">Email</label>
-          <input class="input w-input" maxlength="256" name="implementacion_email" placeholder="ale@gmail.com" type="email" value="[[if data && data.email]][[:data.email]][[/if]]" required>
+          <input class="input w-input" maxlength="256" name="implementacion_email" placeholder="ale@gmail.com" type="email" value="[[if implementacion && implementacion.email]][[:implementacion.email]][[/if]]" required>
 
           <label for="Email-7">Sitio web</label>
-          <input class="input w-input" maxlength="256" name="implementacion_web" placeholder="https://barriolossauces.com.ar" type="text" value="[[if data && data.sitioweb]][[:data.sitioweb]][[/if]]">
+          <input class="input w-input" maxlength="256" name="implementacion_web" placeholder="https://barriolossauces.com.ar" type="text" value="[[if implementacion && implementacion.sitioweb]][[:implementacion.sitioweb]][[/if]]">
           
           <label for="telefono">Teléfono</label>
-          <input class="input w-input" maxlength="256" name="implementacion_telefono" placeholder="4333-5555" type="text" value="[[if data && data.telefono]][[:data.telefono]][[/if]]">
+          <input class="input w-input" maxlength="256" name="implementacion_telefono" placeholder="4333-5555" type="text" value="[[if implementacion && implementacion.telefono]][[:implementacion.telefono]][[/if]]">
 
         </div>
         <div class="w-col w-col-4 administrador">
@@ -200,7 +200,5 @@
 {% endblock %}
 
 {% block assets %}
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpktUQ26-j4iKtdZQwMPZROHWR4cUN5aQ&libraries=places"
-      async defer></script>
   <script src="{{jspath}}/implementaciones.js" type="text/javascript"></script>    
 {% endblock %}

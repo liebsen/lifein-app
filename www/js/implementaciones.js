@@ -212,42 +212,50 @@
     $('body').attr('key',key);
     LI.setScroll();
     $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){
-      firebase.database().ref(currentnode+'/'+key).once('value').then(function(data) {
+      return new Promise(function(resolve, reject){  
+        return firebase.database().ref(currentnode+'/'+key).once('value').then(function(data) {
 
-        var implementacion = data.val();
+          var implementacion = data.val();
 
-        firebase.database().ref('/cuentas/' + key).once('value', function(snap) {
-          var admins = snap.val()
-          , adminsLength = Object.keys(admins).length
-          , admData = []
-          , secData = []
-          , admKey = undefined
-          , secKey = undefined;
+          return firebase.database().ref('/cuentas/' + key).once('value', function(snap) {
+            var admins = snap.val();
+            var render = {
+              key : data.key,
+              implementacion: implementacion,
+              admin : null,
+              seguridad: null,
+              datosdeapoyo : datosdeapoyo
+            };
 
-          snap.forEach(function(cuenta){
-            var row = cuenta.val();
+            if(admins){
+              snap.forEach(function(cuenta){
+                var row = cuenta.val();
 
-            if(row.administrador){
-              admData.push(row);
-              admKey = cuenta.key;
-            } else if (row.seguridad){
-              secData.push(row);
-              secKey = cuenta.key;
+                if(row.administrador){
+                  render.admin = row;
+                  render.admin.key = cuenta.key;
+                } else if (row.seguridad){
+                  render.seguridad = row;
+                  render.seguridad.key = cuenta.key;
+                }
+              });
+
+              resolve(render);
+            } else {
+              resolve(render);
             }
-
-            $('#detail').html($.templates('#form').render({key:data.key,data:implementacion,admKey:admKey,admin:admData[0],seguridad:secData[0],secKey:secKey,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
-              $('.lista').fadeOut(anim.fadeOut,function(){
-                $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){
-                  $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
-                    $('body,html').scrollTop(0);
-                    LI.initAutocomplete('implementacion_direccion');
-                    if(implementacion.geo){
-                      $('#implementacion_direccion')
-                        .attr('lat',implementacion.geo.lat)
-                        .attr('lng',implementacion.geo.lng)
-                    }                  
-                  });
-                });
+          });
+        });
+      }).then(function(data){
+        $('#detail').html($.templates('#form').render(data,LI)).promise().done(function(){
+          $('.lista').fadeOut(anim.fadeOut,function(){
+            $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){
+              $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
+                $('body,html').scrollTop(0);
+                LI.initAutocomplete('implementacion_direccion');
+                if(data.implementacion.geo){
+                  $('#implementacion_direccion').attr('lat',data.implementacion.geo.lat).attr('lng',data.implementacion.geo.lng);
+                }                  
               });
             });
           });
