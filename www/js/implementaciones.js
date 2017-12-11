@@ -170,10 +170,21 @@
   });
 
   $(document).on('click','.users-close',function(e){
-    $('.list-users-container').fadeOut();
+    $('.list-users-backdrop').fadeOut();
   });
 
-  $(document).on('click','.selected-user',function(e){
+  $(document).on('keyup','.users-filter',function(e){
+    var filter = $(this).val();
+    $('.list-users div').each(function(){
+      if($(this).text().indexOf(filter) > -1){
+        $(this).fadeIn(100);
+      } else {
+        $(this).fadeOut(100);
+      }
+    })
+  });
+
+  $(document).on('click','.custom-list-user',function(e){
     $(this).siblings().removeClass('selected');
     $(this).addClass('selected');
     var target = $(this).parent().parent().parent().find('.select-user').data('target');

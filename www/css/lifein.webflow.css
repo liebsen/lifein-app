@@ -1021,19 +1021,31 @@ input.cmn-toggle-round:checked + label:after {
   background-position: center center;  
 }
 
-.selected-user {
+.selected-list-user {
   display: inline-block;
   width: 100%;
-  height: 60px;
+  margin-bottom: 5px;
+}
+
+.custom-list-user {
+  display: inline-block;
+  width: 100%;
+  min-height: 60px;
   border-bottom: 1px solid #f8f8f8;
   background-color: #fff;
   cursor: pointer;
-}
-.selected-user.active * {
-  color: green;
+  padding: 5px 15px;
 }
 
-.list-users-container {
+.custom-list-user.active {
+  background-color: #81fa81;
+}
+
+.custom-list-user.active h5, .custom-list-user.active p{
+  color: #36931b;
+}
+
+.list-users-backdrop {
   margin: auto;
   display: none;
   position: fixed;
@@ -1045,24 +1057,36 @@ input.cmn-toggle-round:checked + label:after {
   background-color: rgba(0,0,0,0.9);
 }
 
-.list-users {
+.list-users-container {
   margin: auto;
+  padding: 0 10px;
   top:0;
   left: 0;
   right: 0;
   bottom: 0;
   position: absolute;  
-  height:400px;
+  height:500px;
   max-width: 320px;
+  overflow-y: hidden;
+}
+
+.list-users {
   overflow-y: auto;
+  max-height:400px;
+  border-radius: 5px;
 }
 
 .users-close {
-  color: #999;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;  
 }
 
-.selected-user figcaption{
+.custom-list-user figcaption{
   margin: 5px;
+  background-image: url(/images/default-avatar.png);
   background-position: 0 0;
   background-size: cover;
   border-color:fff;
@@ -1071,18 +1095,17 @@ input.cmn-toggle-round:checked + label:after {
   float:left
 }
 
-.selected-user h5 {
-  margin-top: 10px;
-  margin-bottom: 0;  
+.custom-list-user h5 {
 }
 
-.selected-user p{
+.custom-list-user p {
+  line-height: 15px;
 }
 
-
-.selected-user:hover, .selected-user.selected {
+.custom-list-user:hover, .custom-list-user.selected {
   background-color: lightgreen;
 }
+
 
 .song {
   position: relative;

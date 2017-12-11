@@ -107,8 +107,12 @@
 
           [[if key]]
           <a href="#" class="select-user" data-target="administrador">Seleccionar usuario existente</a>
-          <div class="list-users-container">
-            <div class="list-users"></div>            
+          <div class="list-users-backdrop">
+            <div class="list-users-container">
+              <input type="text" class="input w-input users-filter" placeholder="Buscar usuario">
+              <div class="list-users"></div>
+              <a href="#" class="buttons w-button users-close">Listo</a>
+            </div>
           </div>
           [[/if]]
 
@@ -137,11 +141,14 @@
 
           [[if key]]
           <a href="#" class="select-user" data-target="seguridad">Seleccionar usuario existente</a>
-          <div class="list-users-container">
-            <div class="list-users"></div>
+          <div class="list-users-backdrop">
+            <div class="list-users-container">
+              <input type="text" class="input w-input users-filter" placeholder="Buscar usuario">
+              <div class="list-users"></div>
+              <a href="#" class="buttons w-button users-close">Listo</a>
+            </div>
           </div>
           [[/if]]
-
         </div>
 
         <div class="w-col w-col-12">
@@ -153,10 +160,9 @@
   </script>
 
   <script id="list_users" type="text/x-jsrender">
-    <a href="#" class="users-close">Cerrar</a>
   [[props data]]
-    <div class="selected-user [[if ~root.selected == key]] active[[/if]]" data-prop='[[:~toJSON(prop)]]'>
-      <figcaption class="foto" style="background-image:url([[>prop.foto]]);"></figcaption>
+    <div class="custom-list-user[[if ~root.selected == key]] active[[/if]]" data-prop='[[:~toJSON(prop)]]'>
+      <figcaption class="foto"[[if prop.foto]] style="background-image:url([[>prop.foto]]);"[[/if]]></figcaption>
       <h5>[[>prop.nombre]] [[>prop.apellido]][[if ~root.selected == key]] <span class="fa fa-check"></span>[[/if]]</h5>
       <p>[[>prop.email]]</p>
     </div>
