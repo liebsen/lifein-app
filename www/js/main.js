@@ -92,7 +92,7 @@ $(function(){
 
 $(document).on('click','.preferencias',function(){
     LI.setScroll();
-    if($('.modalcontainer').html() != '') return $('.modalcontainer').fadeIn();
+    $('.modalcontainer').html('');
     $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){
         firebase.database().ref('implementaciones/'+key).once('value').then(function(grupo) {
           var data = grupo.val();
@@ -313,6 +313,12 @@ $(document).on('click','.bind-entry',function(){
         return swal("Error","no se encontró " + val + " en " + url,"error");
       });
     });
+});
+
+$(document).on('click','#panico_ok',function(e){
+  var _key = $(this).attr('key');
+  firebase.database().ref('/panico/'+key+'/'+_key+'/aprobado').set(1);
+  $(this).prop("disabled",true);
 });
 
 moment.locale('es');

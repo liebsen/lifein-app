@@ -1,19 +1,39 @@
   var currentnode = '/reservas/'+key
   , reservas = firebase.database().ref(currentnode)
   , datosdeapoyo = {}  
-  , anim = LI.animation.transition;
+  , anim = LI.animation.transition
+  , showItem = function(_key){
+    $('body').attr('key',key)
+    LI.setScroll()
+    $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){  
+      firebase.database().ref(currentnode +'/'+_key).once('value').then(function(item) {
+        firebase.database().ref('/cuentas/'+key+'/'+item.val().usuario_id).once('value').then(function(cuenta) {
+          console.log(cuenta.val())
+          $('#detail').html($.templates('#form').render({key:item.key,data:item.val(),cuenta:cuenta.val(),datosdeapoyo:datosdeapoyo},LI.aux)).promise().done(function(){
+            $('.lista').fadeOut(anim.fadeOut,function(){
+              $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){                    
+                $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
+                  $('body,html').scrollTop(0);
+                });
+              });
+            });
+          });
+        });
+      });
+    });    
+  };  
 
   reservas.once('value').then(function(datos) {
     if(!datos.val()){
       $('.spinner').fadeOut(anim.fadeOut, function(){
         $('.lista').delay(anim.delay).fadeIn();
-      })    
+      });    
     }
-  })
+  });
 
   firebase.database().ref('/datosdeapoyo').once('value').then(function(datos) {
     datosdeapoyo = datos.val();
-  })
+  });
 
   $(document).on('submit','#firebase-form',function(e){
     e.preventDefault();
@@ -38,13 +58,11 @@
               user_id:entry.usuario_id,
               title:"Reserva",
               text:data.comment
-            });            
+            });    
 
-            $('#detail').fadeOut(anim.fadeOut,function(){
-              $('.lista').fadeIn(anim.fadeIn,function(){
-                //LI.resetScroll()
-                $('.spinner').fadeOut(anim.fadeOut*anim.factor);
-              });
+            LI.resetScroll();
+            $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){
+              location.hash = '';
             });
           }
         });
@@ -64,28 +82,6 @@
     })  
   })
 
-  $(document).on('click','.action.ver',function(){
-    var _key = $(this).data('key')
-    $('body').attr('key',key)
-    LI.setScroll()
-    $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){  
-      firebase.database().ref(currentnode +'/'+_key).once('value').then(function(item) {
-        firebase.database().ref('/cuentas/'+key+'/'+item.val().usuario_id).once('value').then(function(cuenta) {
-          console.log(cuenta.val())
-          $('#detail').html($.templates('#form').render({key:item.key,data:item.val(),cuenta:cuenta.val(),datosdeapoyo:datosdeapoyo},LI.aux)).promise().done(function(){
-            $('.lista').fadeOut(anim.fadeOut,function(){
-              $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){                    
-                $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
-                  $('body,html').scrollTop(0);
-                });
-              });
-            });
-          });
-        });
-      });
-    });
-  });
-
   $(document).on('click','.action.eliminar',function(){
     var key = $(this).data('key');
     swal({   
@@ -98,37 +94,48 @@
     }, function(){    
       firebase.database().ref(currentnode + key).remove().then(function(){
         swal.close();
-      })
-    })
-  })  
+      });
+    });
+  });
 
   $(document).on('click','.cerrar',function(){
-    $('#detail').fadeOut(anim.fadeOut,function(){
-      $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){
-        LI.resetScroll();
-      })
-    })
-  })  
+    location.hash="";
+  });  
+
+  $(function(){
+    $(window).on('hashchange', function(){
+      if(location.hash != '') {
+        showItem(location.hash.replace('#',''));
+      } else {
+        $('#detail').fadeOut(anim.fadeOut,function(){
+          $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){
+            LI.resetScroll();
+          });
+        });
+      }
+    }).trigger('hashchange');
+  });
+
 
   // live fb handlers
   reservas.on('child_added', (data) => {
     $('#list').prepend($.templates('#item').render({key:data.key,data:data.val()}, LI.aux)).promise().done(function(){
-      $('#list').find('#'+data.key).animateAdded()
-    })  
-    $('.spinner').fadeOut(anim.fadeOut*anim.factor, function(){
-      $('.lista').delay(anim.delay).fadeIn();
-    })
-  })
+      $('#list').find('#'+data.key).animateAdded();
+    });
+    if(location.hash===''){
+      $('.spinner').fadeOut(anim.fadeOut);
+    }
+  });
 
   reservas.on('child_changed', (data) => {
     var index = $('#'+data.key).index();
     $('#'+data.key).remove();
     $('#list').insertAt(index, $.templates('#item').render({key:data.key,data:data.val()}, LI.aux));
     $('#'+data.key).animateChanged();
-  })
+  });
 
   reservas.on('child_removed', (data) => {
     $('#'+data.key).animateRemoved(function(){
       $(this).remove();
-    })    
-  })
+    });
+  });

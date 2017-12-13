@@ -55,6 +55,23 @@
       }
   </script>
 
+  <script id="panico" type="text/x-jsrender">
+    <div class="form-wrapper w-form2">
+      <form class="w-clearfix">
+        <div class="w-col w-col-12">
+          <h1><span class="fa fa-exclamation-circle"></span> Alerta</h1>
+          <h3>[[:fecha]]</h3>
+          <h3>[[:nombre]]</h3>
+          <h3>[[:telefono]]</h3>
+        </div>
+        <div class="w-col w-col-12">
+          <input class="w-button" data-ix="hidemodal" type="button" value="Cerrar">
+          <input id="panico_ok" key="[[:key]]" class="buttons w-button" data-wait="Guardando..." type="button" value="Apagar alarma">
+        </div>
+      </form>
+    </div>
+  </script>
+
   <script id="preferencias" type="text/x-jsrender">
     <div class="form-wrapper w-form2">
       <form class="publish__uploadimages--form" method="post" action="" enctype="multipart/form-data">

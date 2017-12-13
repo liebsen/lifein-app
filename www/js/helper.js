@@ -158,6 +158,29 @@ var LI = {
             this.setExternalStyleSheet("https://fonts.googleapis.com/css?family=" + layout.font + ":300,400,500,700");
         }
 	}
+    , playAudio : function(file) {
+        console.log("audio!");
+        var audio = new Audio('/sound/'+file+'.ogg');
+        audio.play();
+    }
+    , listenAlerts : function(key){
+      var panico = firebase.database().ref('/panico/'+key);
+      panico.on('child_added', (data) => {
+        var item = data.val(); 
+        item.key = data.key;
+        if(!item.aprobado){
+            $('.modalcontainer').html('');
+            $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){
+              $('.modalcontainer').html($.templates('#panico').render(item,LI)).promise().done(function(){
+                LI.resetWebflow(); 
+                $('.modalcontainer').fadeIn();    
+                LI.playAudio('warning');          
+                $('body,html').scrollTop(0);
+              });
+            });
+        }
+      });
+    }    
     , setExternalStyleSheet : function(css){
         $("head").append("<link rel='stylesheet' type='text/css' href='"+css+"' />");
     }

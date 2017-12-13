@@ -1,9 +1,26 @@
   var currentnode = '/propuestas/'+key
-  , reservas = firebase.database().ref(currentnode)
+  , propuestas = firebase.database().ref(currentnode)
   , datosdeapoyo = {}  
-  , anim = LI.animation.transition;
+  , anim = LI.animation.transition
+  , showItem = function(_key){
+    $('body').attr('key',_key)
+    LI.setScroll()
+    $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){  
+      firebase.database().ref(currentnode +'/'+_key).once('value').then(function(item) {
+        $('#detail').html($.templates('#form').render({key:item.key,data:item.val(),aux:LI.aux,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
+          $('.lista').fadeOut(anim.fadeOut,function(){
+            $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){                    
+              $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
+                $('body,html').scrollTop(0);
+              });
+            });
+          });
+        });
+      });
+    });
+  };  
 
-  reservas.once('value').then(function(datos) {
+  propuestas.once('value').then(function(datos) {
     if(!datos.val()){
       $('.spinner').fadeOut(anim.fadeOut, function(){
         $('.lista').delay(anim.delay).fadeIn();
@@ -48,11 +65,9 @@
               text:comment
             });  
 
-            $('#detail').fadeOut(anim.fadeOut,function(){
-              $('.lista').fadeIn(anim.fadeIn,function(){
-                //LI.resetScroll()
-                $('.spinner').fadeOut(anim.fadeOut*anim.factor)
-              });
+            LI.resetScroll();
+            $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){
+              location.hash = '';
             });
           }
         });
@@ -66,30 +81,11 @@
     $('#detail').html($.templates('#form').render({key:null,data:{aprobado:""},aux:LI.aux,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
       $('.lista').fadeOut(anim.fadeOut,function(){
         $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
-          $('body,html').scrollTop(0)
-        })
-      })    
-    })  
-  })
-
-  $(document).on('click','.action.ver',function(){
-    var key = $(this).data('key')
-    $('body').attr('key',key)
-    LI.setScroll()
-    $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){  
-      firebase.database().ref(currentnode +'/'+key).once('value').then(function(item) {
-        $('#detail').html($.templates('#form').render({key:item.key,data:item.val(),aux:LI.aux,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
-          $('.lista').fadeOut(anim.fadeOut,function(){
-            $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){                    
-              $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
-                $('body,html').scrollTop(0)
-              })
-            })
-          })
-        })
-      })
-    })
-  })
+          $('body,html').scrollTop(0);
+        });
+      }); 
+    });
+  });
 
   $(document).on('click','.action.eliminar',function(){
     var key = $(this).data('key')
@@ -108,32 +104,42 @@
   })  
 
   $(document).on('click','.cerrar',function(){
-    $('#detail').fadeOut(anim.fadeOut,function(){
-      $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){
-        LI.resetScroll()
-      })
-    })
-  })  
+    location.hash="";
+  });  
+
+  $(function(){
+    $(window).on('hashchange', function(){
+      if(location.hash != '') {
+        showItem(location.hash.replace('#',''));
+      } else {
+        $('#detail').fadeOut(anim.fadeOut,function(){
+          $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){
+            LI.resetScroll();
+          });
+        });
+      }
+    }).trigger('hashchange');
+  });
 
   // live fb handlers
-  reservas.on('child_added', (data) => {
+  propuestas.on('child_added', (data) => {
     $('#list').prepend($.templates('#item').render({key:data.key,data:data.val()}, LI.aux)).promise().done(function(){
-      $('#list').find('#'+data.key).animateAdded()
-    })  
-    $('.spinner').fadeOut(anim.fadeOut*anim.factor, function(){
-      $('.lista').delay(anim.delay).fadeIn()
-    })
-  })
+      $('#list').find('#'+data.key).animateAdded();
+    });
+    if(location.hash===''){
+      $('.spinner').fadeOut(anim.fadeOut);
+    } 
+  });
 
-  reservas.on('child_changed', (data) => {
-    var index = $('#'+data.key).index()
-    $('#'+data.key).remove()
-    $('#list').insertAt(index, $.templates('#item').render({key:data.key,data:data.val()}))
-    $('#'+data.key).animateChanged()
-  })
+  propuestas.on('child_changed', (data) => {
+    var index = $('#'+data.key).index();
+    $('#'+data.key).remove();
+    $('#list').insertAt(index, $.templates('#item').render({key:data.key,data:data.val()}));
+    $('#'+data.key).animateChanged();
+  });
 
-  reservas.on('child_removed', (data) => {
+  propuestas.on('child_removed', (data) => {
     $('#'+data.key).animateRemoved(function(){
-      $(this).remove()  
-    })    
-  })
+      $(this).remove();
+    });
+  });

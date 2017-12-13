@@ -1,22 +1,40 @@
   var currentnode = '/autorizaciones/'+key
-  , autorizacions = firebase.database().ref(currentnode)
+  , autorizaciones = firebase.database().ref(currentnode)
   , datosdeapoyo = {}  
   , anim = LI.animation.transition
+  , showItem = function(_key){
+    LI.setScroll()
+    $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){  
+      firebase.database().ref(currentnode +'/'+_key).once('value').then(function(item) {
+        firebase.database().ref('/cuentas/'+key+'/'+item.val().usuario_id).once('value').then(function(cuenta) {
+          $('#detail').html($.templates('#form').render({key:item.key,data:item.val(),cuenta:cuenta.val(),datosdeapoyo:datosdeapoyo},LI.aux)).promise().done(function(){
+            $('.lista').fadeOut(anim.fadeOut,function(){
+              $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){                    
+                $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
+                  $('body,html').scrollTop(0);
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  };
 
-  autorizacions.once('value').then(function(datos) {
+  autorizaciones.once('value').then(function(datos) {
     if(!datos.val()){
       $('.spinner').fadeOut(anim.fadeOut, function(){
-        $('.lista').delay(anim.delay).fadeIn()
-      })    
+        $('.lista').delay(anim.delay).fadeIn();
+      });  
     }
-  })
+  });
 
   firebase.database().ref('/datosdeapoyo').once('value').then(function(datos) {
-    datosdeapoyo = datos.val()
-  })
+    datosdeapoyo = datos.val();
+  });
 
   $(document).on('submit','#firebase-form',function(e){
-    e.preventDefault()
+    e.preventDefault();
 
     var data = $(this).serializeObject()
     , _key = $(this).attr('key')
@@ -40,12 +58,10 @@
               text:data.comment
             });
 
-            $('#detail').fadeOut(anim.fadeOut,function(){
-              $('.lista').fadeIn(anim.fadeIn,function(){
-                //LI.resetScroll()
-                $('.spinner').fadeOut(anim.fadeOut*anim.factor);
-              })
-            }) 
+            LI.resetScroll();
+            $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){
+              location.hash = '';
+            });
           }
         });
       });
@@ -53,37 +69,6 @@
 
     return false;
   });
-
-  $(document).on('click','.add-item',function(e){
-    $('#detail').html($.templates('#form').render({key:null,data:{aprobado:""},aux:LI.aux.autorizacions,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
-      $('.lista').fadeOut(anim.fadeOut,function(){
-        $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
-          $('body,html').scrollTop(0)
-        })
-      })    
-    })  
-  })
-
-  $(document).on('click','.action.ver',function(){
-    var _key = $(this).data('key')
-    $('body').attr('key',_key)
-    LI.setScroll()
-    $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){  
-      firebase.database().ref(currentnode +'/'+_key).once('value').then(function(item) {
-        firebase.database().ref('/cuentas/'+key+'/'+item.val().usuario_id).once('value').then(function(cuenta) {
-          $('#detail').html($.templates('#form').render({key:item.key,data:item.val(),cuenta:cuenta.val(),datosdeapoyo:datosdeapoyo},LI.aux)).promise().done(function(){
-            $('.lista').fadeOut(anim.fadeOut,function(){
-              $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){                    
-                $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
-                  $('body,html').scrollTop(0)
-                })
-              })
-            })
-          })
-        })
-      })
-    })
-  })
 
   $(document).on('click','.action.eliminar',function(){
     var key = $(this).data('key')
@@ -96,38 +81,48 @@
       showLoaderOnConfirm: true,
     }, function(){    
       firebase.database().ref(currentnode + key).remove().then(function(){
-        swal.close()
-      })
-    })
-  })  
+        swal.close();
+      });
+    });
+  });
 
   $(document).on('click','.cerrar',function(){
-    $('#detail').fadeOut(anim.fadeOut,function(){
-      $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){
-        LI.resetScroll()
-      })
-    })
-  })  
+    location.hash="";
+  });  
+
+  $(function(){
+    $(window).on('hashchange', function(){
+      if(location.hash != '') {
+        showItem(location.hash.replace('#',''));
+      } else {
+        $('#detail').fadeOut(anim.fadeOut,function(){
+          $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){
+            LI.resetScroll();
+          });
+        });
+      }
+    }).trigger('hashchange');
+  });
 
   // live fb handlers
-  autorizacions.on('child_added', (data) => {
+  autorizaciones.on('child_added', (data) => {
     $('#list').prepend($.templates('#item').render({key:data.key,data:data.val()}, LI.aux)).promise().done(function(){
-      $('#list').find('#'+data.key).animateAdded()
-    })  
-    $('.spinner').fadeOut(anim.fadeOut*anim.factor, function(){
-      $('.lista').delay(anim.delay).fadeIn()
-    })
-  })
+      $('#list').find('#'+data.key).animateAdded();
+    });
+    if(location.hash===''){
+      $('.spinner').fadeOut(anim.fadeOut);
+    } 
+  });
 
-  autorizacions.on('child_changed', (data) => {
-    var index = $('#'+data.key).index()
-    $('#'+data.key).remove()
-    $('#list').insertAt(index, $.templates('#item').render({key:data.key,data:data.val()}, LI.aux))
-    $('#'+data.key).animateChanged()
-  })
+  autorizaciones.on('child_changed', (data) => {
+    var index = $('#'+data.key).index();
+    $('#'+data.key).remove();
+    $('#list').insertAt(index, $.templates('#item').render({key:data.key,data:data.val()}, LI.aux));
+    $('#'+data.key).animateChanged();
+  });
 
-  autorizacions.on('child_removed', (data) => {
+  autorizaciones.on('child_removed', (data) => {
     $('#'+data.key).animateRemoved(function(){
-      $(this).remove()  
-    })    
-  })
+      $(this).remove();
+    });
+  });

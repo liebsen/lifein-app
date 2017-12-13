@@ -1,7 +1,25 @@
   var currentnode = '/publicaciones/'+key
   , publicaciones = firebase.database().ref(currentnode)
   , datosdeapoyo = {}  
-  , anim = LI.animation.transition;
+  , anim = LI.animation.transition
+  , showItem = function(_key){
+    $('body').attr('key',_key)
+    LI.setScroll()
+    $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){  
+      firebase.database().ref(currentnode +'/'+_key).once('value').then(function(publicacion) {
+        $('#detail').html($.templates('#form').render({key:publicacion.key,data:publicacion.val(),aux:LI.aux,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
+          $('.lista').fadeOut(anim.fadeOut,function(){
+            $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){                    
+              $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
+                $('.slider').slick();
+                $('body,html').scrollTop(0);
+              })
+            });
+          });
+        });
+      });
+    });    
+  };
 
   publicaciones.once('value').then(function(datos) {
     if(!datos.val()){
@@ -20,7 +38,7 @@
     
     var data = $(this).serializeObject()
     , updates = {}
-    , _key = $(this).attr('key');
+    , _key = $(this).attr('key')
     , comment = data.comment;
 
     delete data.comment;
@@ -49,11 +67,9 @@
               text:comment
             });  
 
-            $('#detail').fadeOut(anim.fadeOut,function(){
-              $('.lista').fadeIn(anim.fadeIn,function(){
-                //LI.resetScroll()
-                $('.spinner').fadeOut(anim.fadeOut*anim.factor);
-              });
+            LI.resetScroll();
+            $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){
+              location.hash = '';
             });
           }
         });
@@ -61,36 +77,6 @@
     });
 
     return false;
-  });
-
-  $(document).on('click','.add-publicacion',function(e){
-    $('#detail').html($.templates('#form').render({key:null,data:{aprobado:""},aux:LI.aux,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
-      $('.lista').fadeOut(anim.fadeOut,function(){
-        $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
-          $('body,html').scrollTop(0);
-        });
-      }); 
-    });
-  });
-
-  $(document).on('click','.action.ver',function(){
-    var key = $(this).data('key')
-    $('body').attr('key',key)
-    LI.setScroll()
-    $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){  
-      firebase.database().ref(currentnode +'/'+key).once('value').then(function(publicacion) {
-        $('#detail').html($.templates('#form').render({key:publicacion.key,data:publicacion.val(),aux:LI.aux,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
-          $('.lista').fadeOut(anim.fadeOut,function(){
-            $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){                    
-              $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
-                $('.slider').slick();
-                $('body,html').scrollTop(0);
-              })
-            });
-          });
-        });
-      });
-    });
   });
 
   $(document).on('click','.action.eliminar',function(){
@@ -110,11 +96,21 @@
   });
 
   $(document).on('click','.cerrar',function(){
-    $('#detail').fadeOut(anim.fadeOut,function(){
-      $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){
-        LI.resetScroll();
-      });
-    });
+    location.hash="";
+  });  
+
+  $(function(){
+    $(window).on('hashchange', function(){
+      if(location.hash != '') {
+        showItem(location.hash.replace('#',''));
+      } else {
+        $('#detail').fadeOut(anim.fadeOut,function(){
+          $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){
+            LI.resetScroll();
+          });
+        });
+      }
+    }).trigger('hashchange');
   });
 
   // live fb handlers
@@ -122,9 +118,9 @@
     $('#list').prepend($.templates('#item').render({key:data.key,data:data.val()}, LI.aux)).promise().done(function(){
       $('#list').find('#'+data.key).animateAdded();
     });
-    $('.spinner').fadeOut(anim.fadeOut*anim.factor, function(){
-      $('.lista').delay(anim.delay).fadeIn();
-    });
+    if(location.hash===''){
+      $('.spinner').fadeOut(anim.fadeOut);
+    } 
   });
 
   publicaciones.on('child_changed', (data) => {
