@@ -86,19 +86,24 @@ var LI = {
                     }
                 })
             }, function(error) {
+                /*
                 swal('Error',error,'error');
+                */
                 return error;
+                
             });        
         }, function(error) {
             var errorCode = error.code
             , errorMessage = error.message;
+            /*
             if (errorCode == 'auth/weak-password') {
                 swal('Error','La contraseña es demasiado débil.','error');
             } else {
                 swal('Error',error,'error');
             }
+            */
             return error;
-        })
+        });
     }
     , tools : {
         getResource : function(url){
