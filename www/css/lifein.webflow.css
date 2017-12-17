@@ -1303,6 +1303,38 @@ input.cmn-toggle-round:checked + label:after {
   float: left;
 }
 
+.chat {
+  width: 85%;
+  margin-top: 10px;
+  font-size: 16px;
+  float: left;
+  padding: 15px;
+  color: #fff;
+  border-radius: 4px;
+  background-color: #5e63be;
+  margin-bottom: 3px;
+}
+
+.when {
+  font-size: 14.4px;
+  font-weight: 500;
+  text-align: left;
+  color: #c5c5c5;
+  padding-left: 3px;
+  clear: both;
+}
+
+.chat.other {
+  background-color: #989898;
+  float: right;
+}
+
+.when.other {
+  text-align: right;
+  padding-right: 3px;
+}
+
+
 @-webkit-keyframes sk-circleFadeDelay {
   0%, 39%, 100% { opacity: 0; }
   40% { opacity: 1; }

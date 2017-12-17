@@ -37,6 +37,7 @@ firebase.auth().onAuthStateChanged(function(fbuser) {
       resolve(false);
     });
   }).then(function(user){
+
     return new Promise(function(resolve, reject){ 
       if(!user){
         return firebase.database().ref('/cuentas').once('value').then(function(grupos) {
@@ -56,11 +57,11 @@ firebase.auth().onAuthStateChanged(function(fbuser) {
                     resolve(user);
                   }
                 }
+                resolve(false); 
               })
             }); 
           });       
         });
-        resolve(false);      
       } else {
         resolve(user);
       }
@@ -103,7 +104,7 @@ firebase.auth().onAuthStateChanged(function(fbuser) {
             return location.href = (user.rol === 'super' ? 'menu' : user.scope[0] + '/menu');
           }
         },300);
-      })
+      });
     } else {
       if(user === false){
         return swal({   
@@ -114,15 +115,15 @@ firebase.auth().onAuthStateChanged(function(fbuser) {
           closeOnConfirm: false,   
           showLoaderOnConfirm: true,
         }, function(){
-          swal.close()
-          $('.login').prop('disabled',false).animate({opacity:1}).text("Continuar")
-          $('.session-status').html("Sin inicio de sesión")
+          swal.close();
+          $('.login').prop('disabled',false).animate({opacity:1}).text("Continuar");
+          $('.session-status').html("Sin inicio de sesión");
           $('.spinner').fadeOut(LI.animation.transition.fadeOut*LI.animation.transition.factor,function(){
-              $('.contenedor-login').fadeIn(LI.animation.transition.fadeIn)
-          })
+              $('.contenedor-login').fadeIn(LI.animation.transition.fadeIn);
+          });
         });
       }   
     }
-  })
-})
+  });
+});
 
