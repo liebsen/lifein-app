@@ -10,7 +10,7 @@
     <div class="lista">
       <h3>Propuestas</h3>
       <div class="subnav">
-        <!--input class="w-button add-publicacion" type="button" value="Agregar Publicación"-->
+        <input class="w-button add-item" type="button" value="Agregar Propuesta">
         <input class="w-button export" name="cuentas" type="button" value="Exportar CSV">
         <input type="text" class="input w-input filtro" maxlength="256" name="search" placeholder="Buscar..." autocomplete="off" />
       </div>       
@@ -82,9 +82,19 @@
 
           <label for="content">Contenido</label>
           <textarea class="input w-input" name="texto" placeholder="Contenido de la publicación" required>[[if data && data.texto]][[:data.texto]][[/if]]</textarea>
-
-          <label for="content">Motivo de actualización</label>
-          <textarea class="input w-input" name="comment" placeholder="Escriba brevemente el motivo de actualización. Si se habilita la autorización o se cancela se notificará al usuario."></textarea>
+          
+          [[if resultados]]
+            <a href="#" class="link-text w-clearfix" onclick="$('.hidden-list').toggle()">Ver resultados</a>
+            <div class="hidden-list">
+            [[for resultados]]
+              <div class="custom-list-user w-hidden">
+                <figcaption class="foto"[[if user.foto]] style="background-image:url([[:user.foto]]);"[[/if]]></figcaption>
+                <h5>[[:user.nombre]] [[:user.apellido]]</h5>
+                <p><span class="fa fa-thumbs-o-[[if voto]]up[[else]]down[[/if]]"></span> [[:fecha]]</p>
+              </div>
+            [[/for]]
+            </div>
+          [[/if]]
 
           <input class="w-button cerrar" type="button" value="Cerrar">
           <input class="buttons w-button" data-wait="Guardando..." type="submit" value="Guardar cambios">

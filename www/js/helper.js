@@ -212,6 +212,9 @@ var LI = {
         isURL : function(str){
             return str.indexOf('http://') > -1 || str.indexOf('https://') > -1;
         },
+        specDate : function(date,format){
+            return moment(date,'ddd MMM DD YYYY HH:mm:ss Z').format('DD/MM HH:MM');
+        },
         easyDate : function(date,format){
             return moment(date,LI.get_date_format(format)).format('DD/MM HH:MM');
         },

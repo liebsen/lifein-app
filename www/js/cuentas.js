@@ -7,7 +7,7 @@
     LI.setScroll();
     $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){
       firebase.database().ref(currentnode+'/'+key).once('value').then(function(cuenta) {
-        var data = cuenta.val()
+        var data = cuenta.val();
         $('#detail').html($.templates('#form').render({key:cuenta.key,data:data,datosdeapoyo:datosdeapoyo},LI.aux)).promise().done(function(){
           $('.lista').fadeOut(anim.fadeOut,function(){
             $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){
@@ -103,34 +103,36 @@
     });
   });
 
+  $(document).on('click','.ver-item',function(){
+    showItem($(this).attr('href').replace('#',''));
+  });
+
   $(document).on('click','.cerrar',function(){
     location.hash="";
   });  
 
-  $(function(){
-    $(window).on('hashchange', function(){
-      if(location.hash == '#add') {
-        $('#detail').html($.templates('#form').render({key:null,data:null,datosdeapoyo:datosdeapoyo},LI.aux)).promise().done(function(){
-          $('.lista').fadeOut(anim.fadeOut,function(){
-            $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
-              $('.spinner').fadeOut(anim.fadeIn*anim.factor, function(){  
-                $('body,html').scrollTop(0);
-              });
-              LI.initAutocomplete('direccion');
+  $(window).on('hashchange', function(){
+    if(location.hash == '#add') {
+      $('#detail').html($.templates('#form').render({key:null,data:null,datosdeapoyo:datosdeapoyo},LI.aux)).promise().done(function(){
+        $('.lista').fadeOut(anim.fadeOut,function(){
+          $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
+            $('.spinner').fadeOut(anim.fadeIn*anim.factor, function(){  
+              $('body,html').scrollTop(0);
             });
-          });   
-        });
-      } else if(location.hash != '') {
-        showItem(location.hash.replace('#',''));
-      } else {
-        $('#detail').fadeOut(anim.fadeOut,function(){
-          $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){
-            LI.resetScroll();
+            LI.initAutocomplete('direccion');
           });
+        });   
+      });
+    } else if(location.hash != '') {
+      showItem(location.hash.replace('#',''));
+    } else {
+      $('#detail').fadeOut(anim.fadeOut,function(){
+        $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){
+          LI.resetScroll();
         });
-      }
-    }).trigger('hashchange');
-  });
+      });
+    }
+  }).trigger('hashchange');
 
   // live fb handlers
   cuentas.on('child_added', (data) => {

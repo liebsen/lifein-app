@@ -7,15 +7,41 @@
     LI.setScroll()
     $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){  
       firebase.database().ref(currentnode +'/'+_key).once('value').then(function(item) {
-        $('#detail').html($.templates('#form').render({key:item.key,data:item.val(),aux:LI.aux,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
-          $('.lista').fadeOut(anim.fadeOut,function(){
-            $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){                    
-              $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
-                $('body,html').scrollTop(0);
+        var data = item.val();
+        var resultados = [];
+        var waiting = 0;
+        var ret = {};
+        var index = 0;
+        return new Promise(function(resolve, reject) {
+          waiting = Object.keys(data.escrutinio).length||0;
+          index = waiting;
+          if(waiting){
+            for(var i in data.escrutinio){
+              ret[index] = data.escrutinio[i];
+              index--;
+              firebase.database().ref('cuentas/'+key+'/'+data.escrutinio[i].usuario_id).once('value').then(function(cuenta) {            
+                ret[waiting].user = cuenta.val();
+                resultados.push(ret[waiting]);
+                waiting--;
+                if(waiting===0){
+                  resolve(resultados);
+                }
+              });
+            };
+          } else {
+            resolve(null);
+          }
+        }).then(function(resultados){
+          $('#detail').html($.templates('#form').render({key:item.key,data:data,resultados:resultados},LI.aux)).promise().done(function(){
+            $('.lista').fadeOut(anim.fadeOut,function(){
+              $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){                    
+                $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
+                  $('body,html').scrollTop(0);
+                });
               });
             });
           });
-        });
+        })
       });
     });
   };  
@@ -29,15 +55,15 @@
   });
 
   firebase.database().ref('/datosdeapoyo').once('value').then(function(datos) {
-    datosdeapoyo = datos.val()
+    datosdeapoyo = datos.val();
   });
 
   $(document).on('submit','#firebase-form',function(e){
-    e.preventDefault()
+    e.preventDefault();
     
     var data = $(this).serializeObject()
     , updates = {}
-    , _key = $(this).attr('key');
+    , _key = $(this).attr('key')
     , comment = data.comment;
 
     delete data.comment;
@@ -98,10 +124,10 @@
       showLoaderOnConfirm: true,
     }, function(){    
       firebase.database().ref(currentnode + key).remove().then(function(){
-        swal.close()
-      })
-    })
-  })  
+        swal.close();
+      });
+    });
+  });
 
   $(document).on('click','.cerrar',function(){
     location.hash="";

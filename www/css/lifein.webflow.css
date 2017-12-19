@@ -481,6 +481,10 @@ input.cmn-toggle-round:checked + label:after {
   border-radius: 4px;
 }
 
+.hidden-list {
+  display: none;
+}
+
 .succes {
   background-color: #fff;
 }
