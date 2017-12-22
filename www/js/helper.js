@@ -155,6 +155,10 @@ var LI = {
         $('.session-status').html(user.nombre);
 
         if(key && user.layouts && user.layouts[key]){
+
+            if(rol!='diamond'){
+                LI.listenAlerts(key);
+            }
             var layout = user.layouts[key]
             , title = $(document).prop('title');
 	        $(document).prop('title', title.replace(user.room));

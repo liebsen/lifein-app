@@ -38,7 +38,7 @@ file_put_contents("www/dist/js/vendor.js",$minifiedJs);
 
 // individual 
 
-$fats = ['autorizaciones.js','cuentas.js','chats.js','implementaciones.js','lostandfound.js','menu.js','propuestas.js','publicaciones.js','reservas.js','telefonos_utiles.js'];
+$fats = ['autorizaciones.js','cuentas.js','chats.js','notificaciones.js','implementaciones.js','lostandfound.js','menu.js','propuestas.js','publicaciones.js','reservas.js','telefonos_utiles.js'];
 
 foreach($fats as $jsfile){
 	$minified = $jz->squeeze(

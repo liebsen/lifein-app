@@ -187,13 +187,13 @@
   $(document).on('click','.custom-list-user',function(e){
     $(this).siblings().removeClass('selected');
     $(this).addClass('selected');
-    var target = $(this).parent().parent().parent().find('.select-user').data('target');
+    var target = $(this).parent().parent().parent().parent().find('.select-user').data('target');
     var prop = $(this).data('prop');
     $('.'+target).find('.nombre').val(prop.nombre);
     $('.'+target).find('.apellido').val(prop.apellido);
     $('.'+target).find('.email').val(prop.email);
     $('.'+target).find('.telefono').val(prop.telefono);
-    $('.list-users-container').fadeOut();
+    $('.list-users-backdrop').fadeOut();
   });
 
   $(document).on('click','.select-user',function(e){

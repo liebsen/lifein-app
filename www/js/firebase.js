@@ -37,7 +37,6 @@ firebase.auth().onAuthStateChanged(function(fbuser) {
       resolve(false);
     });
   }).then(function(user){
-
     return new Promise(function(resolve, reject){ 
       if(!user){
         return firebase.database().ref('/cuentas').once('value').then(function(grupos) {
@@ -57,11 +56,11 @@ firebase.auth().onAuthStateChanged(function(fbuser) {
                     resolve(user);
                   }
                 }
-                resolve(false); 
-              })
+              });
             }); 
           });       
         });
+        resolve(false); 
       } else {
         resolve(user);
       }

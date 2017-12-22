@@ -2,6 +2,7 @@
   , navlinks = [
     {"slug":"implementaciones","title":"Implementaciones","roles":["super"]},
     {"slug":"cuentas","title":"Cuentas","roles":["administrador"]},
+    {"slug":"notificaciones","title":"Notificaciones","roles":["administrador"]},    
     {"slug":"publicaciones","title":"Publicaciones","roles":["administrador"]},
     {"slug":"propuestas","title":"Propuestas","roles":["administrador"]},
     {"slug":"reservas","title":"Reservas","roles":["administrador","seguridad"]},
