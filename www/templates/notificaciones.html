@@ -38,7 +38,17 @@
           <div><span class="fa fa-check-square-o [[if data.aprobado]]aprobado[[/if]]"></span></div>
         </div>
         <div class="list-item">
-          <div>[[if user]][[:user.nombre]] [[:user.apellido]][[else]]<i>Desconocido</i>[[/if]]</div>
+          <div>
+          [[if data.destino=='all']]
+            <i>General</i>
+          [[else]]
+            [[if user]]
+              [[:user.nombre]] [[:user.apellido]]
+            [[else]]
+            <i>Desconocido</i>
+            [[/if]]
+          [[/if]]
+          </div>
         </div>
         <div class="list-item">
           <div>[[:data.titulo]]</div>
@@ -52,6 +62,9 @@
       <div class="form-wrapper w-form2">
         <form class="w-clearfix" data-name="perfil" id="firebase-form" name="firebase-form" key="[[:key]]">
         [[if key]]
+          <input type="hidden" name="destino" value="[[if data && data.destino]][[:data.destino]][[/if]]">  
+          <input type="hidden" name="titulo" value="[[if data && data.titulo]][[:data.titulo]][[/if]]">
+          <input type="hidden" name="texto" value="[[if data && data.texto]][[:data.texto]][[/if]]">
           <h3>Ver notificación</h3>
         [[else]]
           <h3>Enviar notificación</h3>
@@ -64,7 +77,7 @@
           </div>
 
           <label for="Plan-2">Destino</label>
-          <input class="input w-input" maxlength="256" name="destino" placeholder="Seleccione destino de la lista" type="text" value="[[if user && user.nombre]][[:user.nombre]] [[:user.apellido]][[/if]]" required[[if key]] disabled[[/if]]>
+          <input class="input w-input" maxlength="256" name="destino" placeholder="Seleccione destino de la lista" type="text" value="[[if user && user.nombre]][[:user.nombre]] [[:user.apellido]][[/if]]"[[if key]] disabled[[/if]]>
         [[if !key]]
           <a href="#" class="select-user">Seleccionar usuario existente</a> <span>(Deje en blanco para notificar a todos)</span>
           <div class="list-users-backdrop">
@@ -82,7 +95,9 @@
           <textarea class="input w-input" name="texto" placeholder="Texto de la notificación"[[if key]] disabled[[/if]]>[[if data && data.texto]][[:data.texto]][[/if]]</textarea>
 
           <input class="w-button cerrar" type="button" value="Cerrar">
-          [[if !key]]
+          [[if key]]
+          <input class="buttons w-button" data-wait="Guardando..." type="submit" value="Actualizar estado">
+          [[else]]
           <input class="buttons w-button" data-wait="Guardando..." type="submit" value="Enviar notificación">
           [[/if]]
         </form>

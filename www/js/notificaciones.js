@@ -43,6 +43,8 @@
 
     data.aprobado = data.aprobado?1:0;
 
+    data.destino = data.destino && data.destino.length?data.destino:'all';
+
     if(key){
       updates[currentnode +'/' + key] = data;
     } else {
@@ -157,10 +159,13 @@
   });
 
   notificaciones.on('child_changed', (data) => {
-    var index = $('#'+data.key).index();
-    $('#'+data.key).remove();
-    $('#list').insertAt(index, $.templates('#item').render({key:data.key,data:data.val()}));
-    $('#'+data.key).animateChanged();
+    var item = data.val();
+    firebase.database().ref('/cuentas/'+key+'/'+item.destino).once('value').then(function(cuenta) {
+      var index = $('#'+data.key).index();
+      $('#'+data.key).remove();
+      $('#list').insertAt(index, $.templates('#item').render({key:data.key,data:item,user:cuenta.val()}));
+      $('#'+data.key).animateChanged();
+    });
   });
 
   notificaciones.on('child_removed', (data) => {
