@@ -38,7 +38,7 @@
           <div><span class="fa fa-check-square-o [[if data.aprobado]]aprobado[[/if]]"></span></div>
         </div>
         <div class="list-item">
-          <div>[[if user]][[:user.nombre]][[else]]Desconocido[[/if]]</div>
+          <div>[[if user]][[:user.nombre]] [[:user.apellido]][[else]]<i>Desconocido</i>[[/if]]</div>
         </div>
         <div class="list-item">
           <div>[[:data.titulo]]</div>
@@ -62,16 +62,41 @@
             <input name="aprobado" id="aprobado" class="cmn-toggle cmn-toggle-round" type="checkbox" value="1"[[if data && data.aprobado]] checked[[/if]]>
             <label for="aprobado"></label>
           </div>
-          
-          <label for="Plan-2">Nombre</label>
-          <input class="input w-input" maxlength="256" name="nombre" placeholder="Nombre" type="text" value="[[if data && data.nombre]][[:data.nombre]][[/if]]" required>
-          <label for="tag">Teléfono</label>
-          <input class="input w-input" maxlength="256" name="telefono" placeholder="telefono" type="text" value="[[if data && data.telefono]][[:data.telefono]][[/if]]" required>
+
+          <label for="Plan-2">Destino</label>
+          <input class="input w-input" maxlength="256" name="destino" placeholder="Seleccione destino de la lista" type="text" value="[[if user && user.nombre]][[:user.nombre]] [[:user.apellido]][[/if]]" required[[if key]] disabled[[/if]]>
+        [[if !key]]
+          <a href="#" class="select-user">Seleccionar usuario existente</a> <span>(Deje en blanco para notificar a todos)</span>
+          <div class="list-users-backdrop">
+            <div class="list-users-container">
+              <input type="text" class="input w-input users-filter" placeholder="Buscar usuario">
+              <div class="list-users"></div>
+              <a href="#" class="buttons w-button users-close">Listo</a>
+            </div>
+          </div>
+        [[/if]]
+          <label for="tag">Título</label>
+          <input class="input w-input" maxlength="256" name="titulo" placeholder="Título de la notificación" type="text" value="[[if data && data.titulo]][[:data.titulo]][[/if]]" required[[if key]] disabled[[/if]]>
+
+          <label for="tag">Texto</label>
+          <textarea class="input w-input" name="texto" placeholder="Texto de la notificación"[[if key]] disabled[[/if]]>[[if data && data.texto]][[:data.texto]][[/if]]</textarea>
 
           <input class="w-button cerrar" type="button" value="Cerrar">
-          <input class="buttons w-button" data-wait="Guardando..." type="submit" value="Guardar cambios">
+          [[if !key]]
+          <input class="buttons w-button" data-wait="Guardando..." type="submit" value="Enviar notificación">
+          [[/if]]
         </form>
       </div>  
+    </script>
+
+    <script id="list_users" type="text/x-jsrender">
+    [[props data]]
+      <div class="custom-list-user[[if ~root.selected == key]] active[[/if]]" data-key="[[>key]]" data-prop='[[:~toJSON(prop)]]'>
+        <figcaption class="foto"[[if prop.foto]] style="background-image:url([[>prop.foto]]);"[[/if]]></figcaption>
+        <h5>[[>prop.nombre]] [[>prop.apellido]][[if ~root.selected == key]] <span class="fa fa-check"></span>[[/if]]</h5>
+        <p>[[>prop.email]]</p>
+      </div>
+    [[/props]]
     </script>
 
 {% endblock %}

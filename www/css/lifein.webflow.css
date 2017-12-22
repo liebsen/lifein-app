@@ -60,6 +60,10 @@ textarea {
   -webkit-transition: all 0.5s; /* Safari */
 }
 
+textarea[disabled] {
+  height: 200px;
+}
+
 textarea:focus {
   height:300px;
 }

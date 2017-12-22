@@ -8,7 +8,7 @@
     $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){  
       firebase.database().ref(currentnode +'/'+_key).once('value').then(function(item) {
         firebase.database().ref('/cuentas/'+key+'/'+item.val().destino).once('value').then(function(cuenta) {
-          $('#detail').html($.templates('#form').render({key:item.key,data:item.val(),aux:LI.aux,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
+          $('#detail').html($.templates('#form').render({key:item.key,data:item.val(),user:cuenta.val(),aux:LI.aux,datosdeapoyo:datosdeapoyo},LI)).promise().done(function(){
             $('.lista').fadeOut(anim.fadeOut,function(){
               $('.spinner').fadeOut(anim.fadeOut*anim.factor,function(){                    
                 $('#detail').delay(200).fadeIn(anim.fadeOut*anim.factor,function(){
@@ -86,6 +86,38 @@
   $(document).on('click','.cerrar',function(){
     location.hash="";
   });  
+
+  $(document).on('click','.users-close',function(e){
+    $('.list-users-backdrop').fadeOut();
+  });
+
+  $(document).on('keyup','.users-filter',function(e){
+    var filter = $(this).val();
+    $('.list-users div').each(function(){
+      if($(this).text().indexOf(filter) > -1){
+        $(this).fadeIn(100);
+      } else {
+        $(this).fadeOut(100);
+      }
+    })
+  });
+
+  $(document).on('click','.custom-list-user',function(e){
+    $(this).siblings().removeClass('selected');
+    $(this).addClass('selected');
+    var userKey = $(this).data('key');
+    $('input[name="destino"]').val(userKey);
+    $('.list-users-backdrop').fadeOut();
+  });
+
+  $(document).on('click','.select-user',function(e){
+    firebase.database().ref('/cuentas/' + key).once('value', function(cuenta) {
+      var data = cuenta.val();
+      $('.list-users').html($.templates('#list_users').render({data:data,selected:$('input[name="destino"]').val()},LI.aux)).promise().done(function(){  
+        $('.list-users-backdrop').fadeIn();
+      });
+    });
+  });
 
   $(function(){
     $(window).on('hashchange', function(){
