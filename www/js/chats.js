@@ -4,7 +4,7 @@
   , chat_mensajes = firebase.database().ref(currentnode)
   , datosdeapoyo = {}  
   , anim = LI.animation.transition
-  , showItem = function(_key){
+  , show = function(_key){
 
     _key = _key.replace(node+':','');
     $('body').attr('key',_key);
@@ -64,7 +64,7 @@
   $(function(){
     $(window).on('hashchange', function(){
       if(location.hash.indexOf(':') > -1) {
-        showItem(location.hash.replace('#',''));
+        show(location.hash.replace('#',''));
       } else {
         $('#detail').fadeOut(anim.fadeOut,function(){
           $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){

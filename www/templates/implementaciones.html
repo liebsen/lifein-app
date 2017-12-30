@@ -10,7 +10,7 @@
   <div class="lista">
     <h3>Implementaciones</h3>
     <div class="subnav">
-      <input class="w-button add-item" type="button" value="Agregar Implementación">
+      <input class="w-button hasher" hash="add" type="button" value="Agregar Implementación">
       <input class="w-button export" name="implementaciones" type="button" value="Exportar CSV">
       <input type="text" class="input w-input filtro" maxlength="256" name="search" placeholder="Buscar..." autocomplete="off" />
     </div>    
@@ -50,7 +50,7 @@
       </div>
       <div class="list-item csv-exclude">
         <a class="text-link" href="/chats#[[:key]]">Chats</a>
-        <a class="action editar text-link" data-key="[[:key]]" href="#">Editar</a>
+        <a class="action text-link hasher" hash="[[:key]]" href="#">Editar</a>
         <a class="action text-link" href="/[[:key]]/menu" target="_blank">Administrar</a>
         <a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
       </div>

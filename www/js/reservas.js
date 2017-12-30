@@ -2,7 +2,7 @@
   , reservas = firebase.database().ref(currentnode)
   , datosdeapoyo = {}  
   , anim = LI.animation.transition
-  , showItem = function(_key){
+  , show = function(_key){
     $('body').attr('key',key)
     LI.setScroll()
     $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){  
@@ -105,7 +105,7 @@
   $(function(){
     $(window).on('hashchange', function(){
       if(location.hash != '') {
-        showItem(location.hash.replace('#',''));
+        show(location.hash.replace('#',''));
       } else {
         $('#detail').fadeOut(anim.fadeOut,function(){
           $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){

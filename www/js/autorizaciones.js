@@ -2,7 +2,7 @@
   , autorizaciones = firebase.database().ref(currentnode)
   , datosdeapoyo = {}  
   , anim = LI.animation.transition
-  , showItem = function(_key){
+  , show = function(_key){
     LI.setScroll()
     $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){  
       firebase.database().ref(currentnode +'/'+_key).once('value').then(function(item) {
@@ -93,7 +93,7 @@
   $(function(){
     $(window).on('hashchange', function(){
       if(location.hash != '') {
-        showItem(location.hash.replace('#',''));
+        show(location.hash.replace('#',''));
       } else {
         $('#detail').fadeOut(anim.fadeOut,function(){
           $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){

@@ -90,6 +90,10 @@ $(function(){
     });
 });
 
+$(document).on('click','.hasher',function(){
+  location.hash = $(this).attr('hash');
+});
+
 $(document).on('click','.preferencias',function(){
     LI.setScroll();
     $('.modalcontainer').html('');

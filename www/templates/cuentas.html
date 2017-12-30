@@ -10,7 +10,7 @@
   <div class="lista">
     <h3>Cuentas</h3>
     <div class="subnav">
-      <a class="w-button" href="#add">Agregar Cuenta</a>
+      <a href="#" class="w-button hasher" hash="add">Agregar Cuenta</a>
       <input class="w-button export" name="cuentas" type="button" value="Exportar CSV">
       <input type="text" class="input w-input filtro" maxlength="256" name="search" placeholder="Buscar..." autocomplete="off" />
     </div>    
@@ -48,7 +48,7 @@
       <div class="list-item w-hidden-small w-hidden-tiny">
         <div>[[:data.nombre]] [[:data.apellido]]</div>
       </div>
-      <div class="list-item csv-exclude"><a class="text-link ver-item" href="#[[:key]]">Editar</a><a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
+      <div class="list-item csv-exclude"><a href="#" class="text-link ver-item hasher" hash="[[:key]]">Editar</a><a class="action eliminar text-link" data-key="[[:key]]" href="#">Eliminar</a>
       </div>
     </div>
   </script>

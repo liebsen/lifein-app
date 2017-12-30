@@ -2,7 +2,7 @@
   , cuentas = firebase.database().ref(currentnode)
   , datosdeapoyo = {}
   , anim = LI.animation
-  , showItem = function(key){
+  , show = function(key){
     $('body').attr('key',key);
     LI.setScroll();
     $('.spinner').fadeIn(anim.fadeIn*anim.factor, function(){
@@ -103,10 +103,6 @@
     });
   });
 
-  $(document).on('click','.ver-item',function(){
-    showItem($(this).attr('href').replace('#',''));
-  });
-
   $(document).on('click','.cerrar',function(){
     location.hash="";
   });  
@@ -124,7 +120,7 @@
         });   
       });
     } else if(location.hash != '') {
-      showItem(location.hash.replace('#',''));
+      show(location.hash.replace('#',''));
     } else {
       $('#detail').fadeOut(anim.fadeOut,function(){
         $('.lista').delay(anim.delay).fadeIn(anim.fadeIn,function(){
